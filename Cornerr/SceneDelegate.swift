@@ -16,7 +16,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let scene = (scene as? UIWindowScene) else { return }
+        let window = UIWindow(windowScene: scene)
+        self.window = window
+        window.makeKeyAndVisible()
+        
+        self.window?.rootViewController = self.createTabBarController()
+    }
+    
+    // Creates the Tab Bar
+    private func createTabBarController() -> UITabBarController {
+        let tabBarController = UITabBarController()
+        tabBarController.tabBar.tintColor = .blue
+        
+        let homeViewController = HomeViewController()
+        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        
+        let homeNavController = UINavigationController(rootViewController: homeViewController)
+        homeNavController.navigationBar.prefersLargeTitles = true
+        
+        let favoritesViewController = FavoritesViewController()
+        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        
+        let favoritesNavController = UINavigationController(rootViewController: favoritesViewController)
+        favoritesNavController.navigationBar.prefersLargeTitles = true
+        
+        let profileViewController = ProfileViewController()
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+        
+        let profileNavController = UINavigationController(rootViewController: profileViewController)
+        profileNavController.navigationBar.prefersLargeTitles = true
+        
+        tabBarController.setViewControllers(([homeNavController, favoritesNavController, profileNavController]), animated: false)
+        
+        return tabBarController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
