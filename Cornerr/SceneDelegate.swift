@@ -45,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         
         let profileNavController = UINavigationController(rootViewController: profileViewController)
-        profileNavController.navigationBar.prefersLargeTitles = true
+        profileNavController.navigationBar.prefersLargeTitles = false
         
         tabBarController.setViewControllers(([homeNavController, favoritesNavController, profileNavController]), animated: false)
         
