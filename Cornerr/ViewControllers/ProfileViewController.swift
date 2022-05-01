@@ -16,7 +16,9 @@ class ProfileViewController: UIViewController {
     var bio = UITextView()
     var addService = UIImageView()
     
-    // TableView for services
+    var services: [Listing] = []
+    var servicesTableView = UITableView()
+    var noServicesImageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +70,8 @@ class ProfileViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageSelected(_:)))
         tap.numberOfTapsRequired = 1
         addService.addGestureRecognizer(tap)
+        
+        noServicesImageView.image = UIImage(named: "no services")
     }
     
     func setUpConstraints() {

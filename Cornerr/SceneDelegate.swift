@@ -37,11 +37,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let homeNavController = UINavigationController(rootViewController: homeViewController)
         homeNavController.navigationBar.prefersLargeTitles = false
         
-        let favoritesViewController = FavoritesViewController()
-        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), selectedImage: UIImage(systemName: "heart.fill"))
-        
-        let favoritesNavController = UINavigationController(rootViewController: favoritesViewController)
-        favoritesNavController.navigationBar.prefersLargeTitles = true
+//        let favoritesViewController = FavoritesViewController()
+//        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), selectedImage: UIImage(systemName: "heart.fill"))
+//
+//        let favoritesNavController = UINavigationController(rootViewController: favoritesViewController)
+//        favoritesNavController.navigationBar.prefersLargeTitles = false
         
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), selectedImage: UIImage(systemName: "person.fill"))
@@ -49,7 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let profileNavController = UINavigationController(rootViewController: profileViewController)
         profileNavController.navigationBar.prefersLargeTitles = false
         
-        tabBarController.setViewControllers(([homeNavController, favoritesNavController, profileNavController]), animated: false)
+        tabBarController.setViewControllers(([homeNavController, profileNavController]), animated: false)
         
         return tabBarController
     }

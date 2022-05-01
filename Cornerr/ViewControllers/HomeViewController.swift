@@ -9,14 +9,14 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
-    let titleLabel = UILabel()
+    let appNameImageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        [titleLabel].forEach { subView in
+        [appNameImageView].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -26,11 +26,15 @@ class HomeViewController: UIViewController {
     }
     
     func setUpUIComponents() {
-        
+        appNameImageView.image = UIImage(named: "freelance")
     }
     
     func setUpConstraints() {
-        
+        NSLayoutConstraint.activate([
+            appNameImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            appNameImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 25),
+            
+        ])
     }
 
 }

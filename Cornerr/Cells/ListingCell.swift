@@ -11,8 +11,8 @@ class ListingCell: UICollectionViewCell {
     
     static let id = "ListingCellId"
     
+    var imageView = UIImageView()
     var titleLabel = UILabel()
-    var descriptionLabel = UILabel()
     var userLabel = UILabel()
     var priceLabel = UILabel()
     var avalibilityLabel = UILabel()
@@ -23,7 +23,7 @@ class ListingCell: UICollectionViewCell {
         super.init(frame: frame)
         layer.borderColor = UIColor.darkGray.cgColor
         
-        [titleLabel, descriptionLabel, userLabel, priceLabel, avalibilityLabel, locationLabel].forEach { subView in
+        [titleLabel, userLabel, priceLabel, avalibilityLabel, locationLabel].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(subView)
         }
@@ -39,7 +39,6 @@ class ListingCell: UICollectionViewCell {
     
     func configure(listing: Listing) {
         titleLabel.text = listing.title
-        descriptionLabel.text = listing.description
         userLabel.text = String(listing.id)
         priceLabel.text = "$\(listing.price)"
         avalibilityLabel.text = listing.availability
