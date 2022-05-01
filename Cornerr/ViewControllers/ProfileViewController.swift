@@ -101,7 +101,9 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func imageSelected(_ sender: UITapGestureRecognizer) {
-        self.present(ServiceViewController(), animated: true, completion: nil)
+        let vc = ServiceViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
 }
