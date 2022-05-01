@@ -27,22 +27,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Creates the Tab Bar
     private func createTabBarController() -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = .blue
+        tabBarController.tabBar.tintColor = .white
+        tabBarController.tabBar.backgroundColor = .theme
         
         let homeViewController = HomeViewController()
-        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), selectedImage: UIImage(systemName: "house"))
         
         let homeNavController = UINavigationController(rootViewController: homeViewController)
         homeNavController.navigationBar.prefersLargeTitles = true
         
         let favoritesViewController = FavoritesViewController()
-        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), selectedImage: UIImage(systemName: "heart"))
         
         let favoritesNavController = UINavigationController(rootViewController: favoritesViewController)
         favoritesNavController.navigationBar.prefersLargeTitles = true
         
         let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), selectedImage: UIImage(systemName: "person"))
         
         let profileNavController = UINavigationController(rootViewController: profileViewController)
         profileNavController.navigationBar.prefersLargeTitles = false
