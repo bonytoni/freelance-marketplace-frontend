@@ -25,25 +25,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     // Creates the Tab Bar
-    private func createTabBarController() -> UITabBarController {
+    func createTabBarController() -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = .white
-        tabBarController.tabBar.backgroundColor = .theme
+        tabBarController.tabBar.backgroundColor = .lightBlue
+        tabBarController.tabBar.tintColor = .darkBlue
+        tabBarController.tabBar.unselectedItemTintColor = .white
         
         let homeViewController = HomeViewController()
-        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), selectedImage: UIImage(systemName: "house"))
+        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), selectedImage: UIImage(systemName: "house.fill"))
         
         let homeNavController = UINavigationController(rootViewController: homeViewController)
-        homeNavController.navigationBar.prefersLargeTitles = true
+        homeNavController.navigationBar.prefersLargeTitles = false
         
         let favoritesViewController = FavoritesViewController()
-        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), selectedImage: UIImage(systemName: "heart"))
+        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), selectedImage: UIImage(systemName: "heart.fill"))
         
         let favoritesNavController = UINavigationController(rootViewController: favoritesViewController)
         favoritesNavController.navigationBar.prefersLargeTitles = true
         
         let profileViewController = ProfileViewController()
-        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), selectedImage: UIImage(systemName: "person"))
+        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), selectedImage: UIImage(systemName: "person.fill"))
         
         let profileNavController = UINavigationController(rootViewController: profileViewController)
         profileNavController.navigationBar.prefersLargeTitles = false
