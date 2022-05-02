@@ -80,12 +80,12 @@ class ServiceViewController: UIViewController {
         categoryTextField.layer.borderWidth = 1
         categoryTextField.layer.cornerRadius = 12
         categoryTextField.layer.borderColor = .lightBlue
-        categoryTextField.placeholder = "Beauty, Clothing, Media, Tech, Crafts"
+        categoryTextField.placeholder = "Beauty, Clothing, Media, Tech, Crafts, Food"
         
         locationTextField.layer.borderWidth = 1
         locationTextField.layer.cornerRadius = 12
         locationTextField.layer.borderColor = .lightBlue
-        locationTextField.placeholder = "North Campus, West Campus, Collegetown"
+        locationTextField.placeholder = "North, West, Central, Collegetown"
         
         let publishButtonAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         // hardcoded button border width using spaces in Title
