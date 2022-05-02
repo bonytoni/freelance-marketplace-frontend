@@ -12,7 +12,7 @@
 		EA096635281E564700124B70 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA096634281E564700124B70 /* Theme.swift */; };
 		EA2D0AA6281F1B59002C5D56 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */; };
 		EA2D0AA8281F43D2002C5D56 /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA7281F43D2002C5D56 /* ServiceCell.swift */; };
-		EA2D0AAA281F44B9002C5D56 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA9281F44B9002C5D56 /* FavoritesViewController.swift */; };
+		EA2D0AAA281F44B9002C5D56 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */; };
 		EAA7A7DC281DD4B100197044 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7DB281DD4B100197044 /* AppDelegate.swift */; };
 		EAA7A7DE281DD4B100197044 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7DD281DD4B100197044 /* SceneDelegate.swift */; };
 		EAA7A7E0281DD4B100197044 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7DF281DD4B100197044 /* HomeViewController.swift */; };
@@ -30,7 +30,7 @@
 		EA096634281E564700124B70 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
 		EA2D0AA7281F43D2002C5D56 /* ServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
-		EA2D0AA9281F44B9002C5D56 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		EAA7A7D8281DD4B100197044 /* Cornerr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cornerr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAA7A7DB281DD4B100197044 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAA7A7DD281DD4B100197044 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 			children = (
 				EAA7A7DF281DD4B100197044 /* HomeViewController.swift */,
 				EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */,
-				EA2D0AA9281F44B9002C5D56 /* FavoritesViewController.swift */,
+				EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */,
 				EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */,
 			);
 			path = ViewControllers;
@@ -204,7 +204,7 @@
 				BC97D02D281F7A0500F54304 /* FilterCell.swift in Sources */,
 				EAA7A7DE281DD4B100197044 /* SceneDelegate.swift in Sources */,
 				EA2D0AA8281F43D2002C5D56 /* ServiceCell.swift in Sources */,
-				EA2D0AAA281F44B9002C5D56 /* FavoritesViewController.swift in Sources */,
+				EA2D0AAA281F44B9002C5D56 /* EditProfileViewController.swift in Sources */,
 				EAA7A7F7281DD9D900197044 /* UserModel.swift in Sources */,
 				EAA7A7FB281DDC9200197044 /* ProfileViewController.swift in Sources */,
 				EA2D0AA6281F1B59002C5D56 /* ServiceViewController.swift in Sources */,

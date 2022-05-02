@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController {
+class EditProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

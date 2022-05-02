@@ -33,6 +33,9 @@ class ServiceViewController: UIViewController {
     var locationTextField = UITextField()
     var availabilityTextField = UITextField()
     
+    var publishSaveButton = UIButton()
+    var closeImageView = UIImageView()
+    
     var indexPath: Int = -1
     var originalService: Listing? {
         didSet {
@@ -50,16 +53,17 @@ class ServiceViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        let publishSaveButtonAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .semibold)]
         if let service = originalService {
             headerLabel.text = "Edit Service"
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(publishSaveService))
+            publishSaveButton.setAttributedTitle(NSAttributedString(string: "Save", attributes: publishSaveButtonAttributes), for: .normal)
         }
         else {
-            headerLabel.text = "Add Service"
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Publish", style: .done, target: self, action: #selector(publishSaveService))
+            headerLabel.text = "New Service"
+            publishSaveButton.setAttributedTitle(NSAttributedString(string: "Publish", attributes: publishSaveButtonAttributes), for: .normal)
         }
         
-        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, categoryTextField, locationTextField, availabilityTextField].forEach { subView in
+        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, categoryTextField, locationTextField, availabilityTextField, publishSaveButton, closeImageView].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -77,7 +81,7 @@ class ServiceViewController: UIViewController {
         photoView.contentMode = .scaleAspectFill
         photoView.clipsToBounds = true
         
-        let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .semibold)]
+        let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
         titleLabel.attributedText = NSAttributedString(string: "Service Title", attributes: labelAttributes)
         titleLabel.textColor = .black
         
@@ -132,25 +136,34 @@ class ServiceViewController: UIViewController {
         availabilityTextField.placeholder = "Mon, Tue, Wed, Thu, Fri, Sat, Sun"
         availabilityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: locationTextField.frame.height))
         availabilityTextField.leftViewMode = .always
+        
+        publishSaveButton.setTitleColor(.lightBlue, for: .normal)
+        publishSaveButton.addTarget(self, action: #selector(publishSaveService), for: .touchUpInside)
+        
+        closeImageView.image = UIImage(named: "close")
+        closeImageView.contentMode = .scaleAspectFill
+        closeImageView.clipsToBounds = true
+        closeImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(closeVC))
+        tap.numberOfTapsRequired = 1
+        closeImageView.addGestureRecognizer(tap)
     }
     
     func setUpConstraints() {
         let padding: CGFloat = 25
         NSLayoutConstraint.activate([
-            headerLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             photoView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20),
             photoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            photoView.widthAnchor.constraint(equalToConstant: 200),
-            photoView.heightAnchor.constraint(equalToConstant: 100),
             
             titleLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             titleTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
-            titleTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            titleTextField.widthAnchor.constraint(equalToConstant: 250),
             titleTextField.heightAnchor.constraint(equalToConstant: 35),
             
             descriptionLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20),
@@ -161,15 +174,15 @@ class ServiceViewController: UIViewController {
             descriptionTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             descriptionTextView.heightAnchor.constraint(equalToConstant: 100),
             
-            priceLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
-            priceLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            priceLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
+            priceLabel.leftAnchor.constraint(equalTo: priceTextField.leftAnchor),
             
             priceTextField.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
-            priceTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            priceTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             priceTextField.widthAnchor.constraint(equalToConstant: 70),
             priceTextField.heightAnchor.constraint(equalToConstant: 35),
             
-            categoryLabel.topAnchor.constraint(equalTo: priceTextField.bottomAnchor, constant: 20),
+            categoryLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
             categoryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             categoryTextField.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
@@ -191,7 +204,15 @@ class ServiceViewController: UIViewController {
             availabilityTextField.topAnchor.constraint(equalTo: availabilityLabel.bottomAnchor, constant: 10),
             availabilityTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             availabilityTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
-            availabilityTextField.heightAnchor.constraint(equalToConstant: 35)
+            availabilityTextField.heightAnchor.constraint(equalToConstant: 35),
+            
+            publishSaveButton.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor),
+            publishSaveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            
+            closeImageView.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor),
+            closeImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            closeImageView.widthAnchor.constraint(equalToConstant: 25),
+            closeImageView.heightAnchor.constraint(equalToConstant: 25)
         ])
     }
     
@@ -208,7 +229,11 @@ class ServiceViewController: UIViewController {
         else {
             self.delegate?.services.append(service)
         }
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func closeVC() {
+        dismiss(animated: true, completion: nil)
     }
     
 }

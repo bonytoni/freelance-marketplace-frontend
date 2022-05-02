@@ -122,14 +122,15 @@ class ProfileViewController: UIViewController, ModelContainer {
     }
     
     @objc func editProfilePressed() {
-        
+        let vc = EditProfileViewController()
+        vc.navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func imageSelected(_ sender: UITapGestureRecognizer) {
         let vc = ServiceViewController()
-        vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true, completion: nil)
     }
 
 }
@@ -142,11 +143,10 @@ extension ProfileViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editServiceViewController = ServiceViewController()
-        editServiceViewController.hidesBottomBarWhenPushed = true
         editServiceViewController.delegate = self
         editServiceViewController.originalService = services[indexPath.item]
         editServiceViewController.updateIndexPath(index: indexPath.row)
-        navigationController?.pushViewController(editServiceViewController, animated: true)
+        present(editServiceViewController, animated: true, completion: nil)
     }
 
 }
