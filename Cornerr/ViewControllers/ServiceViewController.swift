@@ -24,14 +24,16 @@ class ServiceViewController: UIViewController {
     var priceLabel = UILabel()
     var categoryLabel = UILabel()
     var locationLabel = UILabel()
+    var availabilityLabel = UILabel()
     var titleTextField = UITextField()
     var descriptionTextView = UITextView()
     var priceTextField = UITextField()
     // no dropdown menu for now
     var categoryTextField = UITextField()
     var locationTextField = UITextField()
-    var publishButton = UIButton()
+    var availabilityTextField = UITextField()
     
+    var indexPath: Int = -1
     var originalService: Listing? {
         didSet {
             titleTextField.text = originalService?.title
@@ -39,6 +41,7 @@ class ServiceViewController: UIViewController {
             priceTextField.text = "\(String(describing: originalService?.price))"
             categoryTextField.text = originalService?.category
             locationTextField.text = originalService?.location
+            availabilityTextField.text = originalService?.availability
         }
     }
     
@@ -49,12 +52,14 @@ class ServiceViewController: UIViewController {
         
         if let service = originalService {
             headerLabel.text = "Edit Service"
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(publishSaveService))
         }
         else {
             headerLabel.text = "Add Service"
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Publish", style: .done, target: self, action: #selector(publishSaveService))
         }
         
-        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, titleTextField, descriptionTextView, priceTextField,categoryTextField, locationTextField, publishButton].forEach { subView in
+        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, categoryTextField, locationTextField, availabilityTextField].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -68,7 +73,9 @@ class ServiceViewController: UIViewController {
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
         photoView.image = UIImage(named: "upload photos")
+        photoView.layer.masksToBounds = true
         photoView.contentMode = .scaleAspectFill
+        photoView.clipsToBounds = true
         
         let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .semibold)]
         titleLabel.attributedText = NSAttributedString(string: "Service Title", attributes: labelAttributes)
@@ -85,6 +92,9 @@ class ServiceViewController: UIViewController {
         
         locationLabel.attributedText = NSAttributedString(string: "Location", attributes: labelAttributes)
         locationLabel.textColor = .black
+        
+        availabilityLabel.attributedText = NSAttributedString(string: "Availability", attributes: labelAttributes)
+        availabilityLabel.textColor = .black
         
         titleTextField.layer.borderWidth = 1
         titleTextField.layer.cornerRadius = 12
@@ -105,7 +115,7 @@ class ServiceViewController: UIViewController {
         categoryTextField.layer.borderWidth = 1
         categoryTextField.layer.cornerRadius = 12
         categoryTextField.layer.borderColor = .lightBlue
-        categoryTextField.placeholder = "Beauty, Clothing, Media, Tech, Crafts, Food"
+        categoryTextField.placeholder = "Beauty, Fashion, Media, Tech, Crafts, Food"
         categoryTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: categoryTextField.frame.height))
         categoryTextField.leftViewMode = .always
         
@@ -116,13 +126,12 @@ class ServiceViewController: UIViewController {
         locationTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: locationTextField.frame.height))
         locationTextField.leftViewMode = .always
         
-        let publishButtonAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
-        // hardcoded button border width using spaces in Title
-        publishButton.setAttributedTitle(NSAttributedString(string: "     Publish     ", attributes: publishButtonAttributes), for: .normal)
-        publishButton.setTitleColor(.white, for: .normal)
-        publishButton.backgroundColor = .lightBlue
-        publishButton.layer.cornerRadius = 14
-        publishButton.addTarget(self, action: #selector(publishService), for: .touchUpInside)
+        availabilityTextField.layer.borderWidth = 1
+        availabilityTextField.layer.cornerRadius = 12
+        availabilityTextField.layer.borderColor = .lightBlue
+        availabilityTextField.placeholder = "Mon, Tue, Wed, Thu, Fri, Sat, Sun"
+        availabilityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: locationTextField.frame.height))
+        availabilityTextField.leftViewMode = .always
     }
     
     func setUpConstraints() {
@@ -133,7 +142,8 @@ class ServiceViewController: UIViewController {
             
             photoView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20),
             photoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            photoView.heightAnchor.constraint(equalToConstant: 140),
+            photoView.widthAnchor.constraint(equalToConstant: 200),
+            photoView.heightAnchor.constraint(equalToConstant: 100),
             
             titleLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
@@ -175,14 +185,29 @@ class ServiceViewController: UIViewController {
             locationTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             locationTextField.heightAnchor.constraint(equalToConstant: 35),
             
-            publishButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            publishButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            availabilityLabel.topAnchor.constraint(equalTo: locationTextField.bottomAnchor, constant: 20),
+            availabilityLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            
+            availabilityTextField.topAnchor.constraint(equalTo: availabilityLabel.bottomAnchor, constant: 10),
+            availabilityTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            availabilityTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            availabilityTextField.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
     
-    @objc func publishService() {
-        let service = Listing(id: 0, unixTime: 0, title: titleTextField.text!, category: categoryTextField.text!, description: descriptionTextView.text, availability: "nil", location: locationTextField.text!, price: 15, seller: dummyUser, buyers: [])
-        self.delegate?.services.append(service)
+    func updateIndexPath(index: Int) {
+        indexPath = index
+    }
+    
+    @objc func publishSaveService() {
+        let service = Listing(id: 0, unixTime: 0, title: titleTextField.text!, category: categoryTextField.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: locationTextField.text!, price: 15, seller: dummyUser, buyers: [])
+        if let service = originalService {
+            self.delegate?.services.remove(at: indexPath)
+            self.delegate?.services.append(service)
+        }
+        else {
+            self.delegate?.services.append(service)
+        }
         navigationController?.popViewController(animated: true)
     }
     

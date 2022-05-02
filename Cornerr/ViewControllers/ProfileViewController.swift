@@ -142,9 +142,10 @@ extension ProfileViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editServiceViewController = ServiceViewController()
-        editServiceViewController.delegate = self
         editServiceViewController.hidesBottomBarWhenPushed = true
+        editServiceViewController.delegate = self
         editServiceViewController.originalService = services[indexPath.item]
+        editServiceViewController.updateIndexPath(index: indexPath.row)
         navigationController?.pushViewController(editServiceViewController, animated: true)
     }
 
