@@ -9,33 +9,193 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
-    let appNameImageView = UIImageView()
+    private let appNameImageView = UIImageView()
+    private var filterView: UICollectionView!
+    private var listingView: UICollectionView!
+    
+    private var filters: [Filter] = []
+    private var filtersSelected: [Filter] = []
+    
+    private var allListings: [Listing] = []
+    private var listingsSelected: [Listing] = []
+    
+    private let listingCellReuseID = "listingCellReuseID"
+    private let filterCellReuseID = "filterCellReuseID"
+    
+    private let cellPadding: CGFloat = 10
+    private let sectionPadding: CGFloat = 5
+    
+    init(listings: [Listing], filters: [String]) {
+        self.allListings = listings
+        self.filters.removeAll()
+        for filter in filters {
+            self.filters.append(Filter(name: filter))
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        [appNameImageView].forEach { subView in
-            subView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(subView)
-        }
-        
         setUpUIComponents()
+        
         setUpConstraints()
     }
     
     func setUpUIComponents() {
         appNameImageView.image = UIImage(named: "freelance")
+        appNameImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(appNameImageView)
+        
+        
+        let filterLayout = UICollectionViewFlowLayout()
+        filterLayout.scrollDirection = .horizontal
+        filterLayout.sectionInset = UIEdgeInsets(top: 0, left: sectionPadding, bottom: 0, right: sectionPadding)
+        
+        filterView = UICollectionView(frame: .zero, collectionViewLayout: filterLayout)
+        filterView.backgroundColor = .clear
+        filterView.showsHorizontalScrollIndicator = false
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        
+        filterView.register(FilterCell.self, forCellWithReuseIdentifier: filterCellReuseID)
+        
+        filterView.dataSource = self
+        filterView.delegate = self
+        
+        view.addSubview(filterView)
+        
+        
+        let listingLayout = UICollectionViewFlowLayout()
+        listingLayout.scrollDirection = .vertical
+        listingLayout.minimumLineSpacing = cellPadding
+        listingLayout.minimumInteritemSpacing = cellPadding
+        listingLayout.sectionInset = UIEdgeInsets(top: sectionPadding, left: 0, bottom: sectionPadding, right: 0)
+        
+        listingView = UICollectionView(frame: .zero, collectionViewLayout: listingLayout)
+        listingView.backgroundColor = .clear
+        listingView.translatesAutoresizingMaskIntoConstraints = false
+        
+        listingView.register(ListingCell.self, forCellWithReuseIdentifier: listingCellReuseID)
+        
+        listingView.dataSource = self
+        listingView.delegate = self
+        
+        view.addSubview(listingView)
     }
     
     func setUpConstraints() {
         NSLayoutConstraint.activate([
             appNameImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            appNameImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 25),
-            
+            appNameImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 25)
         ])
+        NSLayoutConstraint.activate([
+            filterView.topAnchor.constraint(equalTo: appNameImageView.bottomAnchor, constant: 12),
+            filterView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 110),
+            filterView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            filterView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
+        ])
+        NSLayoutConstraint.activate([
+            listingView.topAnchor.constraint(equalTo: filterView.bottomAnchor, constant: 12),
+            listingView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            listingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            listingView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
+        ])
+    }
+    
+    func filterData() {
+        listingsSelected.removeAll()
+        if filtersSelected.count == 0 {
+            listingsSelected = allListings
+        }
+        else {
+            for listing in allListings {
+                if selectedByFilter(listing: listing) {
+                    listingsSelected.append(listing)
+                }
+            }
+        }
+    }
+    
+    func selectedByFilter (listing: Listing) -> Bool {
+        for filter in filtersSelected {
+            if listing.category == filter.name {
+                return true
+            }
+        }
+        return false
     }
 
 }
 
+extension HomeViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == listingView {
+            let cell = listingView.dequeueReusableCell(withReuseIdentifier: listingCellReuseID, for: indexPath) as! ListingCell
+            let listing = listingsSelected[indexPath.item]
+            cell.configure(for: listing)
+            return cell
+        }
+        else {
+            let cell = filterView.dequeueReusableCell(withReuseIdentifier: filterCellReuseID, for: indexPath) as! FilterCell
+            let filter = filters[indexPath.item]
+            cell.configure(for: filter)
+            return cell
+        }
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == listingView {
+            return listingsSelected.count
+        }
+        else {
+            return filters.count
+        }
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == listingView {
+            let size = (listingView.frame.width - cellPadding)/2
+            return CGSize(width: size, height: 125)
+        }
+        else {
+            return CGSize(width: 80, height: 40)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return cellPadding
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == listingView {
+            // push service vc
+        }
+        else {
+            var filter = filters[indexPath.item]
+            
+            if !filter.isSelected {
+                filter.isSelected = true
+                filtersSelected.append(filter)
+            }
+            else {
+                filter.isSelected = false
+                filtersSelected.removeAll { f in
+                    return f == filter
+                }
+            }
+        }
+    }
+    
+}

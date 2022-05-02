@@ -37,7 +37,7 @@ class ListingCell: UICollectionViewCell {
         ])
     }
     
-    func configure(listing: Listing) {
+    func configure(for listing: Listing) {
         titleLabel.text = listing.title
         userLabel.text = String(listing.id)
         priceLabel.text = "$\(listing.price)"

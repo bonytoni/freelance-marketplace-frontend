@@ -31,7 +31,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.tabBar.tintColor = .darkBlue
         tabBarController.tabBar.unselectedItemTintColor = .white
         
-        let homeViewController = HomeViewController()
+        let dummySimpleUser: SimpleUser = SimpleUser(id: 0, username: "Tony", contact: "123")
+        
+        let dummyListings: [Listing] = [Listing(id: 0, unixTime: 1, title: "Manicure", category: "Beauty", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Manicure", category: "Beauty", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Manicure", category: "Beauty", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: [])]
+        
+        let filters: [String] = ["Beauty", "Fashion", "Media", "Tech", "Crafts", "Food", "Other"]
+        
+        let homeViewController = HomeViewController(listings: dummyListings, filters: filters)
         homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), selectedImage: UIImage(systemName: "house.fill"))
         
         let homeNavController = UINavigationController(rootViewController: homeViewController)
