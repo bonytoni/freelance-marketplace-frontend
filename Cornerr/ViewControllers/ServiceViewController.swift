@@ -201,7 +201,7 @@ class ServiceViewController: UIViewController {
     
     @objc func publishSaveService() {
         let service = Listing(id: 0, unixTime: 0, title: titleTextField.text!, category: categoryTextField.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: locationTextField.text!, price: 15, seller: dummyUser, buyers: [])
-        if let service = originalService {
+        if let s = originalService {
             self.delegate?.services.remove(at: indexPath)
             self.delegate?.services.append(service)
         }
