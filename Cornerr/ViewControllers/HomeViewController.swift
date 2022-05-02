@@ -182,10 +182,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if collectionView == listingView {
             // push service vc
         }
-        else {
-            var filter = filters[indexPath.item]
+        if collectionView == filterView {
+            let filter = filters[indexPath.item]
             
-            if !filter.isSelected {
+            if filter.isSelected == false {
                 filter.isSelected = true
                 filtersSelected.append(filter)
             }
@@ -196,6 +196,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 }
             }
         }
+        filterView.reloadData()
     }
     
 }

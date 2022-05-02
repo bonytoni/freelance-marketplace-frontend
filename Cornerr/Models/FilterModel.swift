@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct Filter: Equatable {
+class Filter: Equatable {
     var name: String
     var isSelected: Bool
     

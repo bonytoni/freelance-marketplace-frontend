@@ -30,9 +30,9 @@ class FilterCell: UICollectionViewCell {
         contentView.clipsToBounds = true
         contentView.backgroundColor = .white
         contentView.layer.borderWidth = 2
-        contentView.layer.borderColor = .skyBlue
+        contentView.layer.borderColor = .lightBlue
         
-        label.textColor = .skyBlue
+        label.textColor = .lightBlue
         label.font = .boldSystemFont(ofSize: 15)
         label.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(label)
@@ -49,12 +49,12 @@ class FilterCell: UICollectionViewCell {
         label.text = filter.name
         didSelect = filter.isSelected
         if didSelect {
-            contentView.layer.backgroundColor = .skyBlue
+            contentView.layer.backgroundColor = .lightBlue
             label.textColor = .white
         }
         else {
             contentView.backgroundColor = .white
-            label.textColor = .skyBlue
+            label.textColor = .lightBlue
         }
         label.sizeToFit()
     }
