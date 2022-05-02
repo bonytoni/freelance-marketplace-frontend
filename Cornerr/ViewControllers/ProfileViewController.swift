@@ -30,18 +30,25 @@ class ProfileViewController: UIViewController, ModelContainer {
         
         view.backgroundColor = .white
         
-        [headerLabel, profilePic, nameLabel, editProfile, bio, addService, noServicesImageView].forEach { subView in
+        [headerLabel, profilePic, nameLabel, editProfile, bio, addService].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
         
         servicesTableView = UITableView(frame: .zero)
+        servicesTableView.backgroundColor = .clear
         servicesTableView.translatesAutoresizingMaskIntoConstraints = false
+        servicesTableView.showsVerticalScrollIndicator = false
+        
+        servicesTableView.register(ServiceCell.self, forCellReuseIdentifier: ServiceCell.id)
+        
         servicesTableView.delegate = self
         servicesTableView.dataSource = self
-        servicesTableView.register(ServiceCell.self, forCellReuseIdentifier: ServiceCell.id)
+        
         view.addSubview(servicesTableView)
-        servicesTableView.separatorColor = .darkBlue
+        
+        servicesTableView.addSubview(noServicesImageView)
+        noServicesImageView.translatesAutoresizingMaskIntoConstraints = false
         
         setUpUIComponents()
         setUpConstraints()
@@ -108,22 +115,22 @@ class ProfileViewController: UIViewController, ModelContainer {
             bio.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             bio.heightAnchor.constraint(equalToConstant: 50),
             
-            addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
+            addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             addService.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            servicesTableView.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 15),
+            servicesTableView.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 10),
             servicesTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
             servicesTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
-            servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -5),
+            servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -10),
             
             noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noServicesImageView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -20)
+            noServicesImageView.centerYAnchor.constraint(equalTo: servicesTableView.centerYAnchor)
         ])
     }
     
     @objc func editProfilePressed() {
         let vc = EditProfileViewController()
-        vc.navigationController?.setNavigationBarHidden(true, animated: true)
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -159,7 +166,12 @@ extension ProfileViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ServiceCell.id, for: indexPath) as! ServiceCell
-        cell.configure(service: services[indexPath.item])
+        cell.configure(for: services[indexPath.item])
+        cell.layer.shadowColor = .lightBlue
+        cell.layer.shadowOffset = CGSize(width: 2, height: 4)
+        cell.layer.shadowRadius = 3.0
+        cell.layer.shadowOpacity = 0.3
+        cell.layer.masksToBounds = false
         return cell
     }
 

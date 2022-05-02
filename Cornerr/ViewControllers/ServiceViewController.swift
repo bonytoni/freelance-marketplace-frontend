@@ -41,7 +41,9 @@ class ServiceViewController: UIViewController {
         didSet {
             titleTextField.text = originalService?.title
             descriptionTextView.text = originalService?.description
-            priceTextField.text = "\(String(describing: originalService?.price))"
+            if let price = originalService?.price {
+                priceTextField.text = "\(price)"
+            }
             categoryTextField.text = originalService?.category
             locationTextField.text = originalService?.location
             availabilityTextField.text = originalService?.availability

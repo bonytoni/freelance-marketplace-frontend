@@ -143,7 +143,7 @@ extension HomeViewController: UICollectionViewDataSource {
             let cell = listingView.dequeueReusableCell(withReuseIdentifier: listingCellReuseID, for: indexPath) as! ListingCell
             let listing = listingsSelected[indexPath.item]
             cell.configure(for: listing)
-            cell.layer.shadowColor = UIColor.lightBlue.cgColor
+            cell.layer.shadowColor = .lightBlue
             cell.layer.shadowOffset = CGSize(width: 2, height: 4)
             cell.layer.shadowRadius = 3.0
             cell.layer.shadowOpacity = 0.3

@@ -17,8 +17,6 @@ class ServiceCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .skyBlue
-        selectionStyle = .default
         
         [titleLabel, descriptionLabel, priceLabel].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +28,10 @@ class ServiceCell: UITableViewCell {
     }
     
     func setUpUIComponents() {
+        contentView.layer.cornerRadius = 20
+        contentView.clipsToBounds = true
+        contentView.backgroundColor = .clear
+        
         titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
         titleLabel.textColor = .black
         
@@ -60,7 +62,7 @@ class ServiceCell: UITableViewCell {
         ])
     }
     
-    func configure(service: Listing) {
+    func configure(for service: Listing) {
         titleLabel.text = service.title
         descriptionLabel.text = service.description
         priceLabel.text = "$\(service.price)"

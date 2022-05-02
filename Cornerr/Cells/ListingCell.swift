@@ -8,9 +8,7 @@
 import UIKit
 
 class ListingCell: UICollectionViewCell {
-    
-    //static let id = "ListingCellId"
-    
+        
     var imageView = UIImageView()
     var label = UIView()
     var titleLabel = UILabel()
@@ -31,7 +29,6 @@ class ListingCell: UICollectionViewCell {
     }
     
     func setUpComponents() {
-        
         contentView.layer.cornerRadius = 20
         contentView.clipsToBounds = true
         contentView.backgroundColor = .clear

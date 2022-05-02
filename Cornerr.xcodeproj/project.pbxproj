@@ -92,8 +92,8 @@
 			children = (
 				EAA7A7DF281DD4B100197044 /* HomeViewController.swift */,
 				EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */,
-				EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */,
 				EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */,
+				EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
