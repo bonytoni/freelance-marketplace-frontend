@@ -191,9 +191,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if collectionView == listingView {
-//            // push service vc
-//        }
+        if collectionView == listingView {
+            let listing = allListings[indexPath.item]
+            let view = ListingViewController(listing: listing)
+            navigationController?.pushViewController(view, animated: true)
+        }
         if collectionView == filterView {
             let filter = filters[indexPath.item]
             
