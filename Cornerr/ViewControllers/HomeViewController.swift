@@ -147,7 +147,7 @@ extension HomeViewController: UICollectionViewDataSource {
             cell.layer.shadowColor = UIColor.lightBlue.cgColor
             cell.layer.shadowOffset = CGSize(width: 2, height: 4)
             cell.layer.shadowRadius = 3.0
-            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowOpacity = 0.3
             cell.layer.masksToBounds = false
             return cell
         }
@@ -183,7 +183,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return cellPadding+10
+        if collectionView == listingView {
+            return cellPadding+10
+        }
+        else {
+            return cellPadding-2
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

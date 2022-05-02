@@ -16,6 +16,7 @@ class ListingCell: UICollectionViewCell {
     var titleLabel = UILabel()
     var userLabel = UILabel()
     var priceLabel = UILabel()
+    var categoryLabel = UILabel()
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -40,12 +41,17 @@ class ListingCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.font = .boldSystemFont(ofSize: 14)
+        titleLabel.font = .boldSystemFont(ofSize: 12)
         
         userLabel.textColor = .darkGray
-        userLabel.font = .systemFont(ofSize: 12)
+        userLabel.font = .systemFont(ofSize: 10)
         
-        priceLabel.font = .boldSystemFont(ofSize: 14)
+        priceLabel.font = .boldSystemFont(ofSize: 12)
+        
+        categoryLabel.font = .systemFont(ofSize: 10)
+        categoryLabel.layer.cornerRadius = 10
+        categoryLabel.clipsToBounds = true
+        categoryLabel.textAlignment = .center
         
         label.layer.masksToBounds = true
         label.clipsToBounds = false
@@ -54,7 +60,7 @@ class ListingCell: UICollectionViewCell {
         label.layer.borderColor = UIColor.white.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        [titleLabel, userLabel, priceLabel].forEach { subView in
+        [titleLabel, userLabel, priceLabel, categoryLabel].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             label.addSubview(subView)
         }
@@ -84,19 +90,51 @@ class ListingCell: UICollectionViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 16)
         ])
         NSLayoutConstraint.activate([
-            userLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            userLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             userLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 16)
         ])
         NSLayoutConstraint.activate([
             priceLabel.topAnchor.constraint(equalTo: label.topAnchor, constant: 12),
             priceLabel.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: -16)
         ])
+        NSLayoutConstraint.activate([
+            categoryLabel.heightAnchor.constraint(equalToConstant: 20),
+            categoryLabel.widthAnchor.constraint(equalToConstant: 50),
+            categoryLabel.trailingAnchor.constraint(equalTo: label.trailingAnchor,constant: -16),
+            categoryLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 8)
+        ])
     }
     
     func configure(for listing: Listing) {
         titleLabel.text = listing.title
-        userLabel.text = "@" + String(listing.seller.id)
+        userLabel.text = "@" + String(listing.seller.username)
         priceLabel.text = "$\(listing.price)"
+        categoryLabel.text = listing.category
+        setCategoryLabelColor(for: listing.category)
+    }
+    
+    func setCategoryLabelColor(for name: String) {
+        var hexCode: String = "#F5F5F5"
+        
+        switch name {
+        case "Beauty" :
+            hexCode = "#FFE3E1"
+        case "Fashion":
+            hexCode = "#DFF9BF"
+        case "Media":
+            hexCode = "#BFD3FF"
+        case "Tech":
+            hexCode = "#BDE3FF"
+        case "Crafts":
+            hexCode = "#F2E7FF"
+        case "Food":
+            hexCode = "#FFE8A3"
+        default:
+            hexCode = "#F5F5F5"
+        }
+        
+        categoryLabel.backgroundColor = UIColor(hexString: hexCode)
+        categoryLabel.layer.borderColor = UIColor.clear.cgColor
     }
     
 }
