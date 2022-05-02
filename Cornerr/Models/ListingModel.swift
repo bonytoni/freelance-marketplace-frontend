@@ -47,8 +47,9 @@ struct SimpleListing: Codable {
     let availability: String
     let location: String
     let price: Int
+    let seller: String
     
-    init(id: Int, unixTime: Int, title: String, category: String, description: String, availability: String, location: String, price: Int) {
+    init(id: Int, unixTime: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: String) {
         
         self.id = id
         self.unixTime = unixTime
@@ -58,6 +59,7 @@ struct SimpleListing: Codable {
         self.availability = availability
         self.location = location
         self.price = price
+        self.seller = seller
         
     }
     

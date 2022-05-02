@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BC97D02B281F79F900F54304 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97D02A281F79F900F54304 /* FilterModel.swift */; };
 		BC97D02D281F7A0500F54304 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97D02C281F7A0500F54304 /* FilterCell.swift */; };
+		BC97D02F282080B000F54304 /* ListingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97D02E282080B000F54304 /* ListingViewController.swift */; };
 		EA096635281E564700124B70 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA096634281E564700124B70 /* Theme.swift */; };
 		EA2D0AA6281F1B59002C5D56 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */; };
 		EA2D0AA8281F43D2002C5D56 /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA7281F43D2002C5D56 /* ServiceCell.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		BC97D02A281F79F900F54304 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModel.swift; sourceTree = "<group>"; };
 		BC97D02C281F7A0500F54304 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		BC97D02E282080B000F54304 /* ListingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingViewController.swift; sourceTree = "<group>"; };
 		EA096634281E564700124B70 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
 		EA2D0AA7281F43D2002C5D56 /* ServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */,
 				EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */,
 				EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */,
+				BC97D02E282080B000F54304 /* ListingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				EA2D0AAA281F44B9002C5D56 /* EditProfileViewController.swift in Sources */,
 				EAA7A7F7281DD9D900197044 /* UserModel.swift in Sources */,
 				EAA7A7FB281DDC9200197044 /* ProfileViewController.swift in Sources */,
+				BC97D02F282080B000F54304 /* ListingViewController.swift in Sources */,
 				EA2D0AA6281F1B59002C5D56 /* ServiceViewController.swift in Sources */,
 				EAA7A7F5281DD99F00197044 /* ListingModel.swift in Sources */,
 			);
