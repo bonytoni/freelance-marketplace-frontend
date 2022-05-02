@@ -23,7 +23,7 @@ class ListingViewController: UIViewController {
     private var locationLabel = UILabel()
     private var descriptionView = UITextView()
     private var availabilityView = UITextView()
-    private var purchaseButton = UILabel()
+    private var purchaseButton = UIButton()
     
     init(listing: Listing) {
         self.listing = listing
@@ -96,12 +96,13 @@ class ListingViewController: UIViewController {
         availabilityView.backgroundColor = .white
         
         purchaseButton.backgroundColor = .lightBlue
-        purchaseButton.textColor = .white
-        purchaseButton.text = "Purchase"
-        purchaseButton.font = .boldSystemFont(ofSize: 16)
+        purchaseButton.setTitle("Purchase", for: .normal)
+        purchaseButton.titleLabel?.textColor = .white
+        purchaseButton.titleLabel!.font = .boldSystemFont(ofSize: 16)
         purchaseButton.layer.cornerRadius = 20
         purchaseButton.clipsToBounds = true
-        purchaseButton.textAlignment = .center
+        purchaseButton.titleLabel!.textAlignment = .center
+        purchaseButton.addTarget(self, action: #selector(buttonSelected(_:)), for: .touchUpInside)
         
         [titleLabel, sellerLabel, priceLabel, contactLabel, categoryLabel, locationLabel, descriptionView, availabilityView, purchaseButton].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
@@ -182,6 +183,12 @@ class ListingViewController: UIViewController {
     
     @objc func dismissViewController() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func buttonSelected(_ sender: UITapGestureRecognizer) {
+        purchaseButton.backgroundColor = .black
+        purchaseButton.setTitle("Purchased!", for: .normal)
+        purchaseButton.titleLabel?.textColor = .white
     }
     
     func setCategoryLabelColor(for name: String) {
