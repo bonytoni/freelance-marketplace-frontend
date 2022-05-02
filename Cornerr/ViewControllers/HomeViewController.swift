@@ -55,8 +55,7 @@ class HomeViewController: UIViewController {
         appNameImageView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(appNameImageView)
-        
-        
+                
         let filterLayout = UICollectionViewFlowLayout()
         filterLayout.scrollDirection = .horizontal
         filterLayout.sectionInset = UIEdgeInsets(top: 0, left: sectionPadding, bottom: 0, right: sectionPadding)
@@ -159,7 +158,6 @@ extension HomeViewController: UICollectionViewDataSource {
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == listingView {
             return listingsSelected.count
@@ -168,6 +166,7 @@ extension HomeViewController: UICollectionViewDataSource {
             return filters.count
         }
     }
+    
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
