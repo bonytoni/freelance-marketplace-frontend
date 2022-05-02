@@ -10,8 +10,8 @@ import UIKit
 
 class FilterCell: UICollectionViewCell {
     
-    private var label = UILabel()
-    private var didSelect = false
+    var label = UILabel()
+    var didSelect = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)

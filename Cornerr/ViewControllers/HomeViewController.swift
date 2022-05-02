@@ -195,8 +195,15 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     return f == filter
                 }
             }
+            
+            filterData()
+            
+            let cell = filterView.dequeueReusableCell(withReuseIdentifier: filterCellReuseID, for: indexPath) as! FilterCell
+            cell.didSelect.toggle()
+            
         }
         filterView.reloadData()
+        listingView.reloadData()
     }
     
 }
