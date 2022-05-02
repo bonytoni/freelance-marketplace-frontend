@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, ModelContainer {
 
     var headerLabel = UILabel()
     var profilePic = UIImageView()
@@ -16,19 +16,32 @@ class ProfileViewController: UIViewController {
     var bio = UITextView()
     var addService = UIImageView()
     
-    var services: [Listing] = []
     var servicesTableView = UITableView()
     var noServicesImageView = UIImageView()
+    var services: [Listing] = [] {
+        didSet {
+            servicesTableView.reloadData()
+            noServicesImageView.isHidden = services.count != 0
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        [headerLabel, profilePic, nameLabel, editProfile, bio, addService].forEach { subView in
+        [headerLabel, profilePic, nameLabel, editProfile, bio, addService, noServicesImageView].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
+        
+        servicesTableView = UITableView(frame: .zero)
+        servicesTableView.translatesAutoresizingMaskIntoConstraints = false
+        servicesTableView.delegate = self
+        servicesTableView.dataSource = self
+        servicesTableView.register(ServiceCell.self, forCellReuseIdentifier: ServiceCell.id)
+        view.addSubview(servicesTableView)
+        servicesTableView.separatorColor = .darkBlue
         
         setUpUIComponents()
         setUpConstraints()
@@ -96,7 +109,15 @@ class ProfileViewController: UIViewController {
             bio.heightAnchor.constraint(equalToConstant: 50),
             
             addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -25),
-            addService.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            addService.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            servicesTableView.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 15),
+            servicesTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
+            servicesTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+            servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -5),
+            
+            noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noServicesImageView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -20)
         ])
     }
     
@@ -107,7 +128,38 @@ class ProfileViewController: UIViewController {
     @objc func imageSelected(_ sender: UITapGestureRecognizer) {
         let vc = ServiceViewController()
         vc.hidesBottomBarWhenPushed = true
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+}
+
+extension ProfileViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let editServiceViewController = ServiceViewController()
+        editServiceViewController.delegate = self
+        editServiceViewController.hidesBottomBarWhenPushed = true
+        editServiceViewController.originalService = services[indexPath.item]
+        navigationController?.pushViewController(editServiceViewController, animated: true)
+    }
+
+}
+
+extension ProfileViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        services.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ServiceCell.id, for: indexPath) as! ServiceCell
+        cell.configure(service: services[indexPath.item])
+        return cell
     }
 
 }

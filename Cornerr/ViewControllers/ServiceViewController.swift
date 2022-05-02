@@ -6,10 +6,16 @@
 //
 
 import UIKit
-import Photos
-import PhotosUI
+
+protocol ModelContainer: AnyObject {
+    var services: [Listing] { get set }
+}
 
 class ServiceViewController: UIViewController {
+    
+    weak var delegate: ModelContainer?
+    
+    var dummyUser: SimpleUser = SimpleUser(id: 0, username: "tony", contact: "123")
     
     var headerLabel = UILabel()
     var photoView = UIImageView()
@@ -21,16 +27,32 @@ class ServiceViewController: UIViewController {
     var titleTextField = UITextField()
     var descriptionTextView = UITextView()
     var priceTextField = UITextField()
-    // no dropdown menu
+    // no dropdown menu for now
     var categoryTextField = UITextField()
     var locationTextField = UITextField()
-    
     var publishButton = UIButton()
+    
+    var originalService: Listing? {
+        didSet {
+            titleTextField.text = originalService?.title
+            descriptionTextView.text = originalService?.description
+            priceTextField.text = "\(String(describing: originalService?.price))"
+            categoryTextField.text = originalService?.category
+            locationTextField.text = originalService?.location
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
+        if let service = originalService {
+            headerLabel.text = "Edit Service"
+        }
+        else {
+            headerLabel.text = "Add Service"
+        }
         
         [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, titleTextField, descriptionTextView, priceTextField,categoryTextField, locationTextField, publishButton].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +64,6 @@ class ServiceViewController: UIViewController {
     }
     
     func setUpUIComponents() {
-        headerLabel.text = "New Service"
         headerLabel.textColor = .black
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
@@ -160,6 +181,8 @@ class ServiceViewController: UIViewController {
     }
     
     @objc func publishService() {
+        let service = Listing(id: 0, unixTime: 0, title: titleTextField.text!, category: categoryTextField.text!, description: descriptionTextView.text, availability: "nil", location: locationTextField.text!, price: 15, seller: dummyUser, buyers: [])
+        self.delegate?.services.append(service)
         navigationController?.popViewController(animated: true)
     }
     

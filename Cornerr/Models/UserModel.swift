@@ -12,10 +12,10 @@ struct User: Codable {
     let id: Int
     let username: String
     let contact: String
-    let seller_listings: [Listing]
-    let buyer_listings: [Listing]
+    let seller_listings: [SimpleListing]
+    let buyer_listings: [SimpleListing]
     
-    init(id: Int, username: String, contact: String, seller_ls: [Listing], buyer_ls: [Listing]) {
+    init(id: Int, username: String, contact: String, seller_ls: [SimpleListing], buyer_ls: [SimpleListing]) {
         
         self.id = id
         self.username = username

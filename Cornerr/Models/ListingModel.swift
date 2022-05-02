@@ -17,10 +17,10 @@ struct Listing: Codable {
     let availability: String
     let location: String
     let price: Int
-    let sellers: [User]
-    let buyers: [User]
+    let seller: SimpleUser
+    let buyers: [SimpleUser]
     
-    init(id: Int, unixTime: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, sellers: [User], buyers: [User]) {
+    init(id: Int, unixTime: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: SimpleUser, buyers: [SimpleUser]) {
         
         self.id = id
         self.unixTime = unixTime
@@ -30,7 +30,7 @@ struct Listing: Codable {
         self.availability = availability
         self.location = location
         self.price = price
-        self.sellers = sellers
+        self.seller = seller
         self.buyers = buyers
         
     }
