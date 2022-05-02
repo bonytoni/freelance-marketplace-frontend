@@ -9,11 +9,10 @@ import UIKit
 
 class ListingCell: UICollectionViewCell {
     
-    static let id = "ListingCellId"
-    
-    private var label = UIView()
+    //static let id = "ListingCellId"
     
     var imageView = UIImageView()
+    var label = UIView()
     var titleLabel = UILabel()
     var userLabel = UILabel()
     var priceLabel = UILabel()
@@ -22,14 +21,6 @@ class ListingCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setUpComponents()
-        
-        [titleLabel, userLabel, priceLabel].forEach { subView in
-            subView.translatesAutoresizingMaskIntoConstraints = false
-            label.addSubview(subView)
-        }
-        
-        contentView.addSubview(imageView)
-        contentView.addSubview(label)
         
         setUpConstraints()
     }
@@ -40,63 +31,72 @@ class ListingCell: UICollectionViewCell {
     
     func setUpComponents() {
         
-        contentView.layer.cornerRadius = 15
+        contentView.layer.cornerRadius = 20
         contentView.clipsToBounds = true
-        contentView.contentMode = .scaleAspectFill
         contentView.backgroundColor = .clear
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageView.image = UIImage(named: "upload image")
+        imageView.image = UIImage(named: "kirby")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.textColor = .black
-        titleLabel.font = .systemFont(ofSize: 12)
+        titleLabel.font = .boldSystemFont(ofSize: 14)
         
         userLabel.textColor = .darkGray
-        userLabel.font = .systemFont(ofSize: 10)
+        userLabel.font = .systemFont(ofSize: 12)
         
-        priceLabel.textColor = .black
-        priceLabel.font = .systemFont(ofSize: 12)
+        priceLabel.font = .boldSystemFont(ofSize: 14)
         
+        label.layer.masksToBounds = true
+        label.clipsToBounds = false
         label.layer.cornerRadius = 15
         label.backgroundColor = .white
+        label.layer.borderColor = UIColor.white.cgColor
         label.translatesAutoresizingMaskIntoConstraints = false
+        
+        [titleLabel, userLabel, priceLabel].forEach { subView in
+            subView.translatesAutoresizingMaskIntoConstraints = false
+            label.addSubview(subView)
+        }
+        
+        contentView.addSubview(imageView)
+        contentView.addSubview(label)
         
     }
     
     func setUpConstraints() {
         NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
-            imageView.widthAnchor.constraint(equalToConstant: 160)
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
 
         ])
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: label.topAnchor, constant: 4),
-            titleLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 4)
+            label.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -70),
+            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         NSLayoutConstraint.activate([
-            userLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
-            userLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 4)
+            titleLabel.topAnchor.constraint(equalTo: label.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 16)
         ])
         NSLayoutConstraint.activate([
-            priceLabel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 4),
-            priceLabel.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: -4)
+            userLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            userLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 16)
         ])
         NSLayoutConstraint.activate([
-            label.heightAnchor.constraint(equalToConstant: 80),
-            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            priceLabel.topAnchor.constraint(equalTo: label.topAnchor, constant: 12),
+            priceLabel.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: -16)
         ])
     }
     
     func configure(for listing: Listing) {
         titleLabel.text = listing.title
-        userLabel.text = "@" + String(listing.id)
+        userLabel.text = "@" + String(listing.seller.id)
         priceLabel.text = "$\(listing.price)"
     }
     
 }
-

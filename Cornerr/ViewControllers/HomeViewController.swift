@@ -43,6 +43,8 @@ class HomeViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        filterData()
+        
         setUpUIComponents()
         
         setUpConstraints()
@@ -76,11 +78,12 @@ class HomeViewController: UIViewController {
         listingLayout.scrollDirection = .vertical
         listingLayout.minimumLineSpacing = cellPadding
         listingLayout.minimumInteritemSpacing = cellPadding
-        listingLayout.sectionInset = UIEdgeInsets(top: sectionPadding, left: 0, bottom: sectionPadding, right: 0)
+        listingLayout.sectionInset = UIEdgeInsets(top: sectionPadding, left: sectionPadding, bottom: sectionPadding, right: sectionPadding)
         
         listingView = UICollectionView(frame: .zero, collectionViewLayout: listingLayout)
         listingView.backgroundColor = .clear
         listingView.translatesAutoresizingMaskIntoConstraints = false
+        listingView.showsVerticalScrollIndicator = false
         
         listingView.register(ListingCell.self, forCellWithReuseIdentifier: listingCellReuseID)
         
@@ -102,10 +105,10 @@ class HomeViewController: UIViewController {
             filterView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
         ])
         NSLayoutConstraint.activate([
-            listingView.topAnchor.constraint(equalTo: filterView.bottomAnchor, constant: 12),
-            listingView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            listingView.topAnchor.constraint(equalTo: filterView.bottomAnchor),
+            listingView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             listingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
-            listingView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
+            listingView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
     }
     
@@ -141,6 +144,11 @@ extension HomeViewController: UICollectionViewDataSource {
             let cell = listingView.dequeueReusableCell(withReuseIdentifier: listingCellReuseID, for: indexPath) as! ListingCell
             let listing = listingsSelected[indexPath.item]
             cell.configure(for: listing)
+            cell.layer.shadowColor = UIColor.lightBlue.cgColor
+            cell.layer.shadowOffset = CGSize(width: 2, height: 4)
+            cell.layer.shadowRadius = 3.0
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.masksToBounds = false
             return cell
         }
         else {
@@ -166,8 +174,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == listingView {
-            let size = (listingView.frame.width - cellPadding)/2
-            return CGSize(width: size, height: 125)
+            let size = (listingView.frame.width - cellPadding)/2 - sectionPadding
+            return CGSize(width: size-5, height: 200)
         }
         else {
             return CGSize(width: 80, height: 40)
@@ -175,13 +183,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return cellPadding
+        return cellPadding+10
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == listingView {
-            // push service vc
-        }
+//        if collectionView == listingView {
+//            // push service vc
+//        }
         if collectionView == filterView {
             let filter = filters[indexPath.item]
             
