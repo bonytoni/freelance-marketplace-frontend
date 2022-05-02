@@ -68,6 +68,8 @@ class ServiceViewController: UIViewController {
         titleTextField.layer.borderWidth = 1
         titleTextField.layer.cornerRadius = 12
         titleTextField.layer.borderColor = .lightBlue
+        titleTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: titleTextField.frame.height))
+        titleTextField.leftViewMode = .always
         
         descriptionTextView.layer.borderWidth = 1
         descriptionTextView.layer.cornerRadius = 12
@@ -76,16 +78,22 @@ class ServiceViewController: UIViewController {
         priceTextField.layer.borderWidth = 1
         priceTextField.layer.cornerRadius = 12
         priceTextField.layer.borderColor = .lightBlue
+        priceTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: priceTextField.frame.height))
+        priceTextField.leftViewMode = .always
         
         categoryTextField.layer.borderWidth = 1
         categoryTextField.layer.cornerRadius = 12
         categoryTextField.layer.borderColor = .lightBlue
         categoryTextField.placeholder = "Beauty, Clothing, Media, Tech, Crafts, Food"
+        categoryTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: categoryTextField.frame.height))
+        categoryTextField.leftViewMode = .always
         
         locationTextField.layer.borderWidth = 1
         locationTextField.layer.cornerRadius = 12
         locationTextField.layer.borderColor = .lightBlue
         locationTextField.placeholder = "North, West, Central, Collegetown"
+        locationTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: locationTextField.frame.height))
+        locationTextField.leftViewMode = .always
         
         let publishButtonAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         // hardcoded button border width using spaces in Title
@@ -127,7 +135,7 @@ class ServiceViewController: UIViewController {
             
             priceTextField.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
             priceTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
-            priceTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            priceTextField.widthAnchor.constraint(equalToConstant: 70),
             priceTextField.heightAnchor.constraint(equalToConstant: 35),
             
             categoryLabel.topAnchor.constraint(equalTo: priceTextField.bottomAnchor, constant: 20),
