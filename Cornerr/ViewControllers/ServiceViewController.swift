@@ -28,10 +28,25 @@ class ServiceViewController: UIViewController {
     var titleTextField = UITextField()
     var descriptionTextView = UITextView()
     var priceTextField = UITextField()
-    // change to buttons 
-    var categoryTextField = UITextField()
-    var locationTextField = UITextField()
     var availabilityTextField = UITextField()
+    
+    var selectedCategory: String = ""
+    // buttons for category
+    var beautyButton = UIButton()
+    var fashionButton = UIButton()
+    var mediaButton = UIButton()
+    var techButton = UIButton()
+    var craftsButton = UIButton()
+    var foodButton = UIButton()
+    var otherCategoryButton = UIButton()
+    
+    var selectedLocation: String = ""
+    // buttons for location
+    var northButton = UIButton()
+    var westButton = UIButton()
+    var centralButton = UIButton()
+    var collegetownButton = UIButton()
+    var otherLocationButton = UIButton()
     
     var publishSaveButton = UIButton()
     var closeImageView = UIImageView()
@@ -44,8 +59,12 @@ class ServiceViewController: UIViewController {
             if let price = originalService?.price {
                 priceTextField.text = "\(price)"
             }
-            categoryTextField.text = originalService?.category
-            locationTextField.text = originalService?.location
+            if let category = originalService?.category {
+                selectedCategory = category
+            }
+            if let location = originalService?.location {
+                selectedLocation = location
+            }
             availabilityTextField.text = originalService?.availability
         }
     }
@@ -65,7 +84,7 @@ class ServiceViewController: UIViewController {
             publishSaveButton.setAttributedTitle(NSAttributedString(string: "Publish", attributes: publishSaveButtonAttributes), for: .normal)
         }
         
-        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, categoryTextField, locationTextField, availabilityTextField, publishSaveButton, closeImageView].forEach { subView in
+        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, availabilityTextField, beautyButton, fashionButton, mediaButton, techButton, craftsButton, foodButton, otherCategoryButton, northButton, westButton, centralButton, collegetownButton, otherLocationButton, publishSaveButton, closeImageView].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -118,26 +137,25 @@ class ServiceViewController: UIViewController {
         priceTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: priceTextField.frame.height))
         priceTextField.leftViewMode = .always
         
-        categoryTextField.layer.borderWidth = 1
-        categoryTextField.layer.cornerRadius = 12
-        categoryTextField.layer.borderColor = .lightBlue
-        categoryTextField.placeholder = "Beauty, Fashion, Media, Tech, Crafts, Food"
-        categoryTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: categoryTextField.frame.height))
-        categoryTextField.leftViewMode = .always
-        
-        locationTextField.layer.borderWidth = 1
-        locationTextField.layer.cornerRadius = 12
-        locationTextField.layer.borderColor = .lightBlue
-        locationTextField.placeholder = "North, West, Central, Collegetown"
-        locationTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: locationTextField.frame.height))
-        locationTextField.leftViewMode = .always
-        
         availabilityTextField.layer.borderWidth = 1
         availabilityTextField.layer.cornerRadius = 12
         availabilityTextField.layer.borderColor = .lightBlue
         availabilityTextField.placeholder = "Mon, Tue, Wed, Thu, Fri, Sat, Sun"
-        availabilityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: locationTextField.frame.height))
+        availabilityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: availabilityTextField.frame.height))
         availabilityTextField.leftViewMode = .always
+        
+        applyButtonProperties(beautyButton, "Beauty")
+        applyButtonProperties(fashionButton, "Fashion")
+        applyButtonProperties(mediaButton, "Media")
+        applyButtonProperties(techButton, "Tech")
+        applyButtonProperties(craftsButton, "Crafts")
+        applyButtonProperties(foodButton, "Food")
+        applyButtonProperties(otherCategoryButton, "Other")
+        applyButtonProperties(northButton, "North")
+        applyButtonProperties(westButton, "West")
+        applyButtonProperties(centralButton, "Central")
+        applyButtonProperties(collegetownButton, "Collegetown")
+        applyButtonProperties(otherLocationButton, "Other")
         
         publishSaveButton.setTitleColor(.lightBlue, for: .normal)
         publishSaveButton.addTarget(self, action: #selector(publishSaveService), for: .touchUpInside)
@@ -153,6 +171,7 @@ class ServiceViewController: UIViewController {
     
     func setUpConstraints() {
         let padding: CGFloat = 25
+        let buttonPadding: CGFloat = 10
         NSLayoutConstraint.activate([
             headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -174,7 +193,7 @@ class ServiceViewController: UIViewController {
             descriptionTextView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
             descriptionTextView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             descriptionTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
-            descriptionTextView.heightAnchor.constraint(equalToConstant: 100),
+            descriptionTextView.heightAnchor.constraint(equalToConstant: 75),
             
             priceLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
             priceLabel.leftAnchor.constraint(equalTo: priceTextField.leftAnchor),
@@ -187,20 +206,44 @@ class ServiceViewController: UIViewController {
             categoryLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
             categoryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
-            categoryTextField.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
-            categoryTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
-            categoryTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
-            categoryTextField.heightAnchor.constraint(equalToConstant: 35),
+            // category buttons
+            beautyButton.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
+            beautyButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            beautyButton.widthAnchor.constraint(equalToConstant: 60),
+            beautyButton.heightAnchor.constraint(equalToConstant: 25),
+            fashionButton.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
+            fashionButton.leftAnchor.constraint(equalTo: beautyButton.rightAnchor, constant: buttonPadding),
+            fashionButton.widthAnchor.constraint(equalToConstant: 60),
+            fashionButton.heightAnchor.constraint(equalToConstant: 25),
+            mediaButton.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
+            mediaButton.leftAnchor.constraint(equalTo: fashionButton.rightAnchor, constant: buttonPadding),
+            mediaButton.widthAnchor.constraint(equalToConstant: 60),
+            mediaButton.heightAnchor.constraint(equalToConstant: 25),
+            techButton.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
+            techButton.leftAnchor.constraint(equalTo: mediaButton.rightAnchor, constant: buttonPadding),
+            techButton.widthAnchor.constraint(equalToConstant: 60),
+            techButton.heightAnchor.constraint(equalToConstant: 25),
+            craftsButton.topAnchor.constraint(equalTo: beautyButton.bottomAnchor, constant: 10),
+            craftsButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            craftsButton.widthAnchor.constraint(equalToConstant: 60),
+            craftsButton.heightAnchor.constraint(equalToConstant: 25),
+            foodButton.topAnchor.constraint(equalTo: beautyButton.bottomAnchor, constant: 10),
+            foodButton.leftAnchor.constraint(equalTo: craftsButton.rightAnchor, constant: buttonPadding),
+            foodButton.widthAnchor.constraint(equalToConstant: 60),
+            foodButton.heightAnchor.constraint(equalToConstant: 25),
+            otherCategoryButton.topAnchor.constraint(equalTo: beautyButton.bottomAnchor, constant: 10),
+            otherCategoryButton.leftAnchor.constraint(equalTo: foodButton.rightAnchor, constant: buttonPadding),
+            otherCategoryButton.widthAnchor.constraint(equalToConstant: 60),
+            otherCategoryButton.heightAnchor.constraint(equalToConstant: 25),
             
-            locationLabel.topAnchor.constraint(equalTo: categoryTextField.bottomAnchor, constant: 20),
+            locationLabel.topAnchor.constraint(equalTo: foodButton.bottomAnchor, constant: 20),
             locationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
-            locationTextField.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10),
-            locationTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
-            locationTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
-            locationTextField.heightAnchor.constraint(equalToConstant: 35),
+            // location buttons
             
-            availabilityLabel.topAnchor.constraint(equalTo: locationTextField.bottomAnchor, constant: 20),
+            
+            // fix
+            availabilityLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20),
             availabilityLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             availabilityTextField.topAnchor.constraint(equalTo: availabilityLabel.bottomAnchor, constant: 10),
@@ -218,12 +261,53 @@ class ServiceViewController: UIViewController {
         ])
     }
     
+    func applyButtonProperties(_ button: UIButton, _ name: String) {
+        setButtonColor(button, for: name)
+        let titleAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .regular)]
+        button.setAttributedTitle(NSAttributedString(string: name, attributes: titleAttributes), for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 12
+        button.clipsToBounds = true
+    }
+    
+    func setButtonColor(_ button: UIButton, for name: String) {
+        var hexCode: String = "#F5F5F5"
+        
+        switch name {
+        case "Beauty" :
+            hexCode = "#FFE3E1"
+        case "Fashion":
+            hexCode = "#DFF9BF"
+        case "Media":
+            hexCode = "#BFD3FF"
+        case "Tech":
+            hexCode = "#BDE3FF"
+        case "Crafts":
+            hexCode = "#F2E7FF"
+        case "Food":
+            hexCode = "#FFE8A3"
+        case "North":
+            hexCode = "BDE3FF"
+        case "West":
+            hexCode = "DFF9BF"
+        case "Central":
+            hexCode = "F2E7FF"
+        case "Collegetown":
+            hexCode = "FFE8A3"
+        default:
+            hexCode = "#F5F5F5"
+        }
+        
+        button.backgroundColor = UIColor(hexString: hexCode)
+        button.layer.borderColor = UIColor.clear.cgColor
+    }
+    
     func updateIndexPath(index: Int) {
         indexPath = index
     }
     
     @objc func publishSaveService() {
-        let service = Listing(id: 0, unixTime: 0, title: titleTextField.text!, category: categoryTextField.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: locationTextField.text!, price: 15, seller: dummyUser, buyers: [])
+        let service = Listing(id: 0, unixTime: 0, title: titleTextField.text!, category: selectedCategory, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation, price: 15, seller: dummyUser, buyers: [])
         if let s = originalService {
             self.delegate?.services.remove(at: indexPath)
             self.delegate?.services.append(service)
