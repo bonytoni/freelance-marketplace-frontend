@@ -23,6 +23,7 @@
 		EAA7A7F5281DD99F00197044 /* ListingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7F4281DD99F00197044 /* ListingModel.swift */; };
 		EAA7A7F7281DD9D900197044 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7F6281DD9D900197044 /* UserModel.swift */; };
 		EAA7A7FB281DDC9200197044 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */; };
+		EADAD28D282087E700C36BD5 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADAD28C282087E700C36BD5 /* CustomTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		EAA7A7F4281DD99F00197044 /* ListingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingModel.swift; sourceTree = "<group>"; };
 		EAA7A7F6281DD9D900197044 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		EADAD28C282087E700C36BD5 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		EAA7A7EF281DD7D600197044 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				EADAD28C282087E700C36BD5 /* CustomTabBarController.swift */,
 				EAA7A7DF281DD4B100197044 /* HomeViewController.swift */,
 				EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */,
 				EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */,
@@ -202,6 +205,7 @@
 				EA096635281E564700124B70 /* Theme.swift in Sources */,
 				EAA7A7E0281DD4B100197044 /* HomeViewController.swift in Sources */,
 				EAA7A7DC281DD4B100197044 /* AppDelegate.swift in Sources */,
+				EADAD28D282087E700C36BD5 /* CustomTabBarController.swift in Sources */,
 				BC97D02B281F79F900F54304 /* FilterModel.swift in Sources */,
 				EAA7A7F3281DD96D00197044 /* ListingCell.swift in Sources */,
 				BC97D02D281F7A0500F54304 /* FilterCell.swift in Sources */,

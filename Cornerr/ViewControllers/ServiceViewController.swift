@@ -28,7 +28,7 @@ class ServiceViewController: UIViewController {
     var titleTextField = UITextField()
     var descriptionTextView = UITextView()
     var priceTextField = UITextField()
-    // no dropdown menu for now
+    // change to buttons 
     var categoryTextField = UITextField()
     var locationTextField = UITextField()
     var availabilityTextField = UITextField()
