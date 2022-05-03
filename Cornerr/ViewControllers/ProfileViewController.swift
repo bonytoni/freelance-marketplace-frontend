@@ -107,10 +107,10 @@ class ProfileViewController: UIViewController, ModelContainer {
             nameLabel.topAnchor.constraint(equalTo: profilePic.bottomAnchor, constant: 15),
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            editProfile.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 15),
+            editProfile.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             editProfile.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            bio.topAnchor.constraint(equalTo: editProfile.bottomAnchor, constant: 15),
+            bio.topAnchor.constraint(equalTo: editProfile.bottomAnchor, constant: 10),
             bio.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             bio.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             bio.heightAnchor.constraint(equalToConstant: 50),
@@ -119,8 +119,8 @@ class ProfileViewController: UIViewController, ModelContainer {
             addService.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             servicesTableView.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 10),
-            servicesTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 15),
-            servicesTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+            servicesTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 25),
+            servicesTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25),
             servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -10),
             
             noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -145,7 +145,7 @@ class ProfileViewController: UIViewController, ModelContainer {
 extension ProfileViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 84
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -161,7 +161,11 @@ extension ProfileViewController: UITableViewDelegate {
 extension ProfileViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        services.count
+        return services.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Services"
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -169,7 +173,7 @@ extension ProfileViewController: UITableViewDataSource {
         cell.configure(for: services[indexPath.item])
         cell.layer.shadowColor = .lightBlue
         cell.layer.shadowOffset = CGSize(width: 2, height: 4)
-        cell.layer.shadowRadius = 3.0
+        cell.layer.shadowRadius = 8.0
         cell.layer.shadowOpacity = 0.3
         cell.layer.masksToBounds = false
         return cell
