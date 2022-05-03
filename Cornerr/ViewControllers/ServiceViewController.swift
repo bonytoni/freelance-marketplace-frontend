@@ -402,13 +402,18 @@ class ServiceViewController: UIViewController {
     @objc func publishSaveService() {
         let service = Listing(id: 0, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, seller: dummyUser, buyers: [])
         if let s = originalService {
-            self.delegate?.services.remove(at: indexPath)
-            self.delegate?.services.append(service)
+            self.delegate?.services[indexPath] = service
         }
         else {
             self.delegate?.services.append(service)
         }
         dismiss(animated: true, completion: nil)
+    }
+    
+    func createListing(service: Listing) {
+        NetworkManager.createListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, seller_id: service.seller.id) { listing in
+            print(listing)
+        }
     }
     
     @objc func chooseImageAction(_ sender: Any) {

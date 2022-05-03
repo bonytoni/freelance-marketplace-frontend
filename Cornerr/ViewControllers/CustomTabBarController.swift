@@ -18,7 +18,7 @@ class CustomTabBarController: UITabBarController {
         self.tabBar.tintColor = .darkBlue
         self.tabBar.unselectedItemTintColor = .white
         
-        let dummySimpleUser: SimpleUser = SimpleUser(id: 0, username: "tony123", contact: "123")
+//        let dummySimpleUser: SimpleUser = SimpleUser(id: 0, username: "tony123", contact: "123")
         
 //        let dummyListings: [Listing] = [Listing(id: 0, unixTime: 1, title: "Manicure", category: "Beauty", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Beaded Jewelry", category: "Crafts", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Video Editing", category: "Tech", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Fashion", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Media", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Food", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Other", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: [])]
         
