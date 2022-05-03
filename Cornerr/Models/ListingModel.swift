@@ -10,7 +10,6 @@ import Foundation
 struct Listing: Codable {
     
     let id: Int
-    let unixTime: Int
     let title: String
     let category: String
     let description: String
@@ -20,10 +19,9 @@ struct Listing: Codable {
     let seller: SimpleUser
     let buyers: [SimpleUser]
     
-    init(id: Int, unixTime: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: SimpleUser, buyers: [SimpleUser]) {
+    init(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: SimpleUser, buyers: [SimpleUser]) {
         
         self.id = id
-        self.unixTime = unixTime
         self.title = title
         self.category = category
         self.description = description
@@ -40,7 +38,6 @@ struct Listing: Codable {
 struct SimpleListing: Codable {
     
     let id: Int
-    let unixTime: Int
     let title: String
     let category: String
     let description: String
@@ -49,10 +46,9 @@ struct SimpleListing: Codable {
     let price: Int
     let seller: String
     
-    init(id: Int, unixTime: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: String) {
+    init(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: String) {
         
         self.id = id
-        self.unixTime = unixTime
         self.title = title
         self.category = category
         self.description = description

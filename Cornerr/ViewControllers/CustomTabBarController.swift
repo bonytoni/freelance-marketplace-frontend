@@ -9,6 +9,8 @@ import UIKit
 
 class CustomTabBarController: UITabBarController {
     
+    private var allListings: [Listing] = []
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
@@ -18,11 +20,13 @@ class CustomTabBarController: UITabBarController {
         
         let dummySimpleUser: SimpleUser = SimpleUser(id: 0, username: "tony123", contact: "123")
         
-        let dummyListings: [Listing] = [Listing(id: 0, unixTime: 1, title: "Manicure", category: "Beauty", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Beaded Jewelry", category: "Crafts", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Video Editing", category: "Tech", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Fashion", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Media", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Food", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Other", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: [])]
+//        let dummyListings: [Listing] = [Listing(id: 0, unixTime: 1, title: "Manicure", category: "Beauty", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Beaded Jewelry", category: "Crafts", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "Video Editing", category: "Tech", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Fashion", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Media", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Food", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: []),Listing(id: 0, unixTime: 1, title: "urmom", category: "Other", description: "blahblah", availability: "blahblah", location: "blahblah", price: 0, seller: dummySimpleUser, buyers: [])]
         
         let filters: [String] = ["Beauty", "Fashion", "Media", "Tech", "Crafts", "Food", "Other"]
         
-        let homeViewController = HomeViewController(listings: dummyListings, filters: filters)
+        getAllListings()
+        
+        let homeViewController = HomeViewController(listings: allListings, filters: filters)
         homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), selectedImage: UIImage(systemName: "house.fill"))
         
         let homeNavController = UINavigationController(rootViewController: homeViewController)
@@ -39,6 +43,12 @@ class CustomTabBarController: UITabBarController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getAllListings() {
+        NetworkManager.getAllListings() { listing in
+            self.allListings = listing
+        }
     }
     
 }
