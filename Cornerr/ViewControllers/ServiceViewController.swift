@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol ModelContainer: AnyObject {
+protocol ListingContainer: AnyObject {
     var services: [Listing] { get set }
 }
 
 class ServiceViewController: UIViewController {
     
-    weak var delegate: ModelContainer?
+    weak var delegate: ListingContainer?
     
     var dummyUser: SimpleUser = SimpleUser(id: 0, username: "tony", contact: "123")
     
@@ -90,7 +90,6 @@ class ServiceViewController: UIViewController {
     }
     
     func setUpUIComponents() {
-        headerLabel.textColor = .black
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
         photoView.image = UIImage(named: "upload photo")
@@ -105,22 +104,16 @@ class ServiceViewController: UIViewController {
         
         let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
         titleLabel.attributedText = NSAttributedString(string: "Service Title", attributes: labelAttributes)
-        titleLabel.textColor = .black
         
         descriptionLabel.attributedText = NSAttributedString(string: "Description", attributes: labelAttributes)
-        descriptionLabel.textColor = .black
         
         priceLabel.attributedText = NSAttributedString(string: "Price ($)", attributes: labelAttributes)
-        priceLabel.textColor = .black
         
         categoryLabel.attributedText = NSAttributedString(string: "Category", attributes: labelAttributes)
-        categoryLabel.textColor = .black
         
         locationLabel.attributedText = NSAttributedString(string: "Location", attributes: labelAttributes)
-        locationLabel.textColor = .black
         
         availabilityLabel.attributedText = NSAttributedString(string: "Availability", attributes: labelAttributes)
-        availabilityLabel.textColor = .black
         
         titleTextField.layer.borderWidth = 1
         titleTextField.layer.cornerRadius = 12
@@ -145,10 +138,8 @@ class ServiceViewController: UIViewController {
         availabilityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: availabilityTextField.frame.height))
         availabilityTextField.leftViewMode = .always
         
-        selectedCategory.textColor = .black
         selectedCategory.font = .systemFont(ofSize: 14, weight: .regular)
         
-        selectedLocation.textColor = .black
         selectedLocation.font = .systemFont(ofSize: 14, weight: .regular)
         
         applyButtonProperties(beautyButton, "Beauty", "category")

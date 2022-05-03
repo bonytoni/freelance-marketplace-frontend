@@ -1,5 +1,5 @@
 //
-//  FavoritesViewController.swift
+//  EditProfileViewController.swift
 //  Cornerr
 //
 //  Created by Tony Chen on 4/30/22.
@@ -9,11 +9,184 @@ import UIKit
 
 class EditProfileViewController: UIViewController {
     
+    var parentController: ProfileViewController?
+    var delegate: EditProfileViewControllerDelegate?
+    
+    var picInstructions = UILabel()
+    var picImageView = UIImageView()
+    var idLabel = UILabel()
+    var idTextField = UITextField()
+    var nameLabel = UILabel()
+    var nameTextField = UITextField()
+    var contactLabel = UILabel()
+    var contactTextField = UITextField()
+    var bioLabel = UILabel()
+    var bioTextView = UITextView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Edit Profile"
         view.backgroundColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveProfile))
+        
+        [picInstructions, picImageView, idLabel, idTextField, nameLabel, nameTextField, contactLabel, contactTextField, bioLabel, bioTextView].forEach { subView in
+            subView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(subView)
+        }
+        
+        setUpUIComponents()
+        setUpConstraints()
+    }
+    
+    func setUpUIComponents() {
+        picInstructions.text = "Tap on the image to change your profile picture"
+        picInstructions.font = .systemFont(ofSize: 12)
+        picInstructions.textColor = .systemGray
+        
+        picImageView.image = UIImage(named: "kirby")
+        picImageView.layer.cornerRadius = 60
+        picImageView.layer.masksToBounds = true
+        picImageView.contentMode = .scaleAspectFill
+        picImageView.clipsToBounds = true
+        picImageView.isUserInteractionEnabled = true
+        let picTap = UITapGestureRecognizer(target: self, action: #selector(chooseImageAction(_:)))
+        picTap.numberOfTapsRequired = 1
+        picImageView.addGestureRecognizer(picTap)
+        
+        let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
+        idLabel.attributedText = NSAttributedString(string: "Net ID", attributes: labelAttributes)
+        
+        nameLabel.attributedText = NSAttributedString(string: "Name", attributes: labelAttributes)
+        
+        contactLabel.attributedText = NSAttributedString(string: "Phone Number", attributes: labelAttributes)
+        
+        bioLabel.attributedText = NSAttributedString(string: "Bio", attributes: labelAttributes)
+        
+        idTextField.layer.borderWidth = 1
+        idTextField.layer.cornerRadius = 18
+        idTextField.layer.borderColor = .lightBlue
+        idTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
+        idTextField.leftViewMode = .always
+        
+        nameTextField.layer.borderWidth = 1
+        nameTextField.layer.cornerRadius = 18
+        nameTextField.layer.borderColor = .lightBlue
+        nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
+        nameTextField.leftViewMode = .always
+        
+        contactTextField.layer.borderWidth = 1
+        contactTextField.layer.cornerRadius = 18
+        contactTextField.layer.borderColor = .lightBlue
+        contactTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
+        contactTextField.leftViewMode = .always
+        
+        bioTextView.layer.borderWidth = 1
+        bioTextView.layer.cornerRadius = 18
+        bioTextView.layer.borderColor = .lightBlue
+    }
+    
+    func setUpConstraints() {
+        let padding: CGFloat = 35
+        
+        NSLayoutConstraint.activate([
+            picImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
+            picImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            picImageView.widthAnchor.constraint(equalToConstant: 120),
+            picImageView.heightAnchor.constraint(equalToConstant: 120),
+                
+            picInstructions.topAnchor.constraint(equalTo: picImageView.bottomAnchor, constant: 15),
+            picInstructions.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            nameLabel.topAnchor.constraint(equalTo: picInstructions.bottomAnchor, constant: 25),
+            nameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            
+            nameTextField.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
+            nameTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            nameTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            nameTextField.heightAnchor.constraint(equalToConstant: 30),
+            
+            idLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 25),
+            idLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            
+            idTextField.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
+            idTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            idTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            idTextField.heightAnchor.constraint(equalToConstant: 30),
+            
+            contactLabel.topAnchor.constraint(equalTo: idTextField.bottomAnchor, constant: 25),
+            contactLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            
+            contactTextField.topAnchor.constraint(equalTo: contactLabel.bottomAnchor, constant: 10),
+            contactTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            contactTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            contactTextField.heightAnchor.constraint(equalToConstant: 30),
+            
+            bioLabel.topAnchor.constraint(equalTo: contactTextField.bottomAnchor, constant: 25),
+            bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            
+            bioTextView.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 10),
+            bioTextView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            bioTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            bioTextView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+    }
+    
+    @objc func chooseImageAction(_ sender: Any) {
+        showImagePickerOptions()
+    }
+    
+    func imagePicker(sourceType: UIImagePickerController.SourceType) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        return imagePicker
+    }
+    
+    // Method provided with Haiying's help https://medium.com/nerd-for-tech/how-to-display-an-image-picker-controller-using-swift-5cfa9892d0b6
+    func showImagePickerOptions() {
+        let alertVC = UIAlertController(title: "Pick a Photo", message: "Choose a photo from Library", preferredStyle: .actionSheet)
+        
+        // Image picker for Library
+        let libraryAction = UIAlertAction(title: "Library", style: .default) { [weak self] (action) in
+            // Capture self to avoid retain cycles
+            guard let self = self else {
+                return
+            }
+            let libraryImagePicker = self.imagePicker(sourceType: .photoLibrary)
+            libraryImagePicker.delegate = self
+            self.present(libraryImagePicker, animated: true) {
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertVC.addAction(libraryAction)
+        alertVC.addAction(cancelAction)
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    @objc func saveProfile() {
+        var arr: [String] = []
+        arr.append(nameTextField.text!)
+        arr.append(bioTextView.text!)
+        arr.append(idTextField.text!)
+        delegate?.retrieveData(arr)
+        navigationController?.popViewController(animated: true)
     }
 
 }
 
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.originalImage] as! UIImage
+        picImageView.image = image
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+
+protocol EditProfileViewControllerDelegate {
+    
+    func retrieveData(_ str: [String])
+    
+}

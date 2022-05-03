@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, ModelContainer {
+class ProfileViewController: UIViewController, ListingContainer {
 
     var headerLabel = UILabel()
     var profilePic = UIImageView()
@@ -55,7 +55,7 @@ class ProfileViewController: UIViewController, ModelContainer {
     }
     
     func setUpUIComponents() {
-        headerLabel.text = "@netid"
+        headerLabel.text = "User.id"
         headerLabel.textColor = .black
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
@@ -67,7 +67,7 @@ class ProfileViewController: UIViewController, ModelContainer {
         profilePic.clipsToBounds = true
         
         let nameLabelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: .bold)]
-        nameLabel.attributedText = NSAttributedString(string: "name", attributes: nameLabelAttributes)
+        nameLabel.attributedText = NSAttributedString(string: "Name", attributes: nameLabelAttributes)
         nameLabel.textColor = .black
         
         let editProfileAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
@@ -128,9 +128,16 @@ class ProfileViewController: UIViewController, ModelContainer {
         ])
     }
     
+    func changeText(_ str: [String]) {
+        nameLabel.text = str[0]
+        bio.text = str[1]
+        headerLabel.text = "@\(str[2])"
+    }
+    
     @objc func editProfilePressed() {
         let vc = EditProfileViewController()
         vc.hidesBottomBarWhenPushed = true
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -179,4 +186,12 @@ extension ProfileViewController: UITableViewDataSource {
         return cell
     }
 
+}
+
+extension ProfileViewController: EditProfileViewControllerDelegate {
+    
+    func retrieveData(_ str: [String]) {
+        changeText(str)
+    }
+    
 }
