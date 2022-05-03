@@ -93,10 +93,15 @@ class ServiceViewController: UIViewController {
         headerLabel.textColor = .black
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        photoView.image = UIImage(named: "upload photos")
+        photoView.image = UIImage(named: "upload photo")
         photoView.layer.masksToBounds = true
         photoView.contentMode = .scaleAspectFill
         photoView.clipsToBounds = true
+        photoView.layer.cornerRadius = 14
+        photoView.isUserInteractionEnabled = true
+        let photoTap = UITapGestureRecognizer(target: self, action: #selector(chooseImageAction(_:)))
+        photoTap.numberOfTapsRequired = 1
+        photoView.addGestureRecognizer(photoTap)
         
         let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
         titleLabel.attributedText = NSAttributedString(string: "Service Title", attributes: labelAttributes)
@@ -166,9 +171,9 @@ class ServiceViewController: UIViewController {
         closeImageView.contentMode = .scaleAspectFill
         closeImageView.clipsToBounds = true
         closeImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(closeVC))
-        tap.numberOfTapsRequired = 1
-        closeImageView.addGestureRecognizer(tap)
+        let closeTap = UITapGestureRecognizer(target: self, action: #selector(closeVC))
+        closeTap.numberOfTapsRequired = 1
+        closeImageView.addGestureRecognizer(closeTap)
     }
     
     func setUpConstraints() {
@@ -181,6 +186,9 @@ class ServiceViewController: UIViewController {
             
             photoView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20),
             photoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            photoView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
+            photoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
+            photoView.heightAnchor.constraint(equalToConstant: 160),
             
             titleLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
@@ -288,6 +296,33 @@ class ServiceViewController: UIViewController {
         ])
     }
     
+    func imagePicker(sourceType: UIImagePickerController.SourceType) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        return imagePicker
+    }
+    
+    // Method provided with Haiying's help https://medium.com/nerd-for-tech/how-to-display-an-image-picker-controller-using-swift-5cfa9892d0b6
+    func showImagePickerOptions() {
+        let alertVC = UIAlertController(title: "Pick a Photo", message: "Choose a photo from Library", preferredStyle: .actionSheet)
+        
+        // Image picker for Library
+        let libraryAction = UIAlertAction(title: "Library", style: .default) { [weak self] (action) in
+            // Capture self to avoid retain cycles
+            guard let self = self else {
+                return
+            }
+            let libraryImagePicker = self.imagePicker(sourceType: .photoLibrary)
+            libraryImagePicker.delegate = self
+            self.present(libraryImagePicker, animated: true) {
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertVC.addAction(libraryAction)
+        alertVC.addAction(cancelAction)
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
     func applyButtonProperties(_ button: UIButton, _ name: String, _ tag: String) {
         setButtonColor(button, for: name)
         let titleAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .regular)]
@@ -385,8 +420,22 @@ class ServiceViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func chooseImageAction(_ sender: Any) {
+        showImagePickerOptions()
+    }
+    
     @objc func closeVC() {
         dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension ServiceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.originalImage] as! UIImage
+        photoView.image = image
+        self.dismiss(animated: true, completion: nil)
     }
     
 }

@@ -51,7 +51,7 @@ class HomeViewController: UIViewController {
     }
     
     func setUpUIComponents() {
-        appNameImageView.image = UIImage(named: "freelance")
+        appNameImageView.image = UIImage(named: "circus")
         appNameImageView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(appNameImageView)
