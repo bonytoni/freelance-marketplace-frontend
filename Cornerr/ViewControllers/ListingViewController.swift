@@ -79,13 +79,13 @@ class ListingViewController: UIViewController {
         categoryLabel.layer.cornerRadius = 15
         categoryLabel.clipsToBounds = true
         categoryLabel.textAlignment = .center
-        setCategoryLabelColor(for: listing.category)
+        setLabelColor(for: categoryLabel, for: listing.category)
         
         locationLabel.font = .systemFont(ofSize: 14)
         locationLabel.layer.cornerRadius = 15
         locationLabel.clipsToBounds = true
         locationLabel.textAlignment = .center
-        locationLabel.backgroundColor = UIColor(hexString: "#F5F5F5")
+        setLabelColor(for: locationLabel, for: listing.location)
         
         descriptionView.isScrollEnabled = false
         descriptionView.font = .systemFont(ofSize: 14)
@@ -191,7 +191,7 @@ class ListingViewController: UIViewController {
         purchaseButton.titleLabel?.textColor = .white
     }
     
-    func setCategoryLabelColor(for name: String) {
+    func setLabelColor(for label: UILabel, for name: String) {
         var hexCode: String = "#F5F5F5"
         
         switch name {
@@ -200,19 +200,27 @@ class ListingViewController: UIViewController {
         case "Fashion":
             hexCode = "#DFF9BF"
         case "Media":
-            hexCode = "#BFD3FF"
+            hexCode = "#FFC896"
         case "Tech":
             hexCode = "#BDE3FF"
         case "Crafts":
             hexCode = "#F2E7FF"
         case "Food":
             hexCode = "#FFE8A3"
+        case "North":
+            hexCode = "BDE3FF"
+        case "West":
+            hexCode = "DFF9BF"
+        case "Central":
+            hexCode = "F2E7FF"
+        case "CTown":
+            hexCode = "FFE3E1"
         default:
             hexCode = "#F5F5F5"
         }
         
-        categoryLabel.backgroundColor = UIColor(hexString: hexCode)
-        categoryLabel.layer.borderColor = UIColor.clear.cgColor
+        label.backgroundColor = UIColor(hexString: hexCode)
+        label.layer.borderColor = UIColor.clear.cgColor
     }
     
 }

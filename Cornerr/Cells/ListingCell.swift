@@ -119,7 +119,7 @@ class ListingCell: UICollectionViewCell {
         case "Fashion":
             hexCode = "#DFF9BF"
         case "Media":
-            hexCode = "#BFD3FF"
+            hexCode = "#FFC896"
         case "Tech":
             hexCode = "#BDE3FF"
         case "Crafts":

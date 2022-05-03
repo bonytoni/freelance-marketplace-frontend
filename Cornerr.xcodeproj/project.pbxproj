@@ -96,10 +96,10 @@
 			children = (
 				EADAD28C282087E700C36BD5 /* CustomTabBarController.swift */,
 				EAA7A7DF281DD4B100197044 /* HomeViewController.swift */,
+				BC97D02E282080B000F54304 /* ListingViewController.swift */,
 				EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */,
 				EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */,
 				EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */,
-				BC97D02E282080B000F54304 /* ListingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
