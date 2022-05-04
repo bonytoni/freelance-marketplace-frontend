@@ -404,10 +404,6 @@ class LoginViewController: UIViewController {
     
     @objc func checkLogin() {
         networkLogin(username: usernameTextField2.text!, password: passwordTextField2.text!)
-//        let alertVC = UIAlertController(title: "Error", message: "Invalid username/password", preferredStyle: .alert)
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        alertVC.addAction(cancelAction)
-//        self.present(alertVC, animated: true, completion: nil)
     }
     
     func networkLogin(username: String, password: String) {
@@ -421,13 +417,9 @@ class LoginViewController: UIViewController {
                 self.present(alertVC, animated: true, completion: nil)
             }
             else {
-                self.showHomePage()
+                self.navigationController?.pushViewController(CustomTabBarController(), animated: true)
             }
         }
-    }
-    
-    func showHomePage() {
-        self.show(CustomTabBarController(), sender: self)
     }
     
 }
