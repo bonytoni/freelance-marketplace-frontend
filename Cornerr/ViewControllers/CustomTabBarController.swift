@@ -26,7 +26,7 @@ class CustomTabBarController: UITabBarController {
         
         getAllListings()
         
-        let homeViewController = HomeViewController(listings: dummyListings, filters: filters)
+        let homeViewController = HomeViewController(listings: allListings, filters: filters)
         homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), selectedImage: UIImage(systemName: "house.fill"))
         
         let homeNavController = UINavigationController(rootViewController: homeViewController)

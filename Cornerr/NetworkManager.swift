@@ -10,7 +10,7 @@ import Alamofire
 
 class NetworkManager {
     
-    static let host = "https://localhost:5000"
+    static let host = "http://34.152.43.79/"
     
     static func getAllListings(completion: @escaping ([Listing]) -> Void) {
         let endpt = "\(host)/listings/"
@@ -51,6 +51,35 @@ class NetworkManager {
     
     static func createListing(title: String, category: String, description: String, availability: String, location: String, price: Int, seller_id: Int, completion: @escaping (Listing) -> Void) {
         let endpt = "\(host)/listings/\(seller_id)/"
+        
+        let params = [
+            "title": title,
+            "category": category,
+            "description": description,
+            "availability": availability,
+            "location": location,
+            "price": price,
+            "seller_id": seller_id
+        ] as [String : Any]
+        
+        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData { response in
+            switch response.result {
+                
+            case .success(let data):
+                let jd = JSONDecoder()
+                if let userResponse = try? jd.decode((Listing).self, from: data) {
+                    completion(userResponse)
+                }
+              
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            }
+        }
+    }
+    
+    static func editListing(title: String, category: String, description: String, availability: String, location: String, price: Int, seller_id: Int, completion: @escaping (Listing) -> Void) {
+        let endpt = "\(host)/listings/edit/\(seller_id)/"
         
         let params = [
             "title": title,

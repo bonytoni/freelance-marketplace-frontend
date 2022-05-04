@@ -14,8 +14,6 @@ class EditProfileViewController: UIViewController {
     
     var picInstructions = UILabel()
     var picImageView = UIImageView()
-    var idLabel = UILabel()
-    var idTextField = UITextField()
     var nameLabel = UILabel()
     var nameTextField = UITextField()
     var contactLabel = UILabel()
@@ -28,9 +26,10 @@ class EditProfileViewController: UIViewController {
         
         title = "Edit Profile"
         view.backgroundColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveProfile))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(saveProfile))
+        navigationController?.navigationBar.tintColor = .lightBlue
         
-        [picInstructions, picImageView, idLabel, idTextField, nameLabel, nameTextField, contactLabel, contactTextField, bioLabel, bioTextView].forEach { subView in
+        [picInstructions, picImageView, nameLabel, nameTextField, contactLabel, contactTextField, bioLabel, bioTextView].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -55,7 +54,6 @@ class EditProfileViewController: UIViewController {
         picImageView.addGestureRecognizer(picTap)
         
         let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
-        idLabel.attributedText = NSAttributedString(string: "Username", attributes: labelAttributes)
         
         nameLabel.attributedText = NSAttributedString(string: "Name", attributes: labelAttributes)
         
@@ -63,25 +61,19 @@ class EditProfileViewController: UIViewController {
         
         bioLabel.attributedText = NSAttributedString(string: "Bio", attributes: labelAttributes)
         
-        idTextField.layer.borderWidth = 1
-        idTextField.layer.cornerRadius = 15
-        idTextField.layer.borderColor = .lightBlue
-        idTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
-        idTextField.leftViewMode = .always
-        
-        nameTextField.layer.borderWidth = 1
+        nameTextField.layer.borderWidth = 1.5
         nameTextField.layer.cornerRadius = 15
         nameTextField.layer.borderColor = .lightBlue
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
         nameTextField.leftViewMode = .always
         
-        contactTextField.layer.borderWidth = 1
+        contactTextField.layer.borderWidth = 1.5
         contactTextField.layer.cornerRadius = 15
         contactTextField.layer.borderColor = .lightBlue
         contactTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
         contactTextField.leftViewMode = .always
         
-        bioTextView.layer.borderWidth = 1
+        bioTextView.layer.borderWidth = 1.5
         bioTextView.layer.cornerRadius = 15
         bioTextView.layer.borderColor = .lightBlue
     }
@@ -106,15 +98,7 @@ class EditProfileViewController: UIViewController {
             nameTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             nameTextField.heightAnchor.constraint(equalToConstant: 30),
             
-            idLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 25),
-            idLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
-            
-            idTextField.topAnchor.constraint(equalTo: idLabel.bottomAnchor, constant: 10),
-            idTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
-            idTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
-            idTextField.heightAnchor.constraint(equalToConstant: 30),
-            
-            contactLabel.topAnchor.constraint(equalTo: idTextField.bottomAnchor, constant: 25),
+            contactLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 25),
             contactLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             contactTextField.topAnchor.constraint(equalTo: contactLabel.bottomAnchor, constant: 10),
@@ -167,7 +151,6 @@ class EditProfileViewController: UIViewController {
         var arr: [String] = []
         arr.append(nameTextField.text!)
         arr.append(bioTextView.text!)
-        arr.append(idTextField.text!)
         delegate?.retrieveData(arr)
         navigationController?.popViewController(animated: true)
     }

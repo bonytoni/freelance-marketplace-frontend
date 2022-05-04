@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
         
-        self.window?.rootViewController = LoginViewController()
+        self.window?.rootViewController = CustomTabBarController()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -93,7 +93,7 @@ class HomeViewController: UIViewController {
         
         view.addSubview(listingView)
         
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         listingView.addSubview(refreshControl)
     }
@@ -141,7 +141,12 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func refresh(_ sender: AnyObject) {
+//        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+//            self.listingView.reloadData()
+//            self.refreshControl.endRefreshing()
+//        }
         listingView.reloadData()
+        refreshControl.endRefreshing()
     }
 
 }
