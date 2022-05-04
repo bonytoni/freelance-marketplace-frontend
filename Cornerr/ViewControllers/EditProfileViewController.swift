@@ -43,7 +43,7 @@ class EditProfileViewController: UIViewController {
         picInstructions.font = .systemFont(ofSize: 12)
         picInstructions.textColor = .systemGray
         
-        picImageView.image = UIImage(named: "kirby")
+        picImageView.image = UIImage(named: "logo")
         picImageView.layer.cornerRadius = 60
         picImageView.layer.masksToBounds = true
         picImageView.contentMode = .scaleAspectFill
@@ -148,9 +148,13 @@ class EditProfileViewController: UIViewController {
     }
     
     @objc func saveProfile() {
+        // name, contact, bio, profile picture
         var arr: [String] = []
         arr.append(nameTextField.text!)
         arr.append(bioTextView.text!)
+        let imgData = picImageView.image?.jpegData(compressionQuality: 1)
+        let imgBase64String = imgData?.base64EncodedString()
+        arr.append(imgBase64String!)
         delegate?.retrieveData(arr)
         navigationController?.popViewController(animated: true)
     }

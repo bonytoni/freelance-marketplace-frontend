@@ -56,19 +56,18 @@ class ProfileViewController: UIViewController, ListingContainer {
     }
     
     func setUpUIComponents() {
-        headerLabel.text = "User.id"
+        headerLabel.text = "@username"
         headerLabel.textColor = .black
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        // test image
-        profilePic.image = UIImage(named: "kirby")
+        profilePic.image = UIImage(named: "logo")
         profilePic.layer.cornerRadius = 60
         profilePic.layer.masksToBounds = true
         profilePic.contentMode = .scaleAspectFill
         profilePic.clipsToBounds = true
         
         let nameLabelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: .bold)]
-        nameLabel.attributedText = NSAttributedString(string: "Name", attributes: nameLabelAttributes)
+        nameLabel.attributedText = NSAttributedString(string: "Full Name", attributes: nameLabelAttributes)
         nameLabel.textColor = .black
         
         let editProfileAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
@@ -129,10 +128,13 @@ class ProfileViewController: UIViewController, ListingContainer {
         ])
     }
     
-    func changeText(_ str: [String]) {
+    func changeProfile(_ str: [String]) {
         nameLabel.text = str[0]
         bio.text = str[1]
-        headerLabel.text = "@\(str[2])"
+        let newImageData = Data(base64Encoded: str[2])
+        if let newImageData = newImageData {
+            profilePic.image = UIImage(data: newImageData)
+        }
     }
     
     @objc func editProfilePressed() {
@@ -187,7 +189,7 @@ extension ProfileViewController: UITableViewDataSource {
 extension ProfileViewController: EditProfileViewControllerDelegate {
     
     func retrieveData(_ str: [String]) {
-        changeText(str)
+        changeProfile(str)
     }
     
 }

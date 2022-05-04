@@ -179,6 +179,7 @@ class LoginViewController: UIViewController {
         usernameTextField.font = .systemFont(ofSize: 16, weight: .regular)
         usernameTextField.addBottomBorder()
         usernameTextField.autocapitalizationType = .none
+        usernameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
         passwordTextField.font = .systemFont(ofSize: 16, weight: .regular)
@@ -290,6 +291,7 @@ class LoginViewController: UIViewController {
         usernameTextField2.font = .systemFont(ofSize: 16, weight: .regular)
         usernameTextField2.addBottomBorder()
         usernameTextField2.autocapitalizationType = .none
+        usernameTextField2.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         
         passwordTextField2.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
         passwordTextField2.font = .systemFont(ofSize: 16, weight: .regular)
@@ -302,7 +304,7 @@ class LoginViewController: UIViewController {
         finishedLoginButton.layer.cornerRadius = 22
         finishedLoginButton.layer.borderColor = UIColor.black.cgColor
         finishedLoginButton.layer.borderWidth = 2
-        finishedLoginButton.addTarget(self, action: #selector(successfullyLoggedIn), for: .touchUpInside)
+        finishedLoginButton.addTarget(self, action: #selector(checkLogin), for: .touchUpInside)
         
         noAccountLabel.text = "Don't have an account?"
         noAccountLabel.font = .systemFont(ofSize: 16, weight: .regular)
@@ -357,6 +359,15 @@ class LoginViewController: UIViewController {
         ])
     }
     
+    // only lowercase letters are allowed for usernames
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text: String = textField.text {
+            DispatchQueue.main.async {
+                textField.text = text.lowercased()
+            }
+        }
+    }
+    
     @objc func pressedSignUp() {
         homeContainer.isHidden = true
         homeContainer.isUserInteractionEnabled = false
@@ -389,8 +400,12 @@ class LoginViewController: UIViewController {
         // TODO
     }
     
-    @objc func successfullyLoggedIn() {
+    @objc func checkLogin() {
         // TODO
+        let alertVC = UIAlertController(title: "Invalid", message: "Invalid username/password", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertVC.addAction(cancelAction)
+        self.present(alertVC, animated: true, completion: nil)
     }
     
 }
