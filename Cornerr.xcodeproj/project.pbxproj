@@ -26,6 +26,7 @@
 		EAA7A7F7281DD9D900197044 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7F6281DD9D900197044 /* UserModel.swift */; };
 		EAA7A7FB281DDC9200197044 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */; };
 		EADAD28D282087E700C36BD5 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADAD28C282087E700C36BD5 /* CustomTabBarController.swift */; };
+		EAF20F58282204E9006A5C33 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF20F57282204E9006A5C33 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		EAA7A7F6281DD9D900197044 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		EADAD28C282087E700C36BD5 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		EAF20F57282204E9006A5C33 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		EAA7A7EF281DD7D600197044 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				EAF20F57282204E9006A5C33 /* LoginViewController.swift */,
 				EADAD28C282087E700C36BD5 /* CustomTabBarController.swift */,
 				EAA7A7DF281DD4B100197044 /* HomeViewController.swift */,
 				BC97D02E282080B000F54304 /* ListingViewController.swift */,
@@ -286,6 +289,7 @@
 				EA2D0AAA281F44B9002C5D56 /* EditProfileViewController.swift in Sources */,
 				EAA7A7F7281DD9D900197044 /* UserModel.swift in Sources */,
 				EAA7A7FB281DDC9200197044 /* ProfileViewController.swift in Sources */,
+				EAF20F58282204E9006A5C33 /* LoginViewController.swift in Sources */,
 				BC97D02F282080B000F54304 /* ListingViewController.swift in Sources */,
 				EA2D0AA6281F1B59002C5D56 /* ServiceViewController.swift in Sources */,
 				EAA7A7F5281DD99F00197044 /* ListingModel.swift in Sources */,
