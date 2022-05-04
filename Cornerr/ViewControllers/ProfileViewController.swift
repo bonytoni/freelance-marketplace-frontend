@@ -39,6 +39,7 @@ class ProfileViewController: UIViewController, ListingContainer {
         servicesTableView.backgroundColor = .clear
         servicesTableView.translatesAutoresizingMaskIntoConstraints = false
         servicesTableView.showsVerticalScrollIndicator = false
+        self.servicesTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         servicesTableView.register(ServiceCell.self, forCellReuseIdentifier: ServiceCell.id)
         
@@ -119,8 +120,8 @@ class ProfileViewController: UIViewController, ListingContainer {
             addService.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             servicesTableView.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 10),
-            servicesTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 25),
-            servicesTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25),
+            servicesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            servicesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -10),
             
             noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -178,11 +179,6 @@ extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ServiceCell.id, for: indexPath) as! ServiceCell
         cell.configure(for: services[indexPath.item])
-        cell.layer.shadowColor = .lightBlue
-        cell.layer.shadowOffset = CGSize(width: 2, height: 4)
-        cell.layer.shadowRadius = 8.0
-        cell.layer.shadowOpacity = 0.3
-        cell.layer.masksToBounds = false
         return cell
     }
 

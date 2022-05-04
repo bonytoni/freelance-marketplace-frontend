@@ -161,11 +161,13 @@ class ListingViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             descriptionView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 12),
-            descriptionView.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26)
+            descriptionView.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26),
+            descriptionView.widthAnchor.constraint(equalToConstant: 325)
         ])
         NSLayoutConstraint.activate([
             availabilityView.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 2),
-            availabilityView.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26)
+            availabilityView.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26),
+            availabilityView.widthAnchor.constraint(equalToConstant: 325)
         ])
         NSLayoutConstraint.activate([
             purchaseButton.widthAnchor.constraint(equalToConstant: 200),

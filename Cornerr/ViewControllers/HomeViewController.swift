@@ -8,6 +8,8 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    
+    private let refreshControl = UIRefreshControl()
 
     private let appNameImageView = UIImageView()
     private var filterView: UICollectionView!
@@ -90,6 +92,10 @@ class HomeViewController: UIViewController {
         listingView.delegate = self
         
         view.addSubview(listingView)
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        listingView.addSubview(refreshControl)
     }
     
     func setUpConstraints() {
@@ -132,6 +138,10 @@ class HomeViewController: UIViewController {
             }
         }
         return false
+    }
+    
+    @objc private func refresh(_ sender: AnyObject) {
+        listingView.reloadData()
     }
 
 }

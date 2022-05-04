@@ -55,34 +55,34 @@ class EditProfileViewController: UIViewController {
         picImageView.addGestureRecognizer(picTap)
         
         let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
-        idLabel.attributedText = NSAttributedString(string: "Net ID", attributes: labelAttributes)
+        idLabel.attributedText = NSAttributedString(string: "Username", attributes: labelAttributes)
         
         nameLabel.attributedText = NSAttributedString(string: "Name", attributes: labelAttributes)
         
-        contactLabel.attributedText = NSAttributedString(string: "Phone Number", attributes: labelAttributes)
+        contactLabel.attributedText = NSAttributedString(string: "Contact", attributes: labelAttributes)
         
         bioLabel.attributedText = NSAttributedString(string: "Bio", attributes: labelAttributes)
         
         idTextField.layer.borderWidth = 1
-        idTextField.layer.cornerRadius = 18
+        idTextField.layer.cornerRadius = 15
         idTextField.layer.borderColor = .lightBlue
         idTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
         idTextField.leftViewMode = .always
         
         nameTextField.layer.borderWidth = 1
-        nameTextField.layer.cornerRadius = 18
+        nameTextField.layer.cornerRadius = 15
         nameTextField.layer.borderColor = .lightBlue
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
         nameTextField.leftViewMode = .always
         
         contactTextField.layer.borderWidth = 1
-        contactTextField.layer.cornerRadius = 18
+        contactTextField.layer.cornerRadius = 15
         contactTextField.layer.borderColor = .lightBlue
         contactTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
         contactTextField.leftViewMode = .always
         
         bioTextView.layer.borderWidth = 1
-        bioTextView.layer.cornerRadius = 18
+        bioTextView.layer.cornerRadius = 15
         bioTextView.layer.borderColor = .lightBlue
     }
     

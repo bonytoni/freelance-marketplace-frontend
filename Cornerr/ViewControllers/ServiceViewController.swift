@@ -111,9 +111,9 @@ class ServiceViewController: UIViewController {
         
         priceLabel.attributedText = NSAttributedString(string: "Price ($)", attributes: labelAttributes)
         
-        categoryLabel.attributedText = NSAttributedString(string: "Category", attributes: labelAttributes)
+        categoryLabel.attributedText = NSAttributedString(string: "Category:", attributes: labelAttributes)
         
-        locationLabel.attributedText = NSAttributedString(string: "Location", attributes: labelAttributes)
+        locationLabel.attributedText = NSAttributedString(string: "Location:", attributes: labelAttributes)
         
         availabilityLabel.attributedText = NSAttributedString(string: "Availability", attributes: labelAttributes)
         
