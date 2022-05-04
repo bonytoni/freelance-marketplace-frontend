@@ -17,6 +17,8 @@ class ServiceViewController: UIViewController {
     
     var dummyUser: SimpleUser = SimpleUser(id: 0, username: "tony", contact: "123")
     
+    var newListing: Listing!
+    
     var headerLabel = UILabel()
     var photoView = UIImageView()
     var titleLabel = UILabel()
@@ -403,16 +405,19 @@ class ServiceViewController: UIViewController {
         let service = Listing(id: 0, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, seller: dummyUser, buyers: [])
         if let s = originalService {
             self.delegate?.services[indexPath] = service
+            
+            // need to add route for editing listing
         }
         else {
             self.delegate?.services.append(service)
+            createListing(service: service)
         }
         dismiss(animated: true, completion: nil)
     }
     
     func createListing(service: Listing) {
         NetworkManager.createListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, seller_id: service.seller.id) { listing in
-            print(listing)
+            self.newListing = listing
         }
     }
     
