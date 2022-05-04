@@ -16,10 +16,11 @@ struct Listing: Codable {
     let availability: String
     let location: String
     let price: Int
+    let picture: String
     let seller: SimpleUser
     let buyers: [SimpleUser]
     
-    init(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: SimpleUser, buyers: [SimpleUser]) {
+    init(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, seller: SimpleUser, buyers: [SimpleUser]) {
         
         self.id = id
         self.title = title
@@ -28,6 +29,7 @@ struct Listing: Codable {
         self.availability = availability
         self.location = location
         self.price = price
+        self.picture = picture
         self.seller = seller
         self.buyers = buyers
         
@@ -44,9 +46,10 @@ struct SimpleListing: Codable {
     let availability: String
     let location: String
     let price: Int
+    let picture: String
     let seller: String
     
-    init(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, seller: String) {
+    init(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, seller: String) {
         
         self.id = id
         self.title = title
@@ -55,9 +58,14 @@ struct SimpleListing: Codable {
         self.availability = availability
         self.location = location
         self.price = price
+        self.picture = picture
         self.seller = seller
         
     }
     
+}
+
+struct ListingResponse: Codable {
+    var listings: [Listing]
 }
 

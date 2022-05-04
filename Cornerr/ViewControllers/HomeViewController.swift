@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
     private var filterView: UICollectionView!
     private var listingView: UICollectionView!
     
-    private var filters: [Filter] = []
+    private var filters: [Filter] = [Filter(name: "Beauty"), Filter(name: "Fashion"), Filter(name: "Media"), Filter(name: "Tech"), Filter(name: "Crafts"), Filter(name: "Food"), Filter(name: "Other")]
     private var filtersSelected: [Filter] = []
     
     private var allListings: [Listing] = []
@@ -27,29 +27,26 @@ class HomeViewController: UIViewController {
     private let cellPadding: CGFloat = 10
     private let sectionPadding: CGFloat = 5
     
-    init(listings: [Listing], filters: [String]) {
-        self.allListings = listings
-        self.filters.removeAll()
-        for filter in filters {
-            self.filters.append(Filter(name: filter))
-        }
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
+        getAllListings()
         
         filterData()
         
         setUpUIComponents()
         
         setUpConstraints()
+    }
+    
+    func getAllListings () {
+        NetworkManager.getAllListings() { listing in
+            self.allListings = listing
+            self.listingsSelected = listing
+            self.listingView.reloadData()
+        }
     }
     
     func setUpUIComponents() {

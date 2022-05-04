@@ -20,8 +20,8 @@ class NetworkManager {
             
             case .success(let data):
                 let jd = JSONDecoder()
-                if let userResponse = try? jd.decode([Listing].self, from: data) {
-                    completion(userResponse)
+                if let userResponse = try? jd.decode(ListingResponse.self, from: data) {
+                    completion(userResponse.listings)
                 }
               
             case .failure(let error):
@@ -49,7 +49,7 @@ class NetworkManager {
         }
     }
     
-    static func createListing(title: String, category: String, description: String, availability: String, location: String, price: Int, seller_id: Int, completion: @escaping (Listing) -> Void) {
+    static func createListing(title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, seller_id: Int, token: String, completion: @escaping (Listing) -> Void) {
         let endpt = "\(host)/listings/\(seller_id)/"
         
         let params = [
@@ -59,10 +59,11 @@ class NetworkManager {
             "availability": availability,
             "location": location,
             "price": price,
+            "picture": picture,
             "seller_id": seller_id
         ] as [String : Any]
         
-        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData { response in
+        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default, headers: authHeader(token: token)).validate().responseData { response in
             switch response.result {
                 
             case .success(let data):
@@ -78,7 +79,7 @@ class NetworkManager {
         }
     }
     
-    static func editListing(title: String, category: String, description: String, availability: String, location: String, price: Int, seller_id: Int, completion: @escaping (Listing) -> Void) {
+    static func editListing(title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, seller_id: Int, token: String, completion: @escaping (Listing) -> Void) {
         let endpt = "\(host)/listings/edit/\(seller_id)/"
         
         let params = [
@@ -88,10 +89,11 @@ class NetworkManager {
             "availability": availability,
             "location": location,
             "price": price,
+            "picture": picture,
             "seller_id": seller_id
         ] as [String : Any]
         
-        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData { response in
+        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default, headers: authHeader(token: token)).validate().responseData { response in
             switch response.result {
                 
             case .success(let data):
@@ -126,12 +128,13 @@ class NetworkManager {
         }
     }
     
-    static func createUser(username: String, password: String, contact: String, completion: @escaping (User) -> Void) {
+    static func createUser(username: String, password: String, name: String, contact: String, completion: @escaping (UserResponse) -> Void) {
         let endpt = "\(host)/users/"
         
         let params = [
             "username": username,
             "password": password,
+            "name": name,
             "contact": contact
         ]
         
@@ -140,7 +143,7 @@ class NetworkManager {
                 
             case .success(let data):
                 let jd = JSONDecoder()
-                if let userResponse = try? jd.decode((User).self, from: data) {
+                if let userResponse = try? jd.decode((UserResponse).self, from: data) {
                     completion(userResponse)
                 }
               
@@ -151,10 +154,10 @@ class NetworkManager {
         }
     }
     
-    static func getUserById(id: Int, completion: @escaping (User) -> Void) {
+    static func getUserById(id: Int, token: String, completion: @escaping (User) -> Void) {
         let endpt = "\(host)/users/\(id)/"
         
-        AF.request(endpt, method: .get).validate().responseData { response in
+        AF.request(endpt, method: .get, headers: authHeader(token: token)).validate().responseData { response in
             switch response.result {
                 
             case .success(let data):
@@ -170,7 +173,7 @@ class NetworkManager {
         }
     }
     
-    static func login(username: String, password: String, completion: @escaping (User) -> Void) {
+    static func login(username: String, password: String, completion: @escaping (String) -> Void) {
         let endpt = "\(host)/login/"
         
         let params = [
@@ -183,13 +186,13 @@ class NetworkManager {
                 
             case .success(let data):
                 let jd = JSONDecoder()
-                if let userResponse = try? jd.decode((User).self, from: data) {
-                    completion(userResponse)
+                if let userResponse = try? jd.decode((UserResponse).self, from: data) {
+                    completion(userResponse.session_token)
+                    print(userResponse)
                 }
               
             case .failure(let error):
-                print(error.localizedDescription)
-                
+                completion("Invalid")
             }
         }
     }
@@ -212,6 +215,13 @@ class NetworkManager {
             }
         }
         
+    }
+    
+    class func authHeader(token: String) -> HTTPHeaders {
+        let header: HTTPHeaders = [
+            "Authorization": token
+        ]
+        return header
     }
     
 }

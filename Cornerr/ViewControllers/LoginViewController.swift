@@ -9,6 +9,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    private var session_token: String = ""
+    
     var homeContainer = UIView()
     var logoView = UIView()
     var logoImage = UIImageView()
@@ -401,11 +403,31 @@ class LoginViewController: UIViewController {
     }
     
     @objc func checkLogin() {
-        // TODO
-        let alertVC = UIAlertController(title: "Invalid", message: "Invalid username/password", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertVC.addAction(cancelAction)
-        self.present(alertVC, animated: true, completion: nil)
+        networkLogin(username: usernameTextField2.text!, password: passwordTextField2.text!)
+//        let alertVC = UIAlertController(title: "Error", message: "Invalid username/password", preferredStyle: .alert)
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        alertVC.addAction(cancelAction)
+//        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    func networkLogin(username: String, password: String) {
+        NetworkManager.login(username: username, password: password) { response in
+            self.session_token = response
+            print(response)
+            if self.session_token == "Invalid" {
+                let alertVC = UIAlertController(title: "Error", message: "Invalid username/password", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alertVC.addAction(cancelAction)
+                self.present(alertVC, animated: true, completion: nil)
+            }
+            else {
+                self.showHomePage()
+            }
+        }
+    }
+    
+    func showHomePage() {
+        self.show(CustomTabBarController(), sender: self)
     }
     
 }
