@@ -136,7 +136,7 @@ class ServiceViewController: UIViewController {
         availabilityTextField.layer.borderWidth = 1
         availabilityTextField.layer.cornerRadius = 12
         availabilityTextField.layer.borderColor = .lightBlue
-        availabilityTextField.placeholder = "Mon, Tue, Wed, Thu, Fri, Sat, Sun"
+        availabilityTextField.placeholder = "Ex: Mon 2-4PM, Wed any time"
         availabilityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: availabilityTextField.frame.height))
         availabilityTextField.leftViewMode = .always
         

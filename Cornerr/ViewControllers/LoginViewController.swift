@@ -32,6 +32,13 @@ class LoginViewController: UIViewController {
     var finishedSignUpButton = UIButton()
     
     var loginContainer = UIView()
+    var logoImage3 = UIImageView()
+    var headerLabel2 = UILabel()
+    var usernameImage2 = UIImageView()
+    var passwordImage2 = UIImageView()
+    var usernameTextField2 = UITextField()
+    var passwordTextField2 = UITextField()
+    var finishedLoginButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +65,9 @@ class LoginViewController: UIViewController {
         logoView.clipsToBounds = false
         logoView.translatesAutoresizingMaskIntoConstraints = false
         
-        welcomeLabel.text = "Welcome to"
+        welcomeLabel.text = "welcome to"
         welcomeLabel.textColor = .blue
-        welcomeLabel.font = .systemFont(ofSize: 24, weight: .semibold)
+        welcomeLabel.font = .systemFont(ofSize: 28, weight: .medium)
         welcomeLabel.clipsToBounds = true
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         logoView.addSubview(welcomeLabel)
@@ -70,9 +77,10 @@ class LoginViewController: UIViewController {
         logoImage.translatesAutoresizingMaskIntoConstraints = false
         logoView.addSubview(logoImage)
         
-        sloganText.text = "connecting you to on-campus freelancers"
+        sloganText.text = "     connecting you to on-campus freelancers"
         sloganText.textColor = UIColor.init(hexString: "#9D9D9D")
-        sloganText.font = .systemFont(ofSize: 16, weight: .semibold)
+        sloganText.font = .systemFont(ofSize: 18, weight: .semibold)
+        sloganText.textAlignment = .right
         sloganText.isEditable = false
         sloganText.isScrollEnabled = false
         sloganText.isSelectable = false
@@ -80,15 +88,16 @@ class LoginViewController: UIViewController {
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         signUpButton.setAttributedTitle(NSAttributedString(string: "Sign Up", attributes: attributes), for: .normal)
         signUpButton.setTitleColor(.white, for: .normal)
-        signUpButton.layer.cornerRadius = 27
+        signUpButton.layer.cornerRadius = 25
         signUpButton.backgroundColor = .lightBlue
         signUpButton.addTarget(self, action: #selector(pressedSignUp), for: .touchUpInside)
         
         loginButton.setAttributedTitle(NSAttributedString(string: "Login", attributes: attributes), for: .normal)
         loginButton.setTitleColor(.black, for: .normal)
-        loginButton.layer.cornerRadius = 27
+        loginButton.layer.cornerRadius = 25
         loginButton.layer.borderColor = UIColor.black.cgColor
         loginButton.layer.borderWidth = 2
+        loginButton.addTarget(self, action: #selector(pressedLogin), for: .touchUpInside)
         
         [logoView, sloganText, signUpButton, loginButton].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
@@ -108,18 +117,18 @@ class LoginViewController: UIViewController {
             logoView.widthAnchor.constraint(equalToConstant: 286),
             logoView.heightAnchor.constraint(equalToConstant: 100),
             
-            welcomeLabel.topAnchor.constraint(equalTo: logoView.topAnchor),
+            welcomeLabel.topAnchor.constraint(equalTo: logoView.topAnchor, constant: -5),
             welcomeLabel.leftAnchor.constraint(equalTo: logoView.leftAnchor),
             
             logoImage.topAnchor.constraint(equalTo: logoView.topAnchor),
             logoView.leftAnchor.constraint(equalTo: logoView.leftAnchor),
             
             sloganText.topAnchor.constraint(equalTo: logoView.bottomAnchor),
-            sloganText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            sloganText.widthAnchor.constraint(equalToConstant: 286),
-            sloganText.heightAnchor.constraint(equalToConstant: 55),
+            sloganText.rightAnchor.constraint(equalTo: logoImage.rightAnchor),
+            sloganText.widthAnchor.constraint(equalToConstant: 210),
+            sloganText.heightAnchor.constraint(equalToConstant: 60),
             
-            signUpButton.topAnchor.constraint(equalTo: sloganText.bottomAnchor, constant: 25),
+            signUpButton.topAnchor.constraint(equalTo: sloganText.bottomAnchor, constant: 150),
             signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signUpButton.widthAnchor.constraint(equalToConstant: 281),
             signUpButton.heightAnchor.constraint(equalToConstant: 45),
@@ -160,25 +169,29 @@ class LoginViewController: UIViewController {
         nameTextField.attributedPlaceholder = NSAttributedString(string: "Full Name", attributes: placeholderAttributes)
         nameTextField.font = .systemFont(ofSize: 16, weight: .regular)
         nameTextField.addBottomBorder()
+        nameTextField.autocapitalizationType = .words
         
         usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: placeholderAttributes)
         usernameTextField.font = .systemFont(ofSize: 16, weight: .regular)
         usernameTextField.addBottomBorder()
+        usernameTextField.autocapitalizationType = .none
         
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
         passwordTextField.font = .systemFont(ofSize: 16, weight: .regular)
         passwordTextField.addBottomBorder()
+        passwordTextField.autocapitalizationType = .none
         
         contactTextField.attributedPlaceholder = NSAttributedString(string: "Contact Information", attributes: placeholderAttributes)
         contactTextField.font = .systemFont(ofSize: 16, weight: .regular)
         contactTextField.addBottomBorder()
+        contactTextField.autocapitalizationType = .none
         
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         finishedSignUpButton.setAttributedTitle(NSAttributedString(string: "Sign Up", attributes: attributes), for: .normal)
         finishedSignUpButton.setTitleColor(.white, for: .normal)
-        finishedSignUpButton.layer.cornerRadius = 27
+        finishedSignUpButton.layer.cornerRadius = 25
         finishedSignUpButton.backgroundColor = .lightBlue
-        finishedSignUpButton.addTarget(self, action: #selector(sucessfullySignedUp), for: .touchUpInside)
+        finishedSignUpButton.addTarget(self, action: #selector(successfullySignedUp), for: .touchUpInside)
         
         [bannerImage, logoImage2, headerLabel, nameImage, usernameImage, passwordImage, contactImage, nameTextField, usernameTextField, passwordTextField, contactTextField, finishedSignUpButton].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
@@ -216,15 +229,19 @@ class LoginViewController: UIViewController {
             
             nameTextField.topAnchor.constraint(equalTo: nameImage.topAnchor),
             nameTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80),
+            nameTextField.widthAnchor.constraint(equalToConstant: 260),
             
             usernameTextField.topAnchor.constraint(equalTo: usernameImage.topAnchor),
             usernameTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80),
+            usernameTextField.widthAnchor.constraint(equalToConstant: 260),
             
             passwordTextField.topAnchor.constraint(equalTo: passwordImage.topAnchor),
             passwordTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80),
+            passwordTextField.widthAnchor.constraint(equalToConstant: 260),
             
             contactTextField.topAnchor.constraint(equalTo: contactImage.topAnchor),
             contactTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80),
+            contactTextField.widthAnchor.constraint(equalToConstant: 260),
             
             finishedSignUpButton.topAnchor.constraint(equalTo: contactTextField.bottomAnchor, constant: 45),
             finishedSignUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -234,11 +251,80 @@ class LoginViewController: UIViewController {
     }
     
     func setUpLoginUIComponents() {
+        loginContainer.layer.masksToBounds = true
+        loginContainer.clipsToBounds = false
+        loginContainer.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loginContainer)
+        loginContainer.isHidden = true
+        loginContainer.isUserInteractionEnabled = false
         
+        logoImage3.image = UIImage(named: "logo fun")
+        logoImage3.clipsToBounds = true
+        
+        headerLabel2.text = "Login"
+        headerLabel2.font = .systemFont(ofSize: 32, weight: .semibold)
+        
+        usernameImage2.image = UIImage(named: "username")
+        
+        passwordImage2.image = UIImage(named: "password")
+        
+        let placeholderAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16, weight: .regular), .foregroundColor: UIColor.lightBlue]
+        usernameTextField2.attributedPlaceholder = NSAttributedString(string: "Username", attributes: placeholderAttributes)
+        usernameTextField2.font = .systemFont(ofSize: 16, weight: .regular)
+        usernameTextField2.addBottomBorder()
+        usernameTextField2.autocapitalizationType = .none
+        
+        passwordTextField2.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
+        passwordTextField2.font = .systemFont(ofSize: 16, weight: .regular)
+        passwordTextField2.addBottomBorder()
+        passwordTextField2.autocapitalizationType = .none
+        
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
+        finishedLoginButton.setAttributedTitle(NSAttributedString(string: "Login", attributes: attributes), for: .normal)
+        finishedLoginButton.setTitleColor(.black, for: .normal)
+        finishedLoginButton.layer.cornerRadius = 25
+        finishedLoginButton.layer.borderColor = UIColor.black.cgColor
+        finishedLoginButton.layer.borderWidth = 2
+        finishedLoginButton.addTarget(self, action: #selector(successfullyLoggedIn), for: .touchUpInside)
+        
+        [logoImage3, headerLabel2, usernameImage2, passwordImage2, usernameTextField2, passwordTextField2, finishedLoginButton].forEach { subView in
+            subView.translatesAutoresizingMaskIntoConstraints = false
+            loginContainer.addSubview(subView)
+        }
     }
     
     func setUpLoginConstraints() {
-        
+        NSLayoutConstraint.activate([
+            loginContainer.topAnchor.constraint(equalTo: view.topAnchor),
+            loginContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            loginContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
+            loginContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
+            logoImage3.bottomAnchor.constraint(equalTo: headerLabel2.topAnchor, constant: -20),
+            logoImage3.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+            
+            headerLabel2.topAnchor.constraint(equalTo: headerLabel.topAnchor),
+            headerLabel2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            usernameImage2.topAnchor.constraint(equalTo: nameImage.topAnchor),
+            usernameImage2.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 45),
+            
+            passwordImage2.topAnchor.constraint(equalTo: usernameImage2.bottomAnchor, constant: 35),
+            passwordImage2.leftAnchor.constraint(equalTo: usernameImage2.leftAnchor),
+            
+            usernameTextField2.topAnchor.constraint(equalTo: usernameImage2.topAnchor),
+            usernameTextField2.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80),
+            usernameTextField2.widthAnchor.constraint(equalToConstant: 260),
+            
+            passwordTextField2.topAnchor.constraint(equalTo: passwordImage2.topAnchor),
+            passwordTextField2.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80),
+            passwordTextField2.widthAnchor.constraint(equalToConstant: 260),
+            
+            finishedLoginButton.topAnchor.constraint(equalTo: finishedSignUpButton.topAnchor),
+            finishedLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            finishedLoginButton.widthAnchor.constraint(equalToConstant: 281),
+            finishedLoginButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
     }
     
     @objc func pressedSignUp() {
@@ -255,8 +341,12 @@ class LoginViewController: UIViewController {
         loginContainer.isUserInteractionEnabled = true
     }
     
-    @objc func sucessfullySignedUp() {
-        
+    @objc func successfullySignedUp() {
+        // TODO
+    }
+    
+    @objc func successfullyLoggedIn() {
+        // TODO
     }
     
 }
