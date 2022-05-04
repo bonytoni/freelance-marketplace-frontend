@@ -159,15 +159,19 @@ class LoginViewController: UIViewController {
         let placeholderAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16, weight: .regular), .foregroundColor: UIColor.lightBlue]
         nameTextField.attributedPlaceholder = NSAttributedString(string: "Full Name", attributes: placeholderAttributes)
         nameTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        nameTextField.addBottomBorder()
         
         usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: placeholderAttributes)
         usernameTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        usernameTextField.addBottomBorder()
         
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
         passwordTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        passwordTextField.addBottomBorder()
         
         contactTextField.attributedPlaceholder = NSAttributedString(string: "Contact Information", attributes: placeholderAttributes)
         contactTextField.font = .systemFont(ofSize: 16, weight: .regular)
+        contactTextField.addBottomBorder()
         
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         finishedSignUpButton.setAttributedTitle(NSAttributedString(string: "Sign Up", attributes: attributes), for: .normal)

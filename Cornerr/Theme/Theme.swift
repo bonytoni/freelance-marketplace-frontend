@@ -50,3 +50,24 @@ extension CGColor {
     static let darkBlue = CGColor.init(red: 0.27, green: 0.44, blue: 0.82, alpha: 1.0)
     static let blue = CGColor.init(red: 0.65, green: 0.85, blue: 1.0, alpha: 1.0)
 }
+
+
+extension UITextField {
+    func addBottomBorder(){
+//        let bottomLine = CALayer()
+//        bottomLine.frame = CGRect(x: 0, y: self.frame.size.height-1, width: self.frame.size.width, height: 1)
+//        bottomLine.backgroundColor = .lightBlue
+//        borderStyle = .none
+//        layer.addSublayer(bottomLine)
+        let borderView = UIView()
+        borderView.backgroundColor = .lightBlue
+        borderView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(borderView)
+        NSLayoutConstraint.activate([
+            borderView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            borderView.widthAnchor.constraint(equalToConstant: 265),
+            borderView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 5),
+            borderView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+    }
+}
