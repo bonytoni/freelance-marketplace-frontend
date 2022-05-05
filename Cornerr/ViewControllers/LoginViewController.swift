@@ -399,7 +399,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func successfullySignedUp() {
-        // TODO
+        networkSignup(username: usernameTextField.text!, password: passwordTextField.text!, name: nameTextField.text!, contact: contactTextField.text!)
     }
     
     @objc func checkLogin() {
@@ -409,7 +409,6 @@ class LoginViewController: UIViewController {
     func networkLogin(username: String, password: String) {
         NetworkManager.login(username: username, password: password) { response in
             self.session_token = response
-            print(response)
             if self.session_token == "Invalid" {
                 let alertVC = UIAlertController(title: "Error", message: "Invalid username/password", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -419,6 +418,12 @@ class LoginViewController: UIViewController {
             else {
                 self.navigationController?.pushViewController(CustomTabBarController(), animated: true)
             }
+        }
+    }
+    
+    func networkSignup(username: String, password: String, name: String, contact: String) {
+        NetworkManager.createUser(username: username, password: password, name: name, contact: contact) { response in
+            self.session_token = response
         }
     }
     
