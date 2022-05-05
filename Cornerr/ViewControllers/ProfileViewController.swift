@@ -142,9 +142,13 @@ class ProfileViewController: UIViewController, ListingContainer {
     func changeProfile(_ str: [String]) {
         nameLabel.text = str[0]
         bio.text = str[1]
-        let newImageData = Data(base64Encoded: str[2])
+        decodeBase64String(base64String: str[2], imageView: profilePic)
+    }
+    
+    func decodeBase64String(base64String: String, imageView: UIImageView) {
+        let newImageData = Data(base64Encoded: base64String)
         if let newImageData = newImageData {
-            profilePic.image = UIImage(data: newImageData)
+            imageView.image = UIImage(data: newImageData)
         }
     }
     

@@ -152,13 +152,17 @@ class EditProfileViewController: UIViewController {
         var arr: [String] = []
         arr.append(nameTextField.text!)
         arr.append(bioTextView.text!)
-        let imgData = picImageView.image?.jpegData(compressionQuality: 1)
-        let imgBase64String = imgData?.base64EncodedString()
-        arr.append(imgBase64String!)
+        arr.append(encodeBase64String(img: picImageView.image))
         delegate?.retrieveData(arr)
         navigationController?.popViewController(animated: true)
     }
 
+    func encodeBase64String(img: UIImage?) -> String {
+        let imgData = img?.jpegData(compressionQuality: 1)
+        let imgBase64String = imgData?.base64EncodedString()
+        return imgBase64String!
+    }
+    
 }
 
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

@@ -299,6 +299,7 @@ class LoginViewController: UIViewController {
         passwordTextField2.font = .systemFont(ofSize: 16, weight: .regular)
         passwordTextField2.addBottomBorder()
         passwordTextField2.autocapitalizationType = .none
+        passwordTextField2.isSecureTextEntry = true
         
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         finishedLoginButton.setAttributedTitle(NSAttributedString(string: "Login", attributes: attributes), for: .normal)
@@ -399,8 +400,16 @@ class LoginViewController: UIViewController {
     }
     
     @objc func successfullySignedUp() {
-        networkSignup(username: usernameTextField.text!, password: passwordTextField.text!, name: nameTextField.text!, contact: contactTextField.text!)
-        switchToLogin()
+        if (usernameTextField.hasText && passwordTextField.hasText && nameTextField.hasText && contactTextField.hasText) {
+            networkSignup(username: usernameTextField.text!, password: passwordTextField.text!, name: nameTextField.text!, contact: contactTextField.text!)
+            switchToLogin()
+        }
+        else {
+            let alertVC = UIAlertController(title: "Error", message: "Make sure to fill in all the fields", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
     }
     
     @objc func checkLogin() {
