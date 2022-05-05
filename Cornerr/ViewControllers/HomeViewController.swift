@@ -82,6 +82,7 @@ class HomeViewController: UIViewController {
         listingView.backgroundColor = .clear
         listingView.translatesAutoresizingMaskIntoConstraints = false
         listingView.showsVerticalScrollIndicator = false
+        listingView.alwaysBounceVertical = true
         
         listingView.register(ListingCell.self, forCellWithReuseIdentifier: listingCellReuseID)
         

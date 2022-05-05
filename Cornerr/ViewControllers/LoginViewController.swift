@@ -10,6 +10,7 @@ import UIKit
 class LoginViewController: UIViewController {
     
     private var session_token: String = ""
+    private var currentUser: User!
     
     var homeContainer = UIView()
     var logoView = UIView()
@@ -433,7 +434,7 @@ class LoginViewController: UIViewController {
     
     func networkSignup(username: String, password: String, name: String, contact: String) {
         NetworkManager.createUser(username: username, password: password, name: name, contact: contact) { response in
-            self.session_token = response
+            self.currentUser = response
         }
     }
     

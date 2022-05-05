@@ -128,8 +128,8 @@ class NetworkManager {
         }
     }
     
-    static func createUser(username: String, password: String, name: String, contact: String, completion: @escaping (String) -> Void) {
-        let endpt = "\(host)/users/"
+    static func createUser(username: String, password: String, name: String, contact: String, completion: @escaping (User) -> Void) {
+        let endpt = "\(host)/users/test/"
         
         let params = [
             "username": username,
@@ -143,8 +143,8 @@ class NetworkManager {
                 
             case .success(let data):
                 let jd = JSONDecoder()
-                if let userResponse = try? jd.decode((UserResponse).self, from: data) {
-                    completion(userResponse.session_token)
+                if let userResponse = try? jd.decode((User).self, from: data) {
+                    completion(userResponse)
                 }
               
             case .failure(let error):
