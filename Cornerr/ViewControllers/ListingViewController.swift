@@ -27,8 +27,9 @@ class ListingViewController: UIViewController {
     
     init(listing: Listing) {
         self.listing = listing
+        super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = listing.title
-        self.listingPic.image = UIImage(named: "kirby")
+        // init self.lisitingPic.image in setUpComponents()
         self.sellerLabel.text = "@" + String(listing.seller.username)
         self.priceLabel.text = "$\(listing.price)"
         self.contactLabel.text = "Contact: " + listing.seller.contact
@@ -36,7 +37,6 @@ class ListingViewController: UIViewController {
         self.locationLabel.text = listing.location
         self.descriptionView.text = "Description: " + listing.description
         self.availabilityView.text = "Availability: " + listing.availability
-        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -112,6 +112,13 @@ class ListingViewController: UIViewController {
         listingPic.contentMode = .scaleAspectFill
         listingPic.clipsToBounds = true
         listingPic.translatesAutoresizingMaskIntoConstraints = false
+        print (listing.picture)
+        if listing.picture != "" {
+            listingPic.image = UIImage(data: decodeBase64String(base64String: listing.picture))
+        }
+        else {
+            listingPic.image = UIImage(named: "kirby")
+        }
         view.addSubview(listingPic)
         
         infoView.layer.masksToBounds = true
@@ -133,14 +140,15 @@ class ListingViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 27),
-            titleLabel.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26)
+            titleLabel.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26),
+            titleLabel.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -26)
         ])
         NSLayoutConstraint.activate([
             priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             priceLabel.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26)
         ])
         NSLayoutConstraint.activate([
-            sellerLabel.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 40),
+            sellerLabel.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 60),
             sellerLabel.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -26)
         ])
         NSLayoutConstraint.activate([
@@ -183,8 +191,9 @@ class ListingViewController: UIViewController {
         ])
     }
     
-    @objc func dismissViewController() {
-        navigationController?.popViewController(animated: true)
+    func decodeBase64String(base64String: String) -> Data {
+        let newImageData = Data(base64Encoded: base64String)
+        return newImageData!
     }
     
     @objc func buttonSelected(_ sender: UITapGestureRecognizer) {

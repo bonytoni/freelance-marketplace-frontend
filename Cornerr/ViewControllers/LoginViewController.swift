@@ -401,7 +401,13 @@ class LoginViewController: UIViewController {
     }
     
     @objc func successfullySignedUp() {
-        if (usernameTextField.hasText && passwordTextField.hasText && nameTextField.hasText && contactTextField.hasText) {
+        if (usernameTextField.hasText && (usernameTextField.text!.count < 4 || usernameTextField.text!.count > 16)) {
+            let alertVC = UIAlertController(title: "Username not valid", message: "Your username has to be between 4-16 characters", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else if (usernameTextField.hasText && passwordTextField.hasText && nameTextField.hasText && contactTextField.hasText) {
             networkSignup(username: usernameTextField.text!, password: passwordTextField.text!, name: nameTextField.text!, contact: contactTextField.text!)
             switchToLogin()
         }

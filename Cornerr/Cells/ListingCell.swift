@@ -33,7 +33,6 @@ class ListingCell: UICollectionViewCell {
         contentView.clipsToBounds = true
         contentView.backgroundColor = .clear
         
-        imageView.image = UIImage(named: "kirby")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +83,8 @@ class ListingCell: UICollectionViewCell {
         ])
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: label.topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 16)
+            titleLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 16),
+            titleLabel.widthAnchor.constraint(equalToConstant: 100)
         ])
         NSLayoutConstraint.activate([
             userLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
@@ -107,7 +107,18 @@ class ListingCell: UICollectionViewCell {
         userLabel.text = "@" + String(listing.seller.username)
         priceLabel.text = "$\(listing.price)"
         categoryLabel.text = listing.category
+        if listing.picture != "" {
+            imageView.image = UIImage(data: decodeBase64String(base64String: listing.picture))
+        }
+        else {
+            imageView.image = UIImage(named: "kirby")
+        }
         setCategoryLabelColor(for: listing.category)
+    }
+    
+    func decodeBase64String(base64String: String) -> Data {
+        let newImageData = Data(base64Encoded: base64String)
+        return newImageData!
     }
     
     func setCategoryLabelColor(for name: String) {
