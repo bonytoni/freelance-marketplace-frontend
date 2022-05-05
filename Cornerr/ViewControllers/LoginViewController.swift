@@ -400,6 +400,7 @@ class LoginViewController: UIViewController {
     
     @objc func successfullySignedUp() {
         networkSignup(username: usernameTextField.text!, password: passwordTextField.text!, name: nameTextField.text!, contact: contactTextField.text!)
+        switchToLogin()
     }
     
     @objc func checkLogin() {
