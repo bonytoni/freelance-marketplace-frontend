@@ -409,7 +409,7 @@ class LoginViewController: UIViewController {
         }
         else if (usernameTextField.hasText && passwordTextField.hasText && nameTextField.hasText && contactTextField.hasText) {
             networkSignup(username: usernameTextField.text!, password: passwordTextField.text!, name: nameTextField.text!, contact: contactTextField.text!)
-            switchToLogin()
+            self.navigationController?.pushViewController(CustomTabBarController(), animated: true)
         }
         else {
             let alertVC = UIAlertController(title: "Error", message: "Make sure to fill in all the fields", preferredStyle: .alert)

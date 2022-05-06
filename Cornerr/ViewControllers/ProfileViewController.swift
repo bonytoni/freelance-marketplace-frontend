@@ -18,12 +18,15 @@ class ProfileViewController: UIViewController, ListingContainer {
     var bio = UITextView()
     var addService = UIImageView()
     
+    var servicesLabel = UILabel()
     var servicesTableView = UITableView()
     var noServicesImageView = UIImageView()
+    var noServicesTextView = UITextView()
     var services: [Listing] = [] {
         didSet {
             servicesTableView.reloadData()
             noServicesImageView.isHidden = services.count != 0
+            noServicesTextView.isHidden = services.count != 0
         }
     }
     
@@ -41,7 +44,7 @@ class ProfileViewController: UIViewController, ListingContainer {
         
         view.backgroundColor = .white
         
-        [headerLabel, profilePic, nameLabel, editProfile, bio, addService].forEach { subView in
+        [headerLabel, profilePic, nameLabel, editProfile, bio, servicesLabel, addService].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -60,7 +63,9 @@ class ProfileViewController: UIViewController, ListingContainer {
         view.addSubview(servicesTableView)
         
         servicesTableView.addSubview(noServicesImageView)
+        servicesTableView.addSubview(noServicesTextView)
         noServicesImageView.translatesAutoresizingMaskIntoConstraints = false
+        noServicesTextView.translatesAutoresizingMaskIntoConstraints = false
         
         setUpUIComponents()
         setUpConstraints()
@@ -68,7 +73,6 @@ class ProfileViewController: UIViewController, ListingContainer {
     
     func setUpUIComponents() {
         headerLabel.text = "@username"
-        headerLabel.textColor = .black
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
         profilePic.image = UIImage(named: "logo")
@@ -79,7 +83,6 @@ class ProfileViewController: UIViewController, ListingContainer {
         
         let nameLabelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: .bold)]
         nameLabel.attributedText = NSAttributedString(string: "Full Name", attributes: nameLabelAttributes)
-        nameLabel.textColor = .black
         
         let editProfileAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         // hardcoded button border width using spaces in Title
@@ -90,11 +93,14 @@ class ProfileViewController: UIViewController, ListingContainer {
         editProfile.layer.cornerRadius = 14
         editProfile.addTarget(self, action: #selector(editProfilePressed), for: .touchUpInside)
         
-        // default bio text
-        bio.text = "Bio. Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+        bio.text = "Bio"
         bio.textColor = .black
         bio.font = .systemFont(ofSize: 14, weight: .regular)
         bio.textAlignment = .center
+        bio.isUserInteractionEnabled = false
+        
+        servicesLabel.text = "My Services"
+        servicesLabel.font = .systemFont(ofSize: 20, weight: .bold)
         
         addService.image = UIImage(named: "plus sign")
         addService.isUserInteractionEnabled = true
@@ -103,6 +109,12 @@ class ProfileViewController: UIViewController, ListingContainer {
         addService.addGestureRecognizer(tap)
         
         noServicesImageView.image = UIImage(named: "no services")
+        
+        noServicesTextView.text = "Looks like you don’t have any services set up."
+        noServicesTextView.textColor = .lightBlue
+        noServicesTextView.textAlignment = .center
+        noServicesTextView.font = .systemFont(ofSize: 14, weight: .semibold)
+        noServicesTextView.isUserInteractionEnabled = false
     }
     
     func setUpConstraints() {
@@ -126,16 +138,24 @@ class ProfileViewController: UIViewController, ListingContainer {
             bio.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             bio.heightAnchor.constraint(equalToConstant: 50),
             
+            servicesLabel.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 5),
+            servicesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            
             addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             addService.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            servicesTableView.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 10),
+            servicesTableView.topAnchor.constraint(equalTo: servicesLabel.bottomAnchor, constant: 10),
             servicesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             servicesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -10),
             
             noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noServicesImageView.centerYAnchor.constraint(equalTo: servicesTableView.centerYAnchor)
+            noServicesImageView.centerYAnchor.constraint(equalTo: servicesTableView.centerYAnchor),
+            
+            noServicesTextView.topAnchor.constraint(equalTo: noServicesImageView.bottomAnchor, constant: 12),
+            noServicesTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noServicesTextView.widthAnchor.constraint(equalToConstant: 200),
+            noServicesTextView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -187,10 +207,6 @@ extension ProfileViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return services.count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Services"
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
