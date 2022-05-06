@@ -84,7 +84,7 @@ class ProfileViewController: UIViewController, ListingContainer {
                 profilePic.image = UIImage(data: decodeBase64String(base64String: pfp))
             }
             else {
-                profilePic.image = UIImage(named: "kirby")
+                profilePic.image = UIImage(named: "default")
             }
         }
         else {

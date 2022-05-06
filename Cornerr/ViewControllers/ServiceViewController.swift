@@ -13,10 +13,11 @@ protocol ListingContainer: AnyObject {
 
 class ServiceViewController: UIViewController {
     
+    private var currentUser: User
+    private var simpleCurrentUser: SimpleUser
+    
     weak var delegate: ListingContainer?
-    
-    var dummyUser: SimpleUser = SimpleUser(id: 0, username: "tony", contact: "123")
-    
+        
     var newListing: Listing!
     
     var headerLabel = UILabel()
@@ -65,6 +66,16 @@ class ServiceViewController: UIViewController {
             selectedLocation.text = originalService?.location
             availabilityTextField.text = originalService?.availability
         }
+    }
+    
+    init(user: User) {
+        self.currentUser = user
+        self.simpleCurrentUser = SimpleUser(id: user.id, username: user.username, contact: user.contact)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -402,7 +413,7 @@ class ServiceViewController: UIViewController {
     }
     
     @objc func publishSaveService() {
-        let service = Listing(id: 0, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller: dummyUser, buyers: [])
+        let service = Listing(id: 0, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller: simpleCurrentUser, buyers: [])
         if let s = originalService {
             self.delegate?.services[indexPath] = service
             editListing(service: service)
