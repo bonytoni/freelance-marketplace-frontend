@@ -92,7 +92,7 @@ class ServiceCell: UITableViewCell {
         ])
     }
     
-    func configure(for service: Listing) {
+    func configure(for service: SimpleListing) {
         titleLabel.text = service.title
         descriptionTextView.text = service.description
         priceLabel.text = "$\(service.price)"

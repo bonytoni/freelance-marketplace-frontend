@@ -89,8 +89,7 @@ class NetworkManager {
             "availability": availability,
             "location": location,
             "price": price,
-            "picture": picture,
-            "seller_id": seller_id
+            "picture": picture
         ] as [String : Any]
         
         AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default, headers: authHeader(token: token)).validate().responseData { response in

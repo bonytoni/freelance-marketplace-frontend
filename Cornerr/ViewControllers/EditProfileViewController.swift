@@ -10,6 +10,7 @@ import UIKit
 class EditProfileViewController: UIViewController {
     
     private var currentUser: User
+    private var currentToken: String
     
     var parentController: ProfileViewController?
     var delegate: EditProfileViewControllerDelegate?
@@ -23,8 +24,14 @@ class EditProfileViewController: UIViewController {
     var bioLabel = UILabel()
     var bioTextView = UITextView()
     
-    init(user: User) {
+    init(user: User, token: String) {
         self.currentUser = user
+        self.currentToken = token
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -159,6 +166,7 @@ class EditProfileViewController: UIViewController {
         arr.append(nameTextField.text!)
         arr.append(bioTextView.text!)
         arr.append(encodeBase64String(img: picImageView.image))
+        networkEdit(name: nameTextField.text!, contact: contactTextField.text!, bio: bioTextView.text, pfp: encodeBase64String(img: picImageView.image))
         delegate?.retrieveData(arr)
         navigationController?.popViewController(animated: true)
     }

@@ -9,7 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController, ListingContainer {
     
-    var currentUser: User
+    private var currentUser: User
+    private var currentToken: String
 
     var headerLabel = UILabel()
     var profilePic = UIImageView()
@@ -22,7 +23,7 @@ class ProfileViewController: UIViewController, ListingContainer {
     var servicesTableView = UITableView()
     var noServicesImageView = UIImageView()
     var noServicesTextView = UITextView()
-    var services: [Listing] = [] {
+    var services: [SimpleListing] = [] {
         didSet {
             servicesTableView.reloadData()
             noServicesImageView.isHidden = services.count != 0
@@ -30,8 +31,12 @@ class ProfileViewController: UIViewController, ListingContainer {
         }
     }
     
-    init(user: User) {
+    init(user: User, token: String) {
         self.currentUser = user
+        self.currentToken = token
+        for ls in user.seller_listings {
+            self.services.append(ls)
+        }
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -180,14 +185,14 @@ class ProfileViewController: UIViewController, ListingContainer {
     }
     
     @objc func editProfilePressed() {
-        let vc = EditProfileViewController(user: currentUser)
+        let vc = EditProfileViewController(user: currentUser, token: currentToken)
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func imageSelected(_ sender: UITapGestureRecognizer) {
-        let vc = ServiceViewController()
+        let vc = ServiceViewController(user: self.currentUser, token: self.currentToken)
         vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
@@ -201,7 +206,7 @@ extension ProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editServiceViewController = ServiceViewController()
+        let editServiceViewController = ServiceViewController(user: self.currentUser, token: self.currentToken)
         editServiceViewController.delegate = self
         editServiceViewController.originalService = services[indexPath.item]
         editServiceViewController.updateIndexPath(index: indexPath.row)

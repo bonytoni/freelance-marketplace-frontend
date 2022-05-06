@@ -8,17 +8,19 @@
 import UIKit
 
 protocol ListingContainer: AnyObject {
-    var services: [Listing] { get set }
+    var services: [SimpleListing] { get set }
 }
 
 class ServiceViewController: UIViewController {
     
     private var currentUser: User
     private var simpleCurrentUser: SimpleUser
+    private var currentToken: String
     
     weak var delegate: ListingContainer?
         
-    var newListing: Listing!
+    var newListing: SimpleListing!
+    var fullListing: Listing!
     
     var headerLabel = UILabel()
     var photoView = UIImageView()
@@ -55,7 +57,7 @@ class ServiceViewController: UIViewController {
     var closeImageView = UIImageView()
     
     var indexPath: Int = -1
-    var originalService: Listing? {
+    var originalService: SimpleListing? {
         didSet {
             titleTextField.text = originalService?.title
             descriptionTextView.text = originalService?.description
@@ -68,8 +70,9 @@ class ServiceViewController: UIViewController {
         }
     }
     
-    init(user: User) {
+    init(user: User, token: String) {
         self.currentUser = user
+        self.currentToken = token
         self.simpleCurrentUser = SimpleUser(id: user.id, username: user.username, contact: user.contact)
         super.init(nibName: nil, bundle: nil)
     }
@@ -413,26 +416,38 @@ class ServiceViewController: UIViewController {
     }
     
     @objc func publishSaveService() {
-        let service = Listing(id: 0, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller: simpleCurrentUser, buyers: [])
+        let service = SimpleListing(id: 1, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller: simpleCurrentUser.username)
         if let s = originalService {
             self.delegate?.services[indexPath] = service
-            editListing(service: service)
+            getListingByID(id: service.id, action: "edit")
         }
         else {
             self.delegate?.services.append(service)
-            createListing(service: service)
+            getListingByID(id: service.id, action: "create")
         }
         dismiss(animated: true, completion: nil)
     }
     
     func createListing(service: Listing) {
-        NetworkManager.createListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: encodeBase64String(img: photoView.image), seller_id: 1, token: "7431b8e83429b197a5e2aea0aca5762f59fbd9b8") { listing in
+        NetworkManager.createListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: encodeBase64String(img: photoView.image), seller_id: currentUser.id, token: currentToken) { listing in
         }
     }
     
     func editListing(service: Listing) {
-        NetworkManager.editListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: "", seller_id: 1, token: "7431b8e83429b197a5e2aea0aca5762f59fbd9b8") { listing in
+        NetworkManager.editListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: encodeBase64String(img: photoView.image), seller_id: currentUser.id, token: currentToken) { listing in
         }
+    }
+    
+    func getListingByID(id: Int, action: String) {
+        NetworkManager.getListingById(id: id, completion: { response in
+            self.fullListing = response
+            if action == "edit" {
+                self.editListing(service: response)
+            }
+            if action == "create" {
+                self.createListing(service: response)
+            }
+        })
     }
     
     @objc func chooseImageAction(_ sender: Any) {

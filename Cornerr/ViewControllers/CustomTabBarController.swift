@@ -11,11 +11,13 @@ class CustomTabBarController: UITabBarController {
     
     private var allListings: [Listing] = []
     private var currentUser: User!
+    private var currentToken: String!
     
-    init(user: User) {
+    init(user: User, token: String) {
         super.init(nibName: nil, bundle: nil)
         
         self.currentUser = user
+        self.currentToken = token
         
         self.tabBar.backgroundColor = .lightBlue
         self.tabBar.tintColor = .darkBlue
@@ -27,7 +29,7 @@ class CustomTabBarController: UITabBarController {
         let homeNavController = UINavigationController(rootViewController: homeViewController)
         homeNavController.navigationBar.prefersLargeTitles = false
 
-        let profileViewController = ProfileViewController(user: currentUser)
+        let profileViewController = ProfileViewController(user: currentUser, token: currentToken)
         profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), selectedImage: UIImage(systemName: "person.fill"))
         
         let profileNavController = UINavigationController(rootViewController: profileViewController)
