@@ -180,7 +180,7 @@ class ProfileViewController: UIViewController, ListingContainer {
     }
     
     @objc func editProfilePressed() {
-        let vc = EditProfileViewController()
+        let vc = EditProfileViewController(user: currentUser)
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)

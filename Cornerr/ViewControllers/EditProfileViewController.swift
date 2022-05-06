@@ -9,6 +9,8 @@ import UIKit
 
 class EditProfileViewController: UIViewController {
     
+    private var currentUser: User
+    
     var parentController: ProfileViewController?
     var delegate: EditProfileViewControllerDelegate?
     
@@ -20,6 +22,10 @@ class EditProfileViewController: UIViewController {
     var contactTextField = UITextField()
     var bioLabel = UILabel()
     var bioTextView = UITextView()
+    
+    init(user: User) {
+        self.currentUser = user
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,6 +172,12 @@ class EditProfileViewController: UIViewController {
     func decodeBase64String(base64String: String) -> Data {
         let newImageData = Data(base64Encoded: base64String)
         return newImageData!
+    }
+    
+    func networkEdit(name: String, contact: String, bio: String, pfp: String) {
+        NetworkManager.editUser(name: name, contact: contact, bio: bio, pfp: pfp) { response in
+            self.currentUser = response
+        }
     }
     
 }

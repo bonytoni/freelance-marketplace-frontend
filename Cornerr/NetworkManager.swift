@@ -156,6 +156,32 @@ class NetworkManager {
         }
     }
     
+    static func editUser(name: String, contact: String, bio: String, pfp: String, completion: @escaping (User) -> Void) {
+        let endpt = "\(host)/users/"
+        
+        let params = [
+            "name": name,
+            "contact": contact,
+            "bio": bio,
+            "pfp": pfp
+        ]
+        
+        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData { response in
+            switch response.result {
+                
+            case .success(let data):
+                let jd = JSONDecoder()
+                if let userResponse = try? jd.decode((User).self, from: data) {
+                    completion(userResponse)
+                }
+              
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            }
+        }
+    }
+    
     static func getUserById(id: Int, token: String, completion: @escaping (User) -> Void) {
         let endpt = "\(host)/users/\(id)/"
         
