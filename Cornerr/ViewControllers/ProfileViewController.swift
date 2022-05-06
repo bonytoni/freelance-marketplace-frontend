@@ -9,7 +9,7 @@ import UIKit
 
 class ProfileViewController: UIViewController, ListingContainer {
     
-//    var currentUser: User
+    var currentUser: User
 
     var headerLabel = UILabel()
     var profilePic = UIImageView()
@@ -30,14 +30,14 @@ class ProfileViewController: UIViewController, ListingContainer {
         }
     }
     
-//    init(user: User) {
-//        self.currentUser = user
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    init(user: User) {
+        self.currentUser = user
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

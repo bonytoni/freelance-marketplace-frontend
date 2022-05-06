@@ -10,7 +10,7 @@ import Alamofire
 
 class NetworkManager {
     
-    static let host = "http://34.152.43.79/"
+    static let host = "http://0.0.0.0:5000/"
     
     static func getAllListings(completion: @escaping ([Listing]) -> Void) {
         let endpt = "\(host)/listings/"
@@ -128,14 +128,16 @@ class NetworkManager {
         }
     }
     
-    static func createUser(username: String, password: String, name: String, contact: String, completion: @escaping (User) -> Void) {
-        let endpt = "\(host)/users/test/"
+    static func signup(username: String, password: String, name: String, contact: String, completion: @escaping (UserResponse) -> Void) {
+        let endpt = "\(host)/users/"
         
         let params = [
             "username": username,
             "password": password,
             "name": name,
-            "contact": contact
+            "bio": "",
+            "contact": contact,
+            "pfp": ""
         ]
         
         AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData { response in
@@ -143,7 +145,7 @@ class NetworkManager {
                 
             case .success(let data):
                 let jd = JSONDecoder()
-                if let userResponse = try? jd.decode((User).self, from: data) {
+                if let userResponse = try? jd.decode((UserResponse).self, from: data) {
                     completion(userResponse)
                 }
               
@@ -164,6 +166,30 @@ class NetworkManager {
                 let jd = JSONDecoder()
                 if let userResponse = try? jd.decode((User).self, from: data) {
                     completion(userResponse)
+                }
+              
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            }
+        }
+    }
+    
+    static func getUserBySession(token: String, completion: @escaping (User) -> Void) {
+        let endpt = "\(host)/users/session/"
+        
+        AF.request(endpt, method: .get, headers: authHeader(token: token)).validate().responseData { response in
+            debugPrint(response)
+            switch response.result {
+                
+                
+            case .success(let data):
+                let jd = JSONDecoder()
+                do {
+                    let userResponse = try jd.decode((User).self, from: data)
+                    completion(userResponse)
+                } catch {
+                    print(error.localizedDescription)
                 }
               
             case .failure(let error):

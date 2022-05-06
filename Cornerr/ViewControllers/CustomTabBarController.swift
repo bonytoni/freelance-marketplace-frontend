@@ -10,9 +10,12 @@ import UIKit
 class CustomTabBarController: UITabBarController {
     
     private var allListings: [Listing] = []
+    private var currentUser: User!
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(user: User) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.currentUser = user
         
         self.tabBar.backgroundColor = .lightBlue
         self.tabBar.tintColor = .darkBlue

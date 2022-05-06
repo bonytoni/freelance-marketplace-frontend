@@ -409,7 +409,6 @@ class LoginViewController: UIViewController {
         }
         else if (usernameTextField.hasText && passwordTextField.hasText && nameTextField.hasText && contactTextField.hasText) {
             networkSignup(username: usernameTextField.text!, password: passwordTextField.text!, name: nameTextField.text!, contact: contactTextField.text!)
-            self.navigationController?.pushViewController(CustomTabBarController(), animated: true)
         }
         else {
             let alertVC = UIAlertController(title: "Error", message: "Make sure to fill in all the fields", preferredStyle: .alert)
@@ -424,7 +423,7 @@ class LoginViewController: UIViewController {
     }
     
     func networkLogin(username: String, password: String) {
-        NetworkManager.login(username: username, password: password) { response in
+        NetworkManager.login(username: username, password: password, completion: { response in
             self.session_token = response
             if self.session_token == "Invalid" {
                 let alertVC = UIAlertController(title: "Error", message: "Invalid username/password", preferredStyle: .alert)
@@ -433,15 +432,28 @@ class LoginViewController: UIViewController {
                 self.present(alertVC, animated: true, completion: nil)
             }
             else {
-                self.navigationController?.pushViewController(CustomTabBarController(), animated: true)
+//                print("I ran here")
+                self.getCurrentUser(token: response)
             }
-        }
+        })
     }
     
     func networkSignup(username: String, password: String, name: String, contact: String) {
-        NetworkManager.createUser(username: username, password: password, name: name, contact: contact) { response in
+        NetworkManager.signup(username: username, password: password, name: name, contact: contact, completion: { response in
+            self.session_token = response.session_token
+            self.networkLogin(username: username, password: password)
+        })
+        
+    }
+    
+    func getCurrentUser(token: String) {
+        
+        NetworkManager.getUserBySession(token: token) { response in
             self.currentUser = response
+            print("I ran here")
+            self.navigationController?.pushViewController(CustomTabBarController(user: response), animated: true)
         }
+        
     }
     
 }
