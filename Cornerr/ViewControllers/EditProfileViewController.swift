@@ -27,6 +27,9 @@ class EditProfileViewController: UIViewController {
     init(user: User, token: String) {
         self.currentUser = user
         self.currentToken = token
+        self.nameTextField.text = user.name
+        self.contactTextField.text = user.contact
+        self.bioTextView.text = user.bio
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -166,7 +169,7 @@ class EditProfileViewController: UIViewController {
         arr.append(nameTextField.text!)
         arr.append(bioTextView.text!)
         arr.append(encodeBase64String(img: picImageView.image))
-        networkEdit(name: nameTextField.text!, contact: contactTextField.text!, bio: bioTextView.text, pfp: encodeBase64String(img: picImageView.image))
+        networkEdit(id: currentUser.id, name: nameTextField.text!, contact: contactTextField.text!, bio: bioTextView.text, pfp: encodeBase64String(img: picImageView.image), token: currentToken)
         delegate?.retrieveData(arr)
         navigationController?.popViewController(animated: true)
     }
@@ -182,8 +185,8 @@ class EditProfileViewController: UIViewController {
         return newImageData!
     }
     
-    func networkEdit(name: String, contact: String, bio: String, pfp: String) {
-        NetworkManager.editUser(name: name, contact: contact, bio: bio, pfp: pfp) { response in
+    func networkEdit(id: Int, name: String, contact: String, bio: String, pfp: String, token: String) {
+        NetworkManager.editUser(id: id, name: name, contact: contact, bio: bio, pfp: pfp, token: token) { response in
             self.currentUser = response
         }
     }

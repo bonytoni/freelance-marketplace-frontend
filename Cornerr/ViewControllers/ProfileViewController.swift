@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, ListingContainer {
+class ProfileViewController: UIViewController {
+    
+    let refreshControl = UIRefreshControl()
     
     private var currentUser: User
     private var currentToken: String
@@ -25,7 +27,7 @@ class ProfileViewController: UIViewController, ListingContainer {
     var servicesTableView = UITableView()
     var noServicesImageView = UIImageView()
     var noServicesTextView = UITextView()
-    var services: [SimpleListing] = [] {
+    var services: [SimpleListing] {
         didSet {
             servicesTableView.reloadData()
             noServicesImageView.isHidden = services.count != 0
@@ -36,9 +38,7 @@ class ProfileViewController: UIViewController, ListingContainer {
     init(user: User, token: String) {
         self.currentUser = user
         self.currentToken = token
-        for ls in user.seller_listings {
-            self.services.append(ls)
-        }
+        self.services = user.seller_listings
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,15 +64,22 @@ class ProfileViewController: UIViewController, ListingContainer {
         
         servicesTableView.register(ServiceCell.self, forCellReuseIdentifier: ServiceCell.id)
         
+        servicesTableView.alwaysBounceVertical = true
+        
         servicesTableView.delegate = self
         servicesTableView.dataSource = self
         
         view.addSubview(servicesTableView)
         
+        checkServices(user: currentUser)
         servicesTableView.addSubview(noServicesImageView)
         servicesTableView.addSubview(noServicesTextView)
         noServicesImageView.translatesAutoresizingMaskIntoConstraints = false
         noServicesTextView.translatesAutoresizingMaskIntoConstraints = false
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        servicesTableView.addSubview(refreshControl)
         
         setUpUIComponents()
         setUpConstraints()
@@ -176,14 +183,29 @@ class ProfileViewController: UIViewController, ListingContainer {
         ])
     }
     
-//    func changeProfile(_ str: [String]) {
-//        nameLabel.text = str[0]
-//        bio.text = str[1]
-//    }
+    func checkServices(user: User) {
+        if !user.seller_listings.isEmpty {
+            noServicesTextView.isHidden = true
+            noServicesImageView.isHidden = true
+        }
+    }
+    
+    func changeProfile(_ str: [String]) {
+        nameLabel.text = str[0]
+        bio.text = str[1]
+        profilePic.image = UIImage(data: decodeBase64String(base64String: str[2]))
+    }
     
     func decodeBase64String(base64String: String) -> Data {
         let newImageData = Data(base64Encoded: base64String)
         return newImageData!
+    }
+    
+    func getSellerListings(id: Int) {
+        NetworkManager.getUserById(id: currentUser.id, token: currentToken, completion: { response in
+            self.currentUser = response
+            self.services = response.seller_listings
+        })
     }
     
     @objc func editProfilePressed() {
@@ -198,6 +220,16 @@ class ProfileViewController: UIViewController, ListingContainer {
         let vc = AddServiceViewController(user: self.currentUser, token: self.currentToken)
         present(vc, animated: true, completion: nil)
     }
+    
+    @objc private func refresh(_ sender: AnyObject) {
+//        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+//            self.listingView.reloadData()
+//            self.refreshControl.endRefreshing()
+//        }
+        getSellerListings(id: currentUser.id)
+        self.servicesTableView.reloadData()
+        refreshControl.endRefreshing()
+    }
 
 }
 
@@ -208,9 +240,9 @@ extension ProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editServiceViewController = EditServiceViewController(user: self.currentUser, token: self.currentToken)
-        editServiceViewController.delegate = self
-        editServiceViewController.originalService = services[indexPath.item]
+        let editServiceViewController = EditServiceViewController(user: self.currentUser, token: self.currentToken, originalService: services[indexPath.item])
+//        editServiceViewController.delegate = self
+//        editServiceViewController.originalService = services[indexPath.item]
         editServiceViewController.updateIndexPath(index: indexPath.row)
         present(editServiceViewController, animated: true, completion: nil)
     }
@@ -232,9 +264,9 @@ extension ProfileViewController: UITableViewDataSource {
 }
 
 extension ProfileViewController: EditProfileViewControllerDelegate {
-    
+
     func retrieveData(_ str: [String]) {
-//        changeProfile(str)
+        changeProfile(str)
     }
-    
+
 }

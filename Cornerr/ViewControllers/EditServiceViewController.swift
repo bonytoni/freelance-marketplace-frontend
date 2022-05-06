@@ -7,9 +7,9 @@
 
 import UIKit
 
-protocol ListingContainer: AnyObject {
-    var services: [SimpleListing] { get set }
-}
+//protocol ListingContainer: AnyObject {
+//    var services: [SimpleListing] { get set }
+//}
 
 class EditServiceViewController: UIViewController {
     
@@ -17,7 +17,7 @@ class EditServiceViewController: UIViewController {
     private var simpleCurrentUser: SimpleUser
     private var currentToken: String
     
-    weak var delegate: ListingContainer?
+//    weak var delegate: ListingContainer?
         
     var newListing: SimpleListing!
     var fullListing: Listing!
@@ -57,23 +57,29 @@ class EditServiceViewController: UIViewController {
     var closeImageView = UIImageView()
     
     var indexPath: Int = -1
-    var originalService: SimpleListing? {
-        didSet {
-            titleTextField.text = originalService?.title
-            descriptionTextView.text = originalService?.description
-            if let price = originalService?.price {
-                priceTextField.text = "\(price)"
-            }
-            selectedCategory.text = originalService?.category
-            selectedLocation.text = originalService?.location
-            availabilityTextField.text = originalService?.availability
-        }
-    }
+    var originalService: SimpleListing
+//    {
+//        didSet {
+//            titleTextField.text = originalService.title
+//            descriptionTextView.text = originalService.description
+//            priceTextField.text = "\(originalService.price)"
+//            selectedCategory.text = originalService.category
+//            selectedLocation.text = originalService.location
+//            availabilityTextField.text = originalService.availability
+//        }
+//    }
     
-    init(user: User, token: String) {
+    init(user: User, token: String, originalService: SimpleListing) {
         self.currentUser = user
         self.currentToken = token
         self.simpleCurrentUser = SimpleUser(id: user.id, username: user.username, contact: user.contact)
+        self.originalService = originalService
+        self.titleTextField.text = originalService.title
+        self.descriptionTextView.text = originalService.description
+        self.priceTextField.text = "\(originalService.price)"
+        self.selectedCategory.text = originalService.category
+        self.selectedLocation.text = originalService.location
+        self.availabilityTextField.text = originalService.availability
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,14 +93,14 @@ class EditServiceViewController: UIViewController {
         view.backgroundColor = .white
         
         let publishSaveButtonAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .semibold)]
-        if let service = originalService {
-            headerLabel.text = "Edit Service"
-            publishSaveButton.setAttributedTitle(NSAttributedString(string: "Save", attributes: publishSaveButtonAttributes), for: .normal)
-        }
-        else {
-            headerLabel.text = "New Service"
-            publishSaveButton.setAttributedTitle(NSAttributedString(string: "Publish", attributes: publishSaveButtonAttributes), for: .normal)
-        }
+//        if let service = originalService {
+        headerLabel.text = "Edit Service"
+        publishSaveButton.setAttributedTitle(NSAttributedString(string: "Save", attributes: publishSaveButtonAttributes), for: .normal)
+//        }
+//        else {
+//            headerLabel.text = "New Service"
+//            publishSaveButton.setAttributedTitle(NSAttributedString(string: "Publish", attributes: publishSaveButtonAttributes), for: .normal)
+//        }
         
         [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, availabilityTextField, selectedCategory, beautyButton, fashionButton, mediaButton, techButton, craftsButton, foodButton, otherCategoryButton, selectedLocation, northButton, westButton, centralButton, collegetownButton, otherLocationButton, publishSaveButton, closeImageView].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
@@ -416,39 +422,30 @@ class EditServiceViewController: UIViewController {
     }
     
     @objc func publishSaveService() {
-        let service = SimpleListing(id: 1, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller: simpleCurrentUser.username)
-        if let s = originalService {
-            self.delegate?.services[indexPath] = service
-            getListingByID(id: service.id, action: "edit")
-        }
-        else {
-            self.delegate?.services.append(service)
-            getListingByID(id: service.id, action: "create")
-        }
+        editListing(id: originalService.id, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), token: currentToken)
+//        self.delegate?.services.append(newListing)
+//            getListingByID(id: service.id)
         dismiss(animated: true, completion: nil)
     }
     
-    func createListing(service: Listing) {
-        NetworkManager.createListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: encodeBase64String(img: photoView.image), seller_id: currentUser.id, token: currentToken) { listing in
-        }
-    }
-    
-    func editListing(service: Listing) {
-        NetworkManager.editListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: encodeBase64String(img: photoView.image), seller_id: currentUser.id, token: currentToken) { listing in
-        }
-    }
-    
-    func getListingByID(id: Int, action: String) {
-        NetworkManager.getListingById(id: id, completion: { response in
-            self.fullListing = response
-            if action == "edit" {
-                self.editListing(service: response)
-            }
-            if action == "create" {
-                self.createListing(service: response)
-            }
+    func editListing(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, token: String) {
+        NetworkManager.editListing(id: id, title: title, category: category, description: description, availability: availability, location: location, price: price, picture: picture, token: token, completion: { listing in
+//            self.fullListing = listing
+//            self.newListing = SimpleListing(id: listing.id, title: listing.title, category: listing.category, description: listing.description, availability: listing.availability, location: listing.location, price: listing.price, picture: listing.picture, seller: String(listing.seller.id))
         })
     }
+    
+//    func getListingByID(id: Int) {
+//        NetworkManager.getListingById(id: id, completion: { response in
+//            self.fullListing = response
+//            if action == "edit" {
+//                self.editListing(service: response)
+//            }
+//            if action == "create" {
+//                self.createListing(service: response)
+//            }
+//        })
+//    }
     
     @objc func chooseImageAction(_ sender: Any) {
         showImagePickerOptions()

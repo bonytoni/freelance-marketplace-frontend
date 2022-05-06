@@ -79,8 +79,8 @@ class NetworkManager {
         }
     }
     
-    static func editListing(title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, seller_id: Int, token: String, completion: @escaping (Listing) -> Void) {
-        let endpt = "\(host)/listings/edit/\(seller_id)/"
+    static func editListing(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, token: String, completion: @escaping (Listing) -> Void) {
+        let endpt = "\(host)/listings/edit/\(id)/"
         
         let params = [
             "title": title,
@@ -155,8 +155,8 @@ class NetworkManager {
         }
     }
     
-    static func editUser(name: String, contact: String, bio: String, pfp: String, completion: @escaping (User) -> Void) {
-        let endpt = "\(host)/users/"
+    static func editUser(id: Int, name: String, contact: String, bio: String, pfp: String, token: String, completion: @escaping (User) -> Void) {
+        let endpt = "\(host)/users/\(id)/"
         
         let params = [
             "name": name,
@@ -165,7 +165,7 @@ class NetworkManager {
             "pfp": pfp
         ]
         
-        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData { response in
+        AF.request(endpt, method: .post, parameters: params, encoding: JSONEncoding.default, headers: authHeader(token: token)).validate().responseData { response in
             switch response.result {
                 
             case .success(let data):
@@ -204,7 +204,7 @@ class NetworkManager {
         let endpt = "\(host)/users/session/"
         
         AF.request(endpt, method: .get, headers: authHeader(token: token)).validate().responseData { response in
-            debugPrint(response)
+//            debugPrint(response)
             switch response.result {
                 
                 
@@ -239,7 +239,7 @@ class NetworkManager {
                 let jd = JSONDecoder()
                 if let userResponse = try? jd.decode((UserResponse).self, from: data) {
                     completion(userResponse.session_token)
-                    print(userResponse)
+//                    print(userResponse)
                 }
               
             case .failure(let error):
