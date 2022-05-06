@@ -13,7 +13,8 @@
 		BC97D0312820FFE500F54304 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97D0302820FFE500F54304 /* NetworkManager.swift */; };
 		E370EE89F477383B4F4C6994 /* Pods_Cornerr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B958DD9000DE4EA330F232 /* Pods_Cornerr.framework */; };
 		EA096635281E564700124B70 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA096634281E564700124B70 /* Theme.swift */; };
-		EA2D0AA6281F1B59002C5D56 /* ServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */; };
+		EA0B531F282561EB00CFB5F3 /* AddServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0B531E282561EB00CFB5F3 /* AddServiceViewController.swift */; };
+		EA2D0AA6281F1B59002C5D56 /* EditServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA5281F1B59002C5D56 /* EditServiceViewController.swift */; };
 		EA2D0AA8281F43D2002C5D56 /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA7281F43D2002C5D56 /* ServiceCell.swift */; };
 		EA2D0AAA281F44B9002C5D56 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */; };
 		EAA7A7DC281DD4B100197044 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7A7DB281DD4B100197044 /* AppDelegate.swift */; };
@@ -38,7 +39,8 @@
 		BC97D0302820FFE500F54304 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E9FF7E2ACAD0251ACC1D40F8 /* Pods-Cornerr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cornerr.debug.xcconfig"; path = "Target Support Files/Pods-Cornerr/Pods-Cornerr.debug.xcconfig"; sourceTree = "<group>"; };
 		EA096634281E564700124B70 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewController.swift; sourceTree = "<group>"; };
+		EA0B531E282561EB00CFB5F3 /* AddServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceViewController.swift; sourceTree = "<group>"; };
+		EA2D0AA5281F1B59002C5D56 /* EditServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditServiceViewController.swift; sourceTree = "<group>"; };
 		EA2D0AA7281F43D2002C5D56 /* ServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
 		EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		EAA7A7D8281DD4B100197044 /* Cornerr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cornerr.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,7 +131,8 @@
 				BC97D02E282080B000F54304 /* ListingViewController.swift */,
 				EAA7A7FA281DDC9200197044 /* ProfileViewController.swift */,
 				EA2D0AA9281F44B9002C5D56 /* EditProfileViewController.swift */,
-				EA2D0AA5281F1B59002C5D56 /* ServiceViewController.swift */,
+				EA2D0AA5281F1B59002C5D56 /* EditServiceViewController.swift */,
+				EA0B531E282561EB00CFB5F3 /* AddServiceViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -290,8 +293,9 @@
 				EAA7A7F7281DD9D900197044 /* UserModel.swift in Sources */,
 				EAA7A7FB281DDC9200197044 /* ProfileViewController.swift in Sources */,
 				EAF20F58282204E9006A5C33 /* LoginViewController.swift in Sources */,
+				EA0B531F282561EB00CFB5F3 /* AddServiceViewController.swift in Sources */,
 				BC97D02F282080B000F54304 /* ListingViewController.swift in Sources */,
-				EA2D0AA6281F1B59002C5D56 /* ServiceViewController.swift in Sources */,
+				EA2D0AA6281F1B59002C5D56 /* EditServiceViewController.swift in Sources */,
 				EAA7A7F5281DD99F00197044 /* ListingModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

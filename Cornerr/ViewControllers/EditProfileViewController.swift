@@ -56,7 +56,7 @@ class EditProfileViewController: UIViewController {
         picInstructions.font = .systemFont(ofSize: 12)
         picInstructions.textColor = .systemGray
         
-        picImageView.image = UIImage(named: "logo")
+        picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
         picImageView.layer.cornerRadius = 60
         picImageView.layer.masksToBounds = true
         picImageView.contentMode = .scaleAspectFill

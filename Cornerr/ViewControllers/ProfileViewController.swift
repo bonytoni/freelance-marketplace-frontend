@@ -12,6 +12,8 @@ class ProfileViewController: UIViewController, ListingContainer {
     private var currentUser: User
     private var currentToken: String
 
+    var defaultpfpInt = Int.random(in: 1...4)
+    
     var headerLabel = UILabel()
     var profilePic = UIImageView()
     var nameLabel = UILabel()
@@ -89,11 +91,11 @@ class ProfileViewController: UIViewController, ListingContainer {
                 profilePic.image = UIImage(data: decodeBase64String(base64String: pfp))
             }
             else {
-                profilePic.image = UIImage(named: "default")
+                profilePic.image = UIImage(named: "defaultpfp\(defaultpfpInt)")
             }
         }
         else {
-            profilePic.image = UIImage(named: "kirby")
+            profilePic.image = UIImage(named: "defaultpfp\(defaultpfpInt)")
         }
         
         let nameLabelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: .bold)]
@@ -188,12 +190,12 @@ class ProfileViewController: UIViewController, ListingContainer {
         let vc = EditProfileViewController(user: currentUser, token: currentToken)
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
+        vc.parentController = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func imageSelected(_ sender: UITapGestureRecognizer) {
-        let vc = ServiceViewController(user: self.currentUser, token: self.currentToken)
-        vc.delegate = self
+        let vc = AddServiceViewController(user: self.currentUser, token: self.currentToken)
         present(vc, animated: true, completion: nil)
     }
 
@@ -206,7 +208,7 @@ extension ProfileViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editServiceViewController = ServiceViewController(user: self.currentUser, token: self.currentToken)
+        let editServiceViewController = EditServiceViewController(user: self.currentUser, token: self.currentToken)
         editServiceViewController.delegate = self
         editServiceViewController.originalService = services[indexPath.item]
         editServiceViewController.updateIndexPath(index: indexPath.row)

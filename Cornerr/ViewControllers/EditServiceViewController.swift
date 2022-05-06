@@ -1,5 +1,5 @@
 //
-//  ServiceViewController.swift
+//  EditServiceViewController.swift
 //  Cornerr
 //
 //  Created by Tony Chen on 5/1/22.
@@ -11,7 +11,7 @@ protocol ListingContainer: AnyObject {
     var services: [SimpleListing] { get set }
 }
 
-class ServiceViewController: UIViewController {
+class EditServiceViewController: UIViewController {
     
     private var currentUser: User
     private var simpleCurrentUser: SimpleUser
@@ -471,7 +471,7 @@ class ServiceViewController: UIViewController {
     
 }
 
-extension ServiceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EditServiceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
