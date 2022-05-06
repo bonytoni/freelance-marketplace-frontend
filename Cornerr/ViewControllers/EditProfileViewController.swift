@@ -31,6 +31,12 @@ class EditProfileViewController: UIViewController {
         self.contactTextField.text = user.contact
         self.bioTextView.text = user.bio
         super.init(nibName: nil, bundle: nil)
+        if let pfp = currentUser.pfp {
+            self.picImageView.image = UIImage(data: decodeBase64String(base64String: pfp))
+        }
+        else {
+            self.picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +65,13 @@ class EditProfileViewController: UIViewController {
         picInstructions.font = .systemFont(ofSize: 12)
         picInstructions.textColor = .systemGray
         
-        picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
+//        if let pfp = currentUser.pfp {
+//            picImageView.image = UIImage(data: decodeBase64String(base64String: pfp))
+//        }
+//        else {
+//            picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
+//        }
+        
         picImageView.layer.cornerRadius = 60
         picImageView.layer.masksToBounds = true
         picImageView.contentMode = .scaleAspectFill
@@ -170,7 +182,7 @@ class EditProfileViewController: UIViewController {
         arr.append(bioTextView.text!)
         arr.append(encodeBase64String(img: picImageView.image))
         networkEdit(id: currentUser.id, name: nameTextField.text!, contact: contactTextField.text!, bio: bioTextView.text, pfp: encodeBase64String(img: picImageView.image), token: currentToken)
-        delegate?.retrieveData(arr)
+        self.delegate?.retrieveData(arr)
         navigationController?.popViewController(animated: true)
     }
 
@@ -186,9 +198,9 @@ class EditProfileViewController: UIViewController {
     }
     
     func networkEdit(id: Int, name: String, contact: String, bio: String, pfp: String, token: String) {
-        NetworkManager.editUser(id: id, name: name, contact: contact, bio: bio, pfp: pfp, token: token) { response in
+        NetworkManager.editUser(id: id, name: name, contact: contact, bio: bio, pfp: pfp, token: token, completion: { response in
             self.currentUser = response
-        }
+        })
     }
     
 }

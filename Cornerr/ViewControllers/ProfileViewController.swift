@@ -194,6 +194,7 @@ class ProfileViewController: UIViewController {
         nameLabel.text = str[0]
         bio.text = str[1]
         profilePic.image = UIImage(data: decodeBase64String(base64String: str[2]))
+        currentUser = User(id: currentUser.id, username: currentUser.username, name: currentUser.name, contact: currentUser.contact, bio: currentUser.bio, pfp: str[2], seller_ls: currentUser.seller_listings, buyer_ls: currentUser.buyers_listings)
     }
     
     func decodeBase64String(base64String: String) -> Data {

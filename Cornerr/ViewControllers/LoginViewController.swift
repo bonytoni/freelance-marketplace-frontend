@@ -449,7 +449,7 @@ class LoginViewController: UIViewController {
         
         NetworkManager.getUserBySession(token: token) { response in
             self.currentUser = response
-            print("I ran here")
+//            print("I ran here")
             self.navigationController?.pushViewController(CustomTabBarController(user: response, token: token), animated: true)
         }
         
