@@ -148,7 +148,7 @@ class EditProfileViewController: UIViewController {
     }
     
     @objc func saveProfile() {
-        // name, contact, bio, profile picture
+        // name, bio, profile picture
         var arr: [String] = []
         arr.append(nameTextField.text!)
         arr.append(bioTextView.text!)
@@ -161,6 +161,11 @@ class EditProfileViewController: UIViewController {
         let imgData = img?.jpegData(compressionQuality: 1)
         let imgBase64String = imgData?.base64EncodedString()
         return imgBase64String!
+    }
+    
+    func decodeBase64String(base64String: String) -> Data {
+        let newImageData = Data(base64Encoded: base64String)
+        return newImageData!
     }
     
 }

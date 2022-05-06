@@ -10,7 +10,7 @@ import Alamofire
 
 class NetworkManager {
     
-    static let host = "http://0.0.0.0:5000/"
+    static let host = "http://34.152.43.79/"
     
     static func getAllListings(completion: @escaping ([Listing]) -> Void) {
         let endpt = "\(host)/listings/"

@@ -75,13 +75,17 @@ class ProfileViewController: UIViewController, ListingContainer {
         headerLabel.text = "\(currentUser.username)"
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        profilePic.image = UIImage()
         profilePic.layer.cornerRadius = 60
         profilePic.layer.masksToBounds = true
         profilePic.contentMode = .scaleAspectFill
         profilePic.clipsToBounds = true
         if let pfp = currentUser.pfp {
-            profilePic.image = UIImage(data: decodeBase64String(base64String: pfp))
+            if pfp != "" {
+                profilePic.image = UIImage(data: decodeBase64String(base64String: pfp))
+            }
+            else {
+                profilePic.image = UIImage(named: "kirby")
+            }
         }
         else {
             profilePic.image = UIImage(named: "kirby")
@@ -158,7 +162,7 @@ class ProfileViewController: UIViewController, ListingContainer {
             noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noServicesImageView.centerYAnchor.constraint(equalTo: servicesTableView.centerYAnchor),
             
-            noServicesTextView.topAnchor.constraint(equalTo: noServicesImageView.bottomAnchor, constant: 12),
+            noServicesTextView.topAnchor.constraint(equalTo: noServicesImageView.bottomAnchor, constant: 10),
             noServicesTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noServicesTextView.widthAnchor.constraint(equalToConstant: 200),
             noServicesTextView.heightAnchor.constraint(equalToConstant: 50)

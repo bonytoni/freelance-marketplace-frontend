@@ -402,7 +402,7 @@ class ServiceViewController: UIViewController {
     }
     
     @objc func publishSaveService() {
-        let service = Listing(id: 0, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: "", seller: dummyUser, buyers: [])
+        let service = Listing(id: 0, title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller: dummyUser, buyers: [])
         if let s = originalService {
             self.delegate?.services[indexPath] = service
             editListing(service: service)
@@ -415,7 +415,7 @@ class ServiceViewController: UIViewController {
     }
     
     func createListing(service: Listing) {
-        NetworkManager.createListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: "", seller_id: 1, token: "7431b8e83429b197a5e2aea0aca5762f59fbd9b8") { listing in
+        NetworkManager.createListing(title: service.title, category: service.category, description: service.description, availability: service.availability, location: service.location, price: service.price, picture: encodeBase64String(img: photoView.image), seller_id: 1, token: "7431b8e83429b197a5e2aea0aca5762f59fbd9b8") { listing in
         }
     }
     
@@ -430,6 +430,17 @@ class ServiceViewController: UIViewController {
     
     @objc func closeVC() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func encodeBase64String(img: UIImage?) -> String {
+        let imgData = img?.jpegData(compressionQuality: 1)
+        let imgBase64String = imgData?.base64EncodedString()
+        return imgBase64String!
+    }
+    
+    func decodeBase64String(base64String: String) -> Data {
+        let newImageData = Data(base64Encoded: base64String)
+        return newImageData!
     }
     
 }
