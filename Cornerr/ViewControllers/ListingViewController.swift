@@ -112,7 +112,6 @@ class ListingViewController: UIViewController {
         listingPic.contentMode = .scaleAspectFill
         listingPic.clipsToBounds = true
         listingPic.translatesAutoresizingMaskIntoConstraints = false
-        print (listing.picture)
         if listing.picture != "" {
             listingPic.image = UIImage(data: decodeBase64String(base64String: listing.picture))
         }

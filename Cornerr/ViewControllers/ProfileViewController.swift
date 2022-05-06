@@ -72,17 +72,23 @@ class ProfileViewController: UIViewController, ListingContainer {
     }
     
     func setUpUIComponents() {
-        headerLabel.text = "@username"
+        headerLabel.text = "\(currentUser.username)"
         headerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        profilePic.image = UIImage(named: "logo")
+        profilePic.image = UIImage()
         profilePic.layer.cornerRadius = 60
         profilePic.layer.masksToBounds = true
         profilePic.contentMode = .scaleAspectFill
         profilePic.clipsToBounds = true
+        if currentUser.pfp != "" {
+            profilePic.image = UIImage(data: decodeBase64String(base64String: currentUser.pfp))
+        }
+        else {
+            profilePic.image = UIImage(named: "kirby")
+        }
         
         let nameLabelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 24, weight: .bold)]
-        nameLabel.attributedText = NSAttributedString(string: "Full Name", attributes: nameLabelAttributes)
+        nameLabel.attributedText = NSAttributedString(string: "\(currentUser.name)", attributes: nameLabelAttributes)
         
         let editProfileAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         // hardcoded button border width using spaces in Title
@@ -93,7 +99,7 @@ class ProfileViewController: UIViewController, ListingContainer {
         editProfile.layer.cornerRadius = 14
         editProfile.addTarget(self, action: #selector(editProfilePressed), for: .touchUpInside)
         
-        bio.text = "Bio"
+        bio.text = "\(currentUser.bio)"
         bio.textColor = .black
         bio.font = .systemFont(ofSize: 14, weight: .regular)
         bio.textAlignment = .center
@@ -159,17 +165,14 @@ class ProfileViewController: UIViewController, ListingContainer {
         ])
     }
     
-    func changeProfile(_ str: [String]) {
-        nameLabel.text = str[0]
-        bio.text = str[1]
-        decodeBase64String(base64String: str[2], imageView: profilePic)
-    }
+//    func changeProfile(_ str: [String]) {
+//        nameLabel.text = str[0]
+//        bio.text = str[1]
+//    }
     
-    func decodeBase64String(base64String: String, imageView: UIImageView) {
+    func decodeBase64String(base64String: String) -> Data {
         let newImageData = Data(base64Encoded: base64String)
-        if let newImageData = newImageData {
-            imageView.image = UIImage(data: newImageData)
-        }
+        return newImageData!
     }
     
     @objc func editProfilePressed() {
@@ -220,7 +223,7 @@ extension ProfileViewController: UITableViewDataSource {
 extension ProfileViewController: EditProfileViewControllerDelegate {
     
     func retrieveData(_ str: [String]) {
-        changeProfile(str)
+//        changeProfile(str)
     }
     
 }

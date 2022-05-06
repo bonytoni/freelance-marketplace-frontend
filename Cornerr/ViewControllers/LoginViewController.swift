@@ -401,8 +401,8 @@ class LoginViewController: UIViewController {
     }
     
     @objc func successfullySignedUp() {
-        if (usernameTextField.hasText && (usernameTextField.text!.count < 4 || usernameTextField.text!.count > 16)) {
-            let alertVC = UIAlertController(title: "Username not valid", message: "Your username has to be between 4-16 characters", preferredStyle: .alert)
+        if (usernameTextField.hasText && (usernameTextField.text!.count < 4 || usernameTextField.text!.count > 12)) {
+            let alertVC = UIAlertController(title: "Username not valid", message: "Your username has to be between 4-12 characters", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alertVC.addAction(cancelAction)
             self.present(alertVC, animated: true, completion: nil)
@@ -432,7 +432,6 @@ class LoginViewController: UIViewController {
                 self.present(alertVC, animated: true, completion: nil)
             }
             else {
-//                print("I ran here")
                 self.getCurrentUser(token: response)
             }
         })

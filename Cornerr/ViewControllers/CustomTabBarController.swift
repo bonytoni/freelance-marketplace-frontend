@@ -27,7 +27,7 @@ class CustomTabBarController: UITabBarController {
         let homeNavController = UINavigationController(rootViewController: homeViewController)
         homeNavController.navigationBar.prefersLargeTitles = false
 
-        let profileViewController = ProfileViewController()
+        let profileViewController = ProfileViewController(user: currentUser)
         profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), selectedImage: UIImage(systemName: "person.fill"))
         
         let profileNavController = UINavigationController(rootViewController: profileViewController)
