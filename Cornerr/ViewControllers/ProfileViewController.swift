@@ -80,8 +80,8 @@ class ProfileViewController: UIViewController, ListingContainer {
         profilePic.layer.masksToBounds = true
         profilePic.contentMode = .scaleAspectFill
         profilePic.clipsToBounds = true
-        if currentUser.pfp != "" {
-            profilePic.image = UIImage(data: decodeBase64String(base64String: currentUser.pfp))
+        if let pfp = currentUser.pfp {
+            profilePic.image = UIImage(data: decodeBase64String(base64String: pfp))
         }
         else {
             profilePic.image = UIImage(named: "kirby")

@@ -14,11 +14,11 @@ struct User: Codable {
     let name: String
     let contact: String
     let bio: String
-    let pfp: String
+    let pfp: String?
     let seller_listings: [SimpleListing]
     let buyers_listings: [SimpleListing]
     
-    init(id: Int, username:String, name: String, contact: String, bio: String, pfp: String, seller_ls: [SimpleListing], buyer_ls: [SimpleListing]) {
+    init(id: Int, username:String, name: String, contact: String, bio: String, pfp: String?, seller_ls: [SimpleListing], buyer_ls: [SimpleListing]) {
 
         self.id = id
         self.username = username
