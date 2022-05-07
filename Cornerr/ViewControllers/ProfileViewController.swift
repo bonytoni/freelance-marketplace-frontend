@@ -126,8 +126,8 @@ class ProfileViewController: UIViewController {
         
         purchasesTableViewContainer.addSubview(purchasesTableView)
         
-        servicesTableViewContainer.isHidden = true
-        servicesTableViewContainer.isUserInteractionEnabled = false
+        purchasesTableViewContainer.isHidden = true
+        purchasesTableViewContainer.isUserInteractionEnabled = false
         
         setUpUIComponents()
         setUpConstraints()
@@ -201,7 +201,7 @@ class ProfileViewController: UIViewController {
         goToPurchasesTableImage.isUserInteractionEnabled = true
         let goToPurchasesTap = UITapGestureRecognizer(target: self, action: #selector(goToPurchasesTable))
         goToPurchasesTap.numberOfTapsRequired = 1
-        addService.addGestureRecognizer(goToPurchasesTap)
+        goToPurchasesTableImage.addGestureRecognizer(goToPurchasesTap)
         
         onServicesTableImage.image = UIImage(named: "on services")
         onPurchasesTableImage.image = UIImage(named: "on purchases")
