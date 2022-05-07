@@ -228,12 +228,12 @@ class ProfileViewController: UIViewController {
             headerLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            profilePic.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 15),
+            profilePic.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 10),
             profilePic.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profilePic.widthAnchor.constraint(equalToConstant: 120),
             profilePic.heightAnchor.constraint(equalToConstant: 120),
             
-            nameLabel.topAnchor.constraint(equalTo: profilePic.bottomAnchor, constant: 15),
+            nameLabel.topAnchor.constraint(equalTo: profilePic.bottomAnchor, constant: 10),
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             editProfile.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
@@ -244,24 +244,24 @@ class ProfileViewController: UIViewController {
             bio.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             bio.heightAnchor.constraint(equalToConstant: 50),
             
-            servicesLabel.topAnchor.constraint(equalTo: onServicesTableImage.bottomAnchor),
+            servicesLabel.topAnchor.constraint(equalTo: onServicesTableImage.bottomAnchor, constant: 10),
             servicesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             
-            purchasesLabel.topAnchor.constraint(equalTo: onServicesTableImage.bottomAnchor),
+            purchasesLabel.topAnchor.constraint(equalTo: onServicesTableImage.bottomAnchor, constant: 10),
             purchasesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             
-            addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            addService.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            addService.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
             
             servicesTableView.topAnchor.constraint(equalTo: servicesLabel.bottomAnchor, constant: 10),
             servicesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             servicesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -10),
+            servicesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             purchasesTableView.topAnchor.constraint(equalTo: servicesLabel.bottomAnchor, constant: 10),
             purchasesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             purchasesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            purchasesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            purchasesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noServicesImageView.centerYAnchor.constraint(equalTo: servicesTableView.centerYAnchor),
