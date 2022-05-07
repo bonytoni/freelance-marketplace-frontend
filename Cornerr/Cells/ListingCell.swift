@@ -69,7 +69,7 @@ class ListingCell: UICollectionViewCell {
     func setUpConstraints() {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -60),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
 
@@ -104,15 +104,10 @@ class ListingCell: UICollectionViewCell {
     
     func configure(for listing: Listing) {
         titleLabel.text = listing.title
-        userLabel.text = "@" + String(listing.seller.username)
+        userLabel.text = "@" + listing.seller.username
         priceLabel.text = "$\(listing.price)"
         categoryLabel.text = listing.category
-        if listing.picture != "" {
-            imageView.image = UIImage(data: decodeBase64String(base64String: listing.picture))
-        }
-        else {
-            imageView.image = UIImage(named: "kirby")
-        }
+        imageView.image = UIImage(data: decodeBase64String(base64String: listing.picture))
         setCategoryLabelColor(for: listing.category)
     }
     

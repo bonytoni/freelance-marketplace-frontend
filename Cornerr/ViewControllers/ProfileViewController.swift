@@ -23,6 +23,9 @@ class ProfileViewController: UIViewController {
     var bio = UITextView()
     var addService = UIImageView()
     
+    var servicesTableViewContainer = UIView()
+    var onServicesTableImage = UIImageView()
+    var goToPurchasesTableImage = UIImageView()
     var servicesLabel = UILabel()
     var servicesTableView = UITableView()
     var noServicesImageView = UIImageView()
@@ -34,11 +37,20 @@ class ProfileViewController: UIViewController {
             noServicesTextView.isHidden = services.count != 0
         }
     }
+    var purchases: [SimpleListing]
+    
+    var purchasesTableViewContainer = UIView()
+    var goToServicesTableImage = UIImageView()
+    var onPurchasesTableImage = UIImageView()
+    var purchasesLabel = UILabel()
+    var purchasesTableView = UITableView()
     
     init(user: User, token: String) {
         self.currentUser = user
         self.currentToken = token
         self.services = user.seller_listings
+        // initialize !!!
+        self.purchases = []
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -51,10 +63,25 @@ class ProfileViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        [headerLabel, profilePic, nameLabel, editProfile, bio, servicesLabel, addService].forEach { subView in
+        servicesTableViewContainer.layer.masksToBounds = true
+        servicesTableViewContainer.clipsToBounds = false
+        purchasesTableViewContainer.layer.masksToBounds = true
+        purchasesTableViewContainer.clipsToBounds = false
+        
+        [headerLabel, profilePic, nameLabel, editProfile, bio, servicesTableViewContainer, purchasesTableViewContainer].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
+        
+        // services table view
+        servicesTableViewContainer.addSubview(onServicesTableImage)
+        onServicesTableImage.translatesAutoresizingMaskIntoConstraints = false
+        servicesTableViewContainer.addSubview(goToPurchasesTableImage)
+        goToPurchasesTableImage.translatesAutoresizingMaskIntoConstraints = false
+        servicesTableViewContainer.addSubview(servicesLabel)
+        servicesLabel.translatesAutoresizingMaskIntoConstraints = false
+        servicesTableViewContainer.addSubview(addService)
+        addService.translatesAutoresizingMaskIntoConstraints = false
         
         servicesTableView = UITableView(frame: .zero)
         servicesTableView.backgroundColor = .clear
@@ -64,12 +91,10 @@ class ProfileViewController: UIViewController {
         
         servicesTableView.register(ServiceCell.self, forCellReuseIdentifier: ServiceCell.id)
         
-        servicesTableView.alwaysBounceVertical = true
-        
         servicesTableView.delegate = self
         servicesTableView.dataSource = self
         
-        view.addSubview(servicesTableView)
+        servicesTableViewContainer.addSubview(servicesTableView)
         
         checkServices(user: currentUser)
         servicesTableView.addSubview(noServicesImageView)
@@ -77,9 +102,32 @@ class ProfileViewController: UIViewController {
         noServicesImageView.translatesAutoresizingMaskIntoConstraints = false
         noServicesTextView.translatesAutoresizingMaskIntoConstraints = false
         
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         servicesTableView.addSubview(refreshControl)
+        
+        // purchases table view
+        purchasesTableViewContainer.addSubview(onPurchasesTableImage)
+        onPurchasesTableImage.translatesAutoresizingMaskIntoConstraints = false
+        purchasesTableViewContainer.addSubview(goToServicesTableImage)
+        goToServicesTableImage.translatesAutoresizingMaskIntoConstraints = false
+        purchasesTableViewContainer.addSubview(purchasesLabel)
+        purchasesLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        purchasesTableView = UITableView(frame: .zero)
+        purchasesTableView.backgroundColor = .clear
+        purchasesTableView.translatesAutoresizingMaskIntoConstraints = false
+        purchasesTableView.showsVerticalScrollIndicator = false
+        self.purchasesTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        
+        purchasesTableView.register(PurchaseCell.self, forCellReuseIdentifier: PurchaseCell.id)
+        
+        purchasesTableView.delegate = self
+        purchasesTableView.dataSource = self
+        
+        purchasesTableViewContainer.addSubview(purchasesTableView)
+        
+        servicesTableViewContainer.isHidden = true
+        servicesTableViewContainer.isUserInteractionEnabled = false
         
         setUpUIComponents()
         setUpConstraints()
@@ -126,6 +174,9 @@ class ProfileViewController: UIViewController {
         servicesLabel.text = "My Services"
         servicesLabel.font = .systemFont(ofSize: 20, weight: .bold)
         
+        purchasesLabel.text = "Purchase History"
+        purchasesLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        
         addService.image = UIImage(named: "plus sign")
         addService.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageSelected(_:)))
@@ -139,10 +190,35 @@ class ProfileViewController: UIViewController {
         noServicesTextView.textAlignment = .center
         noServicesTextView.font = .systemFont(ofSize: 14, weight: .semibold)
         noServicesTextView.isUserInteractionEnabled = false
+        
+        goToServicesTableImage.image = UIImage(named: "go to services")
+        goToServicesTableImage.isUserInteractionEnabled = true
+        let goToServicesTap = UITapGestureRecognizer(target: self, action: #selector(goToServicesTable))
+        goToServicesTap.numberOfTapsRequired = 1
+        goToServicesTableImage.addGestureRecognizer(goToServicesTap)
+                                         
+        goToPurchasesTableImage.image = UIImage(named: "go to purchases")
+        goToPurchasesTableImage.isUserInteractionEnabled = true
+        let goToPurchasesTap = UITapGestureRecognizer(target: self, action: #selector(goToPurchasesTable))
+        goToPurchasesTap.numberOfTapsRequired = 1
+        addService.addGestureRecognizer(goToPurchasesTap)
+        
+        onServicesTableImage.image = UIImage(named: "on services")
+        onPurchasesTableImage.image = UIImage(named: "on purchases")
     }
     
     func setUpConstraints() {
         NSLayoutConstraint.activate([
+            servicesTableViewContainer.topAnchor.constraint(equalTo: view.topAnchor),
+            servicesTableViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            servicesTableViewContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
+            servicesTableViewContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
+            purchasesTableViewContainer.topAnchor.constraint(equalTo: view.topAnchor),
+            purchasesTableViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            purchasesTableViewContainer.leftAnchor.constraint(equalTo: view.leftAnchor),
+            purchasesTableViewContainer.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
             headerLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -162,10 +238,13 @@ class ProfileViewController: UIViewController {
             bio.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             bio.heightAnchor.constraint(equalToConstant: 50),
             
-            servicesLabel.topAnchor.constraint(equalTo: bio.bottomAnchor, constant: 5),
+            servicesLabel.topAnchor.constraint(equalTo: onServicesTableImage.bottomAnchor),
             servicesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             
-            addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            purchasesLabel.topAnchor.constraint(equalTo: onServicesTableImage.bottomAnchor),
+            purchasesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
+            
+            addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
             addService.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             servicesTableView.topAnchor.constraint(equalTo: servicesLabel.bottomAnchor, constant: 10),
@@ -173,13 +252,30 @@ class ProfileViewController: UIViewController {
             servicesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             servicesTableView.bottomAnchor.constraint(equalTo: addService.topAnchor, constant: -10),
             
+            purchasesTableView.topAnchor.constraint(equalTo: servicesLabel.bottomAnchor, constant: 10),
+            purchasesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            purchasesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            purchasesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            
             noServicesImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noServicesImageView.centerYAnchor.constraint(equalTo: servicesTableView.centerYAnchor),
             
             noServicesTextView.topAnchor.constraint(equalTo: noServicesImageView.bottomAnchor, constant: 10),
             noServicesTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noServicesTextView.widthAnchor.constraint(equalToConstant: 200),
-            noServicesTextView.heightAnchor.constraint(equalToConstant: 50)
+            noServicesTextView.heightAnchor.constraint(equalToConstant: 50),
+            
+            onServicesTableImage.topAnchor.constraint(equalTo: bio.bottomAnchor),
+            onServicesTableImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 70),
+            
+            goToPurchasesTableImage.topAnchor.constraint(equalTo: bio.bottomAnchor),
+            goToPurchasesTableImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -70),
+            
+            onPurchasesTableImage.topAnchor.constraint(equalTo: bio.bottomAnchor),
+            onPurchasesTableImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -70),
+            
+            goToServicesTableImage.topAnchor.constraint(equalTo: bio.bottomAnchor),
+            goToServicesTableImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 70),
         ])
     }
     
@@ -194,7 +290,7 @@ class ProfileViewController: UIViewController {
         nameLabel.text = str[0]
         bio.text = str[1]
         profilePic.image = UIImage(data: decodeBase64String(base64String: str[2]))
-        currentUser = User(id: currentUser.id, username: currentUser.username, name: currentUser.name, contact: currentUser.contact, bio: currentUser.bio, pfp: str[2], seller_ls: currentUser.seller_listings, buyer_ls: currentUser.buyers_listings)
+        currentUser = User(id: currentUser.id, username: currentUser.username, name: str[0], contact: currentUser.contact, bio: str[1], pfp: str[2], seller_ls: currentUser.seller_listings, buyer_ls: currentUser.buyers_listings)
     }
     
     func decodeBase64String(base64String: String) -> Data {
@@ -207,6 +303,20 @@ class ProfileViewController: UIViewController {
             self.currentUser = response
             self.services = response.seller_listings
         })
+    }
+    
+    @objc func goToServicesTable() {
+        purchasesTableViewContainer.isHidden = true
+        purchasesTableViewContainer.isUserInteractionEnabled = false
+        servicesTableViewContainer.isHidden = false
+        servicesTableViewContainer.isUserInteractionEnabled = true
+    }
+    
+    @objc func goToPurchasesTable() {
+        servicesTableViewContainer.isHidden = true
+        servicesTableViewContainer.isUserInteractionEnabled = false
+        purchasesTableViewContainer.isHidden = false
+        purchasesTableViewContainer.isUserInteractionEnabled = true
     }
     
     @objc func editProfilePressed() {
@@ -237,15 +347,21 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 84
+        if tableView == servicesTableView {
+            return 84
+        }
+        if tableView == purchasesTableView {
+            return 75
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editServiceViewController = EditServiceViewController(user: self.currentUser, token: self.currentToken, originalService: services[indexPath.item])
-//        editServiceViewController.delegate = self
-//        editServiceViewController.originalService = services[indexPath.item]
-        editServiceViewController.updateIndexPath(index: indexPath.row)
-        present(editServiceViewController, animated: true, completion: nil)
+        if tableView == servicesTableView{
+            let editServiceViewController = EditServiceViewController(user: self.currentUser, token: self.currentToken, originalService: services[indexPath.item])
+            editServiceViewController.updateIndexPath(index: indexPath.row)
+            present(editServiceViewController, animated: true, completion: nil)
+        }
     }
 
 }
@@ -253,13 +369,27 @@ extension ProfileViewController: UITableViewDelegate {
 extension ProfileViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return services.count
+        if tableView == servicesTableView {
+            return services.count
+        }
+        if tableView == purchasesTableView {
+            return purchases.count
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ServiceCell.id, for: indexPath) as! ServiceCell
-        cell.configure(for: services[indexPath.item])
-        return cell
+        if tableView == servicesTableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ServiceCell.id, for: indexPath) as! ServiceCell
+            cell.configure(for: services[indexPath.item])
+            return cell
+        }
+        if tableView == purchasesTableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PurchaseCell.id, for: indexPath) as! PurchaseCell
+            cell.configure(for: purchases[indexPath.item], category: purchases[indexPath.item].category)
+            return cell
+        }
+        return UITableViewCell()
     }
 
 }

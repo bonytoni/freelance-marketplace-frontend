@@ -45,7 +45,6 @@ class HomeViewController: UIViewController {
         NetworkManager.getAllListings() { listing in
             self.allListings = listing
             self.listingsSelected = listing
-//            print(self.allListings)
             self.listingView.reloadData()
         }
     }

@@ -31,8 +31,13 @@ class EditProfileViewController: UIViewController {
         self.contactTextField.text = user.contact
         self.bioTextView.text = user.bio
         super.init(nibName: nil, bundle: nil)
-        if let pfp = currentUser.pfp {
-            self.picImageView.image = UIImage(data: decodeBase64String(base64String: pfp))
+        if let pfp = user.pfp {
+            if pfp != "" {
+                self.picImageView.image = UIImage(data: decodeBase64String(base64String: pfp))
+            }
+            else {
+                self.picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
+            }
         }
         else {
             self.picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
@@ -65,13 +70,6 @@ class EditProfileViewController: UIViewController {
         picInstructions.font = .systemFont(ofSize: 12)
         picInstructions.textColor = .systemGray
         
-//        if let pfp = currentUser.pfp {
-//            picImageView.image = UIImage(data: decodeBase64String(base64String: pfp))
-//        }
-//        else {
-//            picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
-//        }
-        
         picImageView.layer.cornerRadius = 60
         picImageView.layer.masksToBounds = true
         picImageView.contentMode = .scaleAspectFill
@@ -94,16 +92,21 @@ class EditProfileViewController: UIViewController {
         nameTextField.layer.borderColor = .lightBlue
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
         nameTextField.leftViewMode = .always
+        nameTextField.autocapitalizationType = .none
+        nameTextField.autocorrectionType = .no
         
         contactTextField.layer.borderWidth = 1.5
         contactTextField.layer.cornerRadius = 15
         contactTextField.layer.borderColor = .lightBlue
         contactTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: nameTextField.frame.height))
         contactTextField.leftViewMode = .always
+        contactTextField.autocapitalizationType = .none
+        contactTextField.autocorrectionType = .no
         
         bioTextView.layer.borderWidth = 1.5
         bioTextView.layer.cornerRadius = 15
         bioTextView.layer.borderColor = .lightBlue
+        bioTextView.autocapitalizationType = .none
     }
     
     func setUpConstraints() {
@@ -176,14 +179,28 @@ class EditProfileViewController: UIViewController {
     }
     
     @objc func saveProfile() {
-        // name, bio, profile picture
-        var arr: [String] = []
-        arr.append(nameTextField.text!)
-        arr.append(bioTextView.text!)
-        arr.append(encodeBase64String(img: picImageView.image))
-        networkEdit(id: currentUser.id, name: nameTextField.text!, contact: contactTextField.text!, bio: bioTextView.text, pfp: encodeBase64String(img: picImageView.image), token: currentToken)
-        self.delegate?.retrieveData(arr)
-        navigationController?.popViewController(animated: true)
+        if (nameTextField.hasText && (nameTextField.text!.count < 3 || nameTextField.text!.count > 20)) {
+            var str: String = ""
+            if (nameTextField.text!.count < 3) {
+                str = "Your name is too short"
+            }
+            if (nameTextField.text!.count > 20) {
+                str = "Your name is too long"
+            }
+            let alertVC = UIAlertController(title: "Name not valid", message: str, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else {
+            var arr: [String] = []
+            arr.append(nameTextField.text!)
+            arr.append(bioTextView.text!)
+            arr.append(encodeBase64String(img: picImageView.image))
+            networkEdit(id: currentUser.id, name: nameTextField.text!, contact: contactTextField.text!, bio: bioTextView.text, pfp: encodeBase64String(img: picImageView.image), token: currentToken)
+            self.delegate?.retrieveData(arr)
+            navigationController?.popViewController(animated: true)
+        }
     }
 
     func encodeBase64String(img: UIImage?) -> String {

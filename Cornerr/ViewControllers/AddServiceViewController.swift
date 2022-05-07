@@ -7,14 +7,11 @@
 
 import UIKit
 
-
-class AddServiceViewController : UIViewController {
+class AddServiceViewController : UIViewController, UITextFieldDelegate {
     
     private var currentUser: User
     private var simpleCurrentUser: SimpleUser
     private var currentToken: String
-    
-//    weak var delegate: ListingContainer?
     
     var newListing: SimpleListing!
     var fullListing: Listing!
@@ -50,7 +47,7 @@ class AddServiceViewController : UIViewController {
     var collegetownButton = UIButton()
     var otherLocationButton = UIButton()
     
-    var publishSaveButton = UIButton()
+    var publishButton = UIButton()
     var closeImageView = UIImageView()
     
     var indexPath: Int = -1
@@ -71,19 +68,18 @@ class AddServiceViewController : UIViewController {
         
         view.backgroundColor = .white
         
-        let publishSaveButtonAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .semibold)]
+        let publishButtonAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .semibold)]
         
         headerLabel.text = "New Service"
-        publishSaveButton.setAttributedTitle(NSAttributedString(string: "Publish", attributes: publishSaveButtonAttributes), for: .normal)
+        publishButton.setAttributedTitle(NSAttributedString(string: "Publish", attributes: publishButtonAttributes), for: .normal)
         
-        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, availabilityTextField, selectedCategory, beautyButton, fashionButton, mediaButton, techButton, craftsButton, foodButton, otherCategoryButton, selectedLocation, northButton, westButton, centralButton, collegetownButton, otherLocationButton, publishSaveButton, closeImageView].forEach { subView in
+        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, availabilityTextField, selectedCategory, beautyButton, fashionButton, mediaButton, techButton, craftsButton, foodButton, otherCategoryButton, selectedLocation, northButton, westButton, centralButton, collegetownButton, otherLocationButton, publishButton, closeImageView].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
         
         setUpUIComponents()
         setUpConstraints()
-        
     }
     
     func setUpUIComponents() {
@@ -117,16 +113,20 @@ class AddServiceViewController : UIViewController {
         titleTextField.layer.borderColor = .lightBlue
         titleTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: titleTextField.frame.height))
         titleTextField.leftViewMode = .always
+        titleTextField.autocorrectionType = .no
+        titleTextField.autocapitalizationType = .none
         
         descriptionTextView.layer.borderWidth = 1
         descriptionTextView.layer.cornerRadius = 12
         descriptionTextView.layer.borderColor = .lightBlue
+        descriptionTextView.autocapitalizationType = .none
         
         priceTextField.layer.borderWidth = 1
         priceTextField.layer.cornerRadius = 12
         priceTextField.layer.borderColor = .lightBlue
         priceTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: priceTextField.frame.height))
         priceTextField.leftViewMode = .always
+        priceTextField.delegate = self
         
         availabilityTextField.layer.borderWidth = 1
         availabilityTextField.layer.cornerRadius = 12
@@ -134,6 +134,8 @@ class AddServiceViewController : UIViewController {
         availabilityTextField.placeholder = "Ex: Mon 2-4PM, Wed any time"
         availabilityTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: availabilityTextField.frame.height))
         availabilityTextField.leftViewMode = .always
+        availabilityTextField.autocapitalizationType = .none
+        availabilityTextField.autocorrectionType = .no
         
         selectedCategory.font = .systemFont(ofSize: 14, weight: .regular)
         
@@ -152,8 +154,8 @@ class AddServiceViewController : UIViewController {
         applyButtonProperties(collegetownButton, "CTown", "location")
         applyButtonProperties(otherLocationButton, "Other", "location")
         
-        publishSaveButton.setTitleColor(.lightBlue, for: .normal)
-        publishSaveButton.addTarget(self, action: #selector(publishSaveService), for: .touchUpInside)
+        publishButton.setTitleColor(.lightBlue, for: .normal)
+        publishButton.addTarget(self, action: #selector(publishService), for: .touchUpInside)
         
         closeImageView.image = UIImage(named: "close")
         closeImageView.contentMode = .scaleAspectFill
@@ -274,8 +276,8 @@ class AddServiceViewController : UIViewController {
             availabilityTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             availabilityTextField.heightAnchor.constraint(equalToConstant: 35),
             
-            publishSaveButton.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor),
-            publishSaveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            publishButton.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor),
+            publishButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
             
             closeImageView.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor),
             closeImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
@@ -392,35 +394,61 @@ class AddServiceViewController : UIViewController {
         }
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
+    }
+    
     func updateIndexPath(index: Int) {
         indexPath = index
     }
     
-    @objc func publishSaveService() {
-        createListing(title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller_id: currentUser.id, token: currentToken)
-//        self.delegate?.services.append(newListing)
-//        getListingByID(id: newListing.id)
-        dismiss(animated: true, completion: nil)
+    @objc func publishService() {
+        if (!titleTextField.hasText || !descriptionTextView.hasText || !availabilityTextField.hasText || !priceTextField.hasText) {
+            let alertVC = UIAlertController(title: "Invalid Fields", message: "Please enter something into your fields", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else if (selectedCategory.text == nil || selectedCategory.text == "") {
+            let alertVC = UIAlertController(title: "No Service Category", message: "Please select a category for your service", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else if (selectedLocation.text == nil || selectedLocation.text == "") {
+            let alertVC = UIAlertController(title: "No Location Category", message: "Please select a location for your service", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else if (priceTextField.hasText && ((priceTextField.text!.first == "0" && priceTextField.text!.count > 1) || priceTextField.text!.count > 3)) {
+            var str: String = ""
+            if (priceTextField.text!.first == "0" && priceTextField.text!.count > 1) {
+                str = "Enter a price again without a leading 0"
+            }
+            if (priceTextField.text!.count > 3) {
+                str = "Price must be less than $1000"
+            }
+            let alertVC = UIAlertController(title: "Invalid price for service", message: str, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else {
+            if (photoView.image == UIImage(named: "upload photo")) {
+                photoView.image = UIImage(named: "defaultlistingpic")
+            }
+            createListing(title: titleTextField.text!, category: selectedCategory.text!, description: descriptionTextView.text, availability: availabilityTextField.text!, location: selectedLocation.text!, price: Int(priceTextField.text!)!, picture: encodeBase64String(img: photoView.image), seller_id: currentUser.id, token: currentToken)
+            dismiss(animated: true, completion: nil)
+        }
     }
     
     func createListing(title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, seller_id: Int, token: String) {
         NetworkManager.createListing(title: title, category: category, description: description, availability: availability, location: location, price: price, picture: picture, seller_id: seller_id, token: token, completion: { listing in
-//            self.fullListing = listing
-//            self.newListing = SimpleListing(id: listing.id, title: listing.title, category: listing.category, description: listing.description, availability: listing.availability, location: listing.location, price: listing.price, picture: listing.picture, seller: String(listing.seller.id))
         })
     }
-    
-//    func getListingByID(id: Int) {
-//        NetworkManager.getListingById(id: id, completion: { response in
-//            self.fullListing = response
-//            if action == "edit" {
-//                self.editListing(service: response)
-//            }
-//            if action == "create" {
-//                self.createListing(service: response)
-//            }
-//        })
-//    }
     
     @objc func chooseImageAction(_ sender: Any) {
         showImagePickerOptions()

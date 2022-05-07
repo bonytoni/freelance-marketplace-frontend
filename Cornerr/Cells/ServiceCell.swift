@@ -32,7 +32,6 @@ class ServiceCell: UITableViewCell {
         cellView.backgroundColor = .white
         cellView.clipsToBounds = true
         
-        image.image = UIImage(named: "kirby")
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         
@@ -96,8 +95,25 @@ class ServiceCell: UITableViewCell {
         titleLabel.text = service.title
         descriptionTextView.text = service.description
         priceLabel.text = "$\(service.price)"
+        let str = encodeBase64String(img: UIImage(named: "defaultlistingpic"))
+        if (service.picture == str) {
+            image.image = UIImage(named: "defaultlistingpic")
+        }
+        else {
+            image.image = UIImage(data: decodeBase64String(base64String: service.picture))
+        }
     }
     
+    func encodeBase64String(img: UIImage?) -> String {
+        let imgData = img?.jpegData(compressionQuality: 1)
+        let imgBase64String = imgData?.base64EncodedString()
+        return imgBase64String!
+    }
+    
+    func decodeBase64String(base64String: String) -> Data {
+        let newImageData = Data(base64Encoded: base64String)
+        return newImageData!
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

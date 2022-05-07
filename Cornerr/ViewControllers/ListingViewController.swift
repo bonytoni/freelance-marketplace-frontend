@@ -5,7 +5,6 @@
 //  Created by Jennifer Gu on 5/2/22.
 //
 
-import Foundation
 import UIKit
 
 class ListingViewController: UIViewController {
@@ -30,7 +29,7 @@ class ListingViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = listing.title
         // init self.lisitingPic.image in setUpComponents()
-        self.sellerLabel.text = "@" + String(listing.seller.username)
+        self.sellerLabel.text = "@" + listing.seller.username
         self.priceLabel.text = "$\(listing.price)"
         self.contactLabel.text = "Contact: " + listing.seller.contact
         self.categoryLabel.text = listing.category
@@ -112,12 +111,7 @@ class ListingViewController: UIViewController {
         listingPic.contentMode = .scaleAspectFill
         listingPic.clipsToBounds = true
         listingPic.translatesAutoresizingMaskIntoConstraints = false
-        if listing.picture != "" {
-            listingPic.image = UIImage(data: decodeBase64String(base64String: listing.picture))
-        }
-        else {
-            listingPic.image = UIImage(named: "kirby")
-        }
+        listingPic.image = UIImage(data: decodeBase64String(base64String: listing.picture))
         view.addSubview(listingPic)
         
         infoView.layer.masksToBounds = true

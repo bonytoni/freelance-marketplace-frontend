@@ -176,23 +176,27 @@ class LoginViewController: UIViewController {
         nameTextField.attributedPlaceholder = NSAttributedString(string: "Full Name", attributes: placeholderAttributes)
         nameTextField.font = .systemFont(ofSize: 16, weight: .regular)
         nameTextField.addBottomBorder()
-        nameTextField.autocapitalizationType = .words
+        nameTextField.autocapitalizationType = .none
+        nameTextField.autocorrectionType = .no
         
         usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: placeholderAttributes)
         usernameTextField.font = .systemFont(ofSize: 16, weight: .regular)
         usernameTextField.addBottomBorder()
         usernameTextField.autocapitalizationType = .none
+        usernameTextField.autocorrectionType = .no
         usernameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
         passwordTextField.font = .systemFont(ofSize: 16, weight: .regular)
         passwordTextField.addBottomBorder()
         passwordTextField.autocapitalizationType = .none
+        passwordTextField.autocorrectionType = .no
         
         contactTextField.attributedPlaceholder = NSAttributedString(string: "Contact Information", attributes: placeholderAttributes)
         contactTextField.font = .systemFont(ofSize: 16, weight: .regular)
         contactTextField.addBottomBorder()
         contactTextField.autocapitalizationType = .none
+        contactTextField.autocorrectionType = .no
         
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
         finishedSignUpButton.setAttributedTitle(NSAttributedString(string: "Sign Up", attributes: attributes), for: .normal)
@@ -294,12 +298,14 @@ class LoginViewController: UIViewController {
         usernameTextField2.font = .systemFont(ofSize: 16, weight: .regular)
         usernameTextField2.addBottomBorder()
         usernameTextField2.autocapitalizationType = .none
+        usernameTextField2.autocorrectionType = .no
         usernameTextField2.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         
         passwordTextField2.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
         passwordTextField2.font = .systemFont(ofSize: 16, weight: .regular)
         passwordTextField2.addBottomBorder()
         passwordTextField2.autocapitalizationType = .none
+        passwordTextField2.autocorrectionType = .no
         passwordTextField2.isSecureTextEntry = true
         
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 18, weight: .bold)]
@@ -401,8 +407,27 @@ class LoginViewController: UIViewController {
     }
     
     @objc func successfullySignedUp() {
-        if (usernameTextField.hasText && (usernameTextField.text!.count < 4 || usernameTextField.text!.count > 12)) {
+        if (nameTextField.hasText && (nameTextField.text!.count < 3 || nameTextField.text!.count > 20)) {
+            var str: String = ""
+            if (nameTextField.text!.count < 3) {
+                str = "Your name is too short"
+            }
+            if (nameTextField.text!.count > 20) {
+                str = "Your name is too long"
+            }
+            let alertVC = UIAlertController(title: "Name not valid", message: str, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else if (usernameTextField.hasText && (usernameTextField.text!.count < 4 || usernameTextField.text!.count > 12)) {
             let alertVC = UIAlertController(title: "Username not valid", message: "Your username has to be between 4-12 characters", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertVC.addAction(cancelAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+        else if (passwordTextField.hasText && passwordTextField.text!.count < 5) {
+            let alertVC = UIAlertController(title: "Your password is too weak", message: "Your password must contain at least 6 letters or numbers", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alertVC.addAction(cancelAction)
             self.present(alertVC, animated: true, completion: nil)
@@ -446,13 +471,10 @@ class LoginViewController: UIViewController {
     }
     
     func getCurrentUser(token: String) {
-        
         NetworkManager.getUserBySession(token: token) { response in
             self.currentUser = response
-//            print("I ran here")
             self.navigationController?.pushViewController(CustomTabBarController(user: response, token: token), animated: true)
         }
-        
     }
     
 }
