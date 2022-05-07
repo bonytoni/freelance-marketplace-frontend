@@ -108,10 +108,10 @@ class NetworkManager {
         }
     }
     
-    static func deleteListing(id: Int, completion: @escaping (Listing) -> Void) {
+    static func deleteListing(id: Int, token: String, completion: @escaping (Listing) -> Void) {
         let endpt = "\(host)/listings/\(id)/"
         
-        AF.request(endpt, method: .delete).validate().responseData { response in
+        AF.request(endpt, method: .delete, headers: authHeader(token: token)).validate().responseData { response in
             switch response.result {
                 
             case .success(let data):

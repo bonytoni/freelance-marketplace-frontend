@@ -456,8 +456,14 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    func removeListing (id: Int, token: String) {
+        NetworkManager.deleteListing(id: id, token: token, completion: { response in
+            self.closeVC()
+        })
+    }
+    
     @objc func deleteService() {
-        
+        removeListing(id: originalService.id, token: currentToken)
     }
     
     @objc func chooseImageAction(_ sender: Any) {
