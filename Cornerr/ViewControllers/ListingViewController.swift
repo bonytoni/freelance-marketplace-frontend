@@ -133,7 +133,7 @@ class ListingViewController: UIViewController {
             listingPic.topAnchor.constraint(equalTo: view.topAnchor),
             listingPic.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             listingPic.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            listingPic.heightAnchor.constraint(equalToConstant: 250)
+            listingPic.heightAnchor.constraint(equalToConstant: 350)
         ])
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 27),
@@ -181,7 +181,7 @@ class ListingViewController: UIViewController {
             purchaseButton.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 26)
         ])
         NSLayoutConstraint.activate([
-            infoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 220),
+            infoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 327),
             infoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             infoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             infoView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

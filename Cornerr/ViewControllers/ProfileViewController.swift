@@ -137,6 +137,9 @@ class ProfileViewController: UIViewController {
         
         setUpUIComponents()
         setUpConstraints()
+        
+        view.insertSubview(addService, aboveSubview: servicesTableView)
+        view.bringSubviewToFront(addService)
     }
     
     func setUpUIComponents() {
@@ -188,6 +191,10 @@ class ProfileViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageSelected(_:)))
         tap.numberOfTapsRequired = 1
         addService.addGestureRecognizer(tap)
+        addService.layer.shadowColor = .lightBlue
+        addService.layer.shadowOpacity = 0.8
+        addService.layer.shadowOffset = CGSize.zero
+        addService.layer.shadowRadius = 8
         
         noServicesImageView.image = UIImage(named: "no services")
         
@@ -252,11 +259,13 @@ class ProfileViewController: UIViewController {
             
             addService.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             addService.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            addService.widthAnchor.constraint(equalToConstant: 60),
+            addService.heightAnchor.constraint(equalToConstant: 60),
             
             servicesTableView.topAnchor.constraint(equalTo: servicesLabel.bottomAnchor, constant: 10),
             servicesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             servicesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            servicesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            servicesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             
             purchasesTableView.topAnchor.constraint(equalTo: servicesLabel.bottomAnchor, constant: 10),
             purchasesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),

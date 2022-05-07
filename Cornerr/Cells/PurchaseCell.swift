@@ -45,7 +45,8 @@ class PurchaseCell: UITableViewCell {
     
     func setUpConstraints() {
         NSLayoutConstraint.activate([
-            image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             image.widthAnchor.constraint(equalToConstant: 44),
             image.heightAnchor.constraint(equalToConstant: 44),
             
@@ -53,10 +54,10 @@ class PurchaseCell: UITableViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 15),
             
             priceLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            priceLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40),
+            priceLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
             
             sellerLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
-            sellerLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40)
+            sellerLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10)
         ])
     }
     
