@@ -3,7 +3,7 @@
 ## Circus: Connecting you with on campus freelancers.
 *Welcome to the Circus, you clown 🤡*
 
-At the Circus, where Cornellians can post and purchase any jobs they would like to do or be done. For example, a user can offer a haircut for $25 and another user could purchase that service. After creating an account, users can browse for services they may be interested in in an Etsy-style homepage, and contact . You can also post your own listings with more 
+At the Circus, Cornellians can post and purchase any jobs they would like to do or be done. For example, a user can offer a haircut for $25 and another user could purchase that service. After creating an account, users can browse for services they may be interested in in an Etsy-style homepage, and contact . You can also post your own listings with more 
 
 The gig industry has become exceptionally popular in recent times with the rise of companies such as Uber, Lyft, DoorDash, Fiverr, and such, and we hope to bring this to Cornell. It is a great way for sellers to make some money, while users can get something they need done cheaply.
 
