@@ -46,6 +46,10 @@ Used UINavigationController to navigate between multiple screens. Presented scre
 Integrates custom built API from the backend to store all the listings and services and retrieve them on the front end
 
 
+## Comments
+Due to the large number of images, you may experience some delays in nagivating Circus. Furthermore, we encode images to base-64 strings and store them in the backend, each of which are extremely long. In the future, we could implement a faster way to store and retrieve images.
+
+
 ## The Team
 **Clara Lee** cl874: Product Designer  
 **Jennifer Gu** jg2368: Full Stack Developer  
