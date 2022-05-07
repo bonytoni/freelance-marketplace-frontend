@@ -49,6 +49,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
     
     var saveButton = UIButton()
     var closeImageView = UIImageView()
+    var deleteButton = UIImageView()
     
     var indexPath: Int = -1
     var originalService: SimpleListing
@@ -80,7 +81,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
         headerLabel.text = "Edit Service"
         saveButton.setAttributedTitle(NSAttributedString(string: "Save", attributes: saveButtonAttributes), for: .normal)
         
-        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, availabilityTextField, selectedCategory, beautyButton, fashionButton, mediaButton, techButton, craftsButton, foodButton, otherCategoryButton, selectedLocation, northButton, westButton, centralButton, collegetownButton, otherLocationButton, saveButton, closeImageView].forEach { subView in
+        [headerLabel, photoView, titleLabel, descriptionLabel, priceLabel, categoryLabel, locationLabel, availabilityLabel, titleTextField, descriptionTextView, priceTextField, availabilityTextField, selectedCategory, beautyButton, fashionButton, mediaButton, techButton, craftsButton, foodButton, otherCategoryButton, selectedLocation, northButton, westButton, centralButton, collegetownButton, otherLocationButton, saveButton, closeImageView, deleteButton].forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -102,7 +103,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
         photoTap.numberOfTapsRequired = 1
         photoView.addGestureRecognizer(photoTap)
         
-        let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
+        let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16, weight: .semibold)]
         titleLabel.attributedText = NSAttributedString(string: "Service Title", attributes: labelAttributes)
         
         descriptionLabel.attributedText = NSAttributedString(string: "Description", attributes: labelAttributes)
@@ -115,6 +116,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
         
         availabilityLabel.attributedText = NSAttributedString(string: "Availability", attributes: labelAttributes)
         
+        titleTextField.font = .systemFont(ofSize: 16)
         titleTextField.layer.borderWidth = 1
         titleTextField.layer.cornerRadius = 12
         titleTextField.layer.borderColor = .lightBlue
@@ -123,11 +125,13 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
         titleTextField.autocorrectionType = .no
         titleTextField.autocapitalizationType = .none
         
+        descriptionTextView.font = .systemFont(ofSize: 16)
         descriptionTextView.layer.borderWidth = 1
-        descriptionTextView.layer.cornerRadius = 12
+        descriptionTextView.layer.cornerRadius = 16
         descriptionTextView.layer.borderColor = .lightBlue
         descriptionTextView.autocapitalizationType = .none
         
+        priceTextField.font = .systemFont(ofSize: 16)
         priceTextField.layer.borderWidth = 1
         priceTextField.layer.cornerRadius = 12
         priceTextField.layer.borderColor = .lightBlue
@@ -135,6 +139,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
         priceTextField.leftViewMode = .always
         priceTextField.delegate = self
         
+        availabilityTextField.font = .systemFont(ofSize: 16)
         availabilityTextField.layer.borderWidth = 1
         availabilityTextField.layer.cornerRadius = 12
         availabilityTextField.layer.borderColor = .lightBlue
@@ -171,6 +176,12 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
         let closeTap = UITapGestureRecognizer(target: self, action: #selector(closeVC))
         closeTap.numberOfTapsRequired = 1
         closeImageView.addGestureRecognizer(closeTap)
+        
+        deleteButton.image = UIImage(named: "delete")
+        deleteButton.isUserInteractionEnabled = true
+        let delete = UITapGestureRecognizer(target: self, action: #selector(deleteService))
+        delete.numberOfTapsRequired = 1
+        deleteButton.addGestureRecognizer(delete)
     }
     
     func setUpConstraints() {
@@ -187,7 +198,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
             photoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             photoView.heightAnchor.constraint(equalToConstant: 160),
             
-            titleLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 15),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
@@ -195,7 +206,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
             titleTextField.widthAnchor.constraint(equalToConstant: 250),
             titleTextField.heightAnchor.constraint(equalToConstant: 35),
             
-            descriptionLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20),
+            descriptionLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 15),
             descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             descriptionTextView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
@@ -203,15 +214,15 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
             descriptionTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             descriptionTextView.heightAnchor.constraint(equalToConstant: 75),
             
-            priceLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
+            priceLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 15),
             priceLabel.leftAnchor.constraint(equalTo: priceTextField.leftAnchor),
             
             priceTextField.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
             priceTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             priceTextField.widthAnchor.constraint(equalToConstant: 70),
-            priceTextField.heightAnchor.constraint(equalToConstant: 35),
+            priceTextField.heightAnchor.constraint(equalToConstant: 30),
             
-            categoryLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
+            categoryLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 15),
             categoryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             selectedCategory.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor),
@@ -247,7 +258,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
             otherCategoryButton.widthAnchor.constraint(equalToConstant: 60),
             otherCategoryButton.heightAnchor.constraint(equalToConstant: 25),
             
-            locationLabel.topAnchor.constraint(equalTo: foodButton.bottomAnchor, constant: 20),
+            locationLabel.topAnchor.constraint(equalTo: foodButton.bottomAnchor, constant: 15),
             locationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             selectedLocation.centerYAnchor.constraint(equalTo: locationLabel.centerYAnchor),
@@ -275,7 +286,7 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
             otherLocationButton.widthAnchor.constraint(equalToConstant: 60),
             otherLocationButton.heightAnchor.constraint(equalToConstant: 25),
             
-            availabilityLabel.topAnchor.constraint(equalTo: northButton.bottomAnchor, constant: 20),
+            availabilityLabel.topAnchor.constraint(equalTo: northButton.bottomAnchor, constant: 15),
             availabilityLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             availabilityTextField.topAnchor.constraint(equalTo: availabilityLabel.bottomAnchor, constant: 10),
@@ -289,7 +300,10 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
             closeImageView.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor),
             closeImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             closeImageView.widthAnchor.constraint(equalToConstant: 25),
-            closeImageView.heightAnchor.constraint(equalToConstant: 25)
+            closeImageView.heightAnchor.constraint(equalToConstant: 25),
+            
+            deleteButton.topAnchor.constraint(equalTo: availabilityTextField.bottomAnchor, constant: 15),
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -440,6 +454,10 @@ class EditServiceViewController: UIViewController, UITextFieldDelegate {
     func editListing(id: Int, title: String, category: String, description: String, availability: String, location: String, price: Int, picture: String, token: String) {
         NetworkManager.editListing(id: id, title: title, category: category, description: description, availability: availability, location: location, price: price, picture: picture, token: token, completion: { listing in
         })
+    }
+    
+    @objc func deleteService() {
+        
     }
     
     @objc func chooseImageAction(_ sender: Any) {
