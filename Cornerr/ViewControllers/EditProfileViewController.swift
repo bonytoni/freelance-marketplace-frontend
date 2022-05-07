@@ -12,7 +12,7 @@ class EditProfileViewController: UIViewController {
     private var currentUser: User
     private var currentToken: String
     
-    var parentController: ProfileViewController?
+    var parentController: ProfileViewController
     var delegate: EditProfileViewControllerDelegate?
     
     var picInstructions = UILabel()
@@ -24,23 +24,24 @@ class EditProfileViewController: UIViewController {
     var bioLabel = UILabel()
     var bioTextView = UITextView()
     
-    init(user: User, token: String) {
+    init(user: User, token: String, vc: ProfileViewController) {
         self.currentUser = user
         self.currentToken = token
         self.nameTextField.text = user.name
         self.contactTextField.text = user.contact
         self.bioTextView.text = user.bio
+        self.parentController = vc
         super.init(nibName: nil, bundle: nil)
         if let pfp = user.pfp {
             if pfp != "" {
                 self.picImageView.image = UIImage(data: decodeBase64String(base64String: pfp))
             }
             else {
-                self.picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
+                self.picImageView.image = UIImage(named: "defaultpfp\(parentController.defaultpfpInt)")
             }
         }
         else {
-            self.picImageView.image = UIImage(named: "defaultpfp\(parentController!.defaultpfpInt)")
+            self.picImageView.image = UIImage(named: "defaultpfp\(parentController.defaultpfpInt)")
         }
     }
     

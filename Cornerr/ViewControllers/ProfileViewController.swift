@@ -139,7 +139,7 @@ class ProfileViewController: UIViewController {
         setUpConstraints()
         
         view.insertSubview(addService, aboveSubview: servicesTableView)
-        view.bringSubviewToFront(addService)
+        view.bringSubviewToFront(editProfile)
     }
     
     func setUpUIComponents() {
@@ -333,9 +333,9 @@ class ProfileViewController: UIViewController {
         servicesTableViewContainer.isHidden = false
         servicesTableViewContainer.isUserInteractionEnabled = true
         refreshControl.isUserInteractionEnabled = true
-        refreshControl.isHidden = false
+//        refreshControl.isHidden = false
         refreshControl2.isUserInteractionEnabled = false
-        refreshControl2.isHidden = true
+//        refreshControl2.isHidden = true
     }
     
     @objc func goToPurchasesTable() {
@@ -344,13 +344,13 @@ class ProfileViewController: UIViewController {
         purchasesTableViewContainer.isHidden = false
         purchasesTableViewContainer.isUserInteractionEnabled = true
         refreshControl.isUserInteractionEnabled = false
-        refreshControl.isHidden = true
+//        refreshControl.isHidden = true
         refreshControl2.isUserInteractionEnabled = true
-        refreshControl2.isHidden = false
+//        refreshControl2.isHidden = false
     }
     
     @objc func editProfilePressed() {
-        let vc = EditProfileViewController(user: currentUser, token: currentToken)
+        let vc = EditProfileViewController(user: currentUser, token: currentToken, vc: self)
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
         vc.parentController = self

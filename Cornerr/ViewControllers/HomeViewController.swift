@@ -218,7 +218,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == listingView {
-            let listing = allListings[indexPath.item]
+            let listing = listingsSelected[indexPath.item]
             let view = ListingViewController(listing: listing, user: currentUser, token: currentToken)
             navigationController?.pushViewController(view, animated: true)
         }
