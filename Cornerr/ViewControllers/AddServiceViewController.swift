@@ -95,7 +95,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
         photoTap.numberOfTapsRequired = 1
         photoView.addGestureRecognizer(photoTap)
         
-        let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .semibold)]
+        let labelAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16, weight: .semibold)]
         titleLabel.attributedText = NSAttributedString(string: "Service Title", attributes: labelAttributes)
         
         descriptionLabel.attributedText = NSAttributedString(string: "Description", attributes: labelAttributes)
@@ -108,6 +108,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
         
         availabilityLabel.attributedText = NSAttributedString(string: "Availability", attributes: labelAttributes)
         
+        titleTextField.font = .systemFont(ofSize: 16)
         titleTextField.layer.borderWidth = 1
         titleTextField.layer.cornerRadius = 12
         titleTextField.layer.borderColor = .lightBlue
@@ -116,11 +117,13 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
         titleTextField.autocorrectionType = .no
         titleTextField.autocapitalizationType = .none
         
+        descriptionTextView.font = .systemFont(ofSize: 16)
         descriptionTextView.layer.borderWidth = 1
         descriptionTextView.layer.cornerRadius = 12
         descriptionTextView.layer.borderColor = .lightBlue
         descriptionTextView.autocapitalizationType = .none
         
+        priceTextField.font = .systemFont(ofSize: 16)
         priceTextField.layer.borderWidth = 1
         priceTextField.layer.cornerRadius = 12
         priceTextField.layer.borderColor = .lightBlue
@@ -128,6 +131,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
         priceTextField.leftViewMode = .always
         priceTextField.delegate = self
         
+        availabilityTextField.font = .systemFont(ofSize: 16)
         availabilityTextField.layer.borderWidth = 1
         availabilityTextField.layer.cornerRadius = 12
         availabilityTextField.layer.borderColor = .lightBlue
@@ -180,7 +184,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
             photoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             photoView.heightAnchor.constraint(equalToConstant: 160),
             
-            titleLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 15),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
@@ -188,7 +192,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
             titleTextField.widthAnchor.constraint(equalToConstant: 250),
             titleTextField.heightAnchor.constraint(equalToConstant: 35),
             
-            descriptionLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20),
+            descriptionLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 15),
             descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             descriptionTextView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
@@ -196,7 +200,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
             descriptionTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding),
             descriptionTextView.heightAnchor.constraint(equalToConstant: 75),
             
-            priceLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 20),
+            priceLabel.topAnchor.constraint(equalTo: photoView.bottomAnchor, constant: 15),
             priceLabel.leftAnchor.constraint(equalTo: priceTextField.leftAnchor),
             
             priceTextField.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
@@ -204,7 +208,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
             priceTextField.widthAnchor.constraint(equalToConstant: 70),
             priceTextField.heightAnchor.constraint(equalToConstant: 35),
             
-            categoryLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
+            categoryLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 15),
             categoryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             selectedCategory.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor),
@@ -240,7 +244,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
             otherCategoryButton.widthAnchor.constraint(equalToConstant: 60),
             otherCategoryButton.heightAnchor.constraint(equalToConstant: 25),
             
-            locationLabel.topAnchor.constraint(equalTo: foodButton.bottomAnchor, constant: 20),
+            locationLabel.topAnchor.constraint(equalTo: foodButton.bottomAnchor, constant: 15),
             locationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             selectedLocation.centerYAnchor.constraint(equalTo: locationLabel.centerYAnchor),
@@ -268,7 +272,7 @@ class AddServiceViewController : UIViewController, UITextFieldDelegate {
             otherLocationButton.widthAnchor.constraint(equalToConstant: 60),
             otherLocationButton.heightAnchor.constraint(equalToConstant: 25),
             
-            availabilityLabel.topAnchor.constraint(equalTo: northButton.bottomAnchor, constant: 20),
+            availabilityLabel.topAnchor.constraint(equalTo: northButton.bottomAnchor, constant: 15),
             availabilityLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding),
             
             availabilityTextField.topAnchor.constraint(equalTo: availabilityLabel.bottomAnchor, constant: 10),
