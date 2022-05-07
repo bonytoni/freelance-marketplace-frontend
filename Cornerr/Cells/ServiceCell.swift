@@ -68,14 +68,14 @@ class ServiceCell: UITableViewCell {
             image.trailingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: 84)
         ])
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 15),
-            titleLabel.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 15),
+            titleLabel.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 15),
             titleLabel.widthAnchor.constraint(equalToConstant: 160)
         ])
         NSLayoutConstraint.activate([
             descriptionTextView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            descriptionTextView.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
-            descriptionTextView.widthAnchor.constraint(equalToConstant: 220),
+            descriptionTextView.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10),
+            descriptionTextView.widthAnchor.constraint(equalToConstant: 165),
             descriptionTextView.heightAnchor.constraint(equalToConstant: 35)
         ])
         NSLayoutConstraint.activate([
