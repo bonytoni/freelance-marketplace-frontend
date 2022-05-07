@@ -10,6 +10,8 @@ import UIKit
 class ListingViewController: UIViewController {
     
     private var listing: Listing
+    private var user: User
+    private var token: String
     
     private var listingPic = UIImageView()
     private var infoView = UIView()
@@ -24,8 +26,10 @@ class ListingViewController: UIViewController {
     private var availabilityView = UITextView()
     private var purchaseButton = UIButton()
     
-    init(listing: Listing) {
+    init(listing: Listing, user: User, token: String) {
         self.listing = listing
+        self.user = user
+        self.token = token
         super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = listing.title
         // init self.lisitingPic.image in setUpComponents()
@@ -193,6 +197,13 @@ class ListingViewController: UIViewController {
         purchaseButton.backgroundColor = .black
         purchaseButton.setTitle("Purchased!", for: .normal)
         purchaseButton.titleLabel?.textColor = .white
+        registerPurchase(listingId: listing.id, userId: user.id, token: token)
+    }
+    
+    func registerPurchase(listingId: Int, userId: Int, token: String) {
+        NetworkManager.purchaseListing(listing_id: listingId, user_id: userId, token: token, completion: { response in
+            self.user = response
+        })
     }
     
     func setLabelColor(for label: UILabel, for name: String) {

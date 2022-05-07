@@ -59,11 +59,11 @@ class PurchaseCell: UITableViewCell {
         ])
     }
     
-    func configure(for purchase: SimpleListing, category: String) {
+    func configure(for purchase: SimpleListing) {
         titleLabel.text = purchase.title
         priceLabel.text = "$\(purchase.price)"
         sellerLabel.text = "@\(purchase.seller)"
-        image.image = UIImage(named: category)
+        image.image = UIImage(named: purchase.category)
     }
     
     required init?(coder: NSCoder) {

@@ -23,7 +23,7 @@ class CustomTabBarController: UITabBarController {
         self.tabBar.tintColor = .darkBlue
         self.tabBar.unselectedItemTintColor = .white
         
-        let homeViewController = HomeViewController()
+        let homeViewController = HomeViewController(user: currentUser, token: currentToken)
         homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), selectedImage: UIImage(systemName: "house.fill"))
         
         let homeNavController = UINavigationController(rootViewController: homeViewController)

@@ -10,6 +10,7 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     let refreshControl = UIRefreshControl()
+    let refreshControl2 = UIRefreshControl()
     
     private var currentUser: User
     private var currentToken: String
@@ -50,7 +51,7 @@ class ProfileViewController: UIViewController {
         self.currentToken = token
         self.services = user.seller_listings
         // initialize !!!
-        self.purchases = []
+        self.purchases = user.buyers_listings
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -105,6 +106,7 @@ class ProfileViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         servicesTableView.addSubview(refreshControl)
         
+        
         // purchases table view
         purchasesTableViewContainer.addSubview(onPurchasesTableImage)
         onPurchasesTableImage.translatesAutoresizingMaskIntoConstraints = false
@@ -128,6 +130,10 @@ class ProfileViewController: UIViewController {
         
         purchasesTableViewContainer.isHidden = true
         purchasesTableViewContainer.isUserInteractionEnabled = false
+        
+        purchasesTableView.refreshControl = refreshControl2
+        refreshControl2.addTarget(self, action: #selector(self.refresh2(_:)), for: .valueChanged)
+//        purchasesTableView.addSubview(refreshControl2)
         
         setUpUIComponents()
         setUpConstraints()
@@ -305,11 +311,22 @@ class ProfileViewController: UIViewController {
         })
     }
     
+    func setPurchaseHistory(id: Int) {
+        NetworkManager.getUserById(id: currentUser.id, token: currentToken, completion: { response in
+            self.currentUser = response
+            self.purchases = response.buyers_listings
+        })
+    }
+    
     @objc func goToServicesTable() {
         purchasesTableViewContainer.isHidden = true
         purchasesTableViewContainer.isUserInteractionEnabled = false
         servicesTableViewContainer.isHidden = false
         servicesTableViewContainer.isUserInteractionEnabled = true
+        refreshControl.isUserInteractionEnabled = true
+        refreshControl.isHidden = false
+        refreshControl2.isUserInteractionEnabled = false
+        refreshControl2.isHidden = true
     }
     
     @objc func goToPurchasesTable() {
@@ -317,6 +334,10 @@ class ProfileViewController: UIViewController {
         servicesTableViewContainer.isUserInteractionEnabled = false
         purchasesTableViewContainer.isHidden = false
         purchasesTableViewContainer.isUserInteractionEnabled = true
+        refreshControl.isUserInteractionEnabled = false
+        refreshControl.isHidden = true
+        refreshControl2.isUserInteractionEnabled = true
+        refreshControl2.isHidden = false
     }
     
     @objc func editProfilePressed() {
@@ -333,13 +354,15 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func refresh(_ sender: AnyObject) {
-//        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-//            self.listingView.reloadData()
-//            self.refreshControl.endRefreshing()
-//        }
         getSellerListings(id: currentUser.id)
         self.servicesTableView.reloadData()
         refreshControl.endRefreshing()
+    }
+    
+    @objc private func refresh2(_ sender: AnyObject) {
+        setPurchaseHistory(id: currentUser.id)
+        self.purchasesTableView.reloadData()
+        refreshControl2.endRefreshing()
     }
 
 }
@@ -386,7 +409,7 @@ extension ProfileViewController: UITableViewDataSource {
         }
         if tableView == purchasesTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: PurchaseCell.id, for: indexPath) as! PurchaseCell
-            cell.configure(for: purchases[indexPath.item], category: purchases[indexPath.item].category)
+            cell.configure(for: purchases[indexPath.item])
             return cell
         }
         return UITableViewCell()

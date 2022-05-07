@@ -248,10 +248,10 @@ class NetworkManager {
         }
     }
     
-    static func purchaseListing(listing_id: Int, user_id: Int, completion: @escaping (User) -> Void) {
-        let endpt = "\(host)/listings/\(listing_id)/\(user_id)/purchase/"
+    static func purchaseListing(listing_id: Int, user_id: Int, token: String, completion: @escaping (User) -> Void) {
+        let endpt = "\(host)/listings/\(listing_id)/\(user_id)/"
         
-        AF.request(endpt, method: .post).validate().responseData { response in
+        AF.request(endpt, method: .post, headers: authHeader(token: token)).validate().responseData { response in
             switch response.result {
                 
             case .success(let data):

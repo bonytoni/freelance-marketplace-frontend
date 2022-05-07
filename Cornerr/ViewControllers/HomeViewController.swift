@@ -9,6 +9,9 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    private let currentUser: User
+    private let currentToken: String
+    
     private let refreshControl = UIRefreshControl()
 
     private let appNameImageView = UIImageView()
@@ -26,6 +29,16 @@ class HomeViewController: UIViewController {
     
     private let cellPadding: CGFloat = 10
     private let sectionPadding: CGFloat = 5
+    
+    init(user: User, token: String) {
+        self.currentUser = user
+        self.currentToken = token
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,7 +219,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == listingView {
             let listing = allListings[indexPath.item]
-            let view = ListingViewController(listing: listing)
+            let view = ListingViewController(listing: listing, user: currentUser, token: currentToken)
             navigationController?.pushViewController(view, animated: true)
         }
         if collectionView == filterView {
