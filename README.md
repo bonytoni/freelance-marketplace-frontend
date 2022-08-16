@@ -16,7 +16,7 @@ Opening the app, you are met with a signup or login page. Input your basic infor
 
 <img height="700" alt="ss1" src="https://user-images.githubusercontent.com/52147838/167238431-e6fe98cd-db7a-40f8-8b34-722b4ffcaaf5.jpg"><img height="700" alt="ss2" src="https://user-images.githubusercontent.com/52147838/167238436-ab35ee73-af77-4d12-8c98-1dffb97e9033.jpg"> 
 
-*Hompage* 
+*Homepage* 
 In the homepage, you will see all the listings that you or other users have posted. Each listing is a freelance service with a picture and all the information you need to know about it.  
 
 <img height="700" alt="ss1" src="https://user-images.githubusercontent.com/52147838/167238441-6e2096a8-a2d1-4ac5-9e45-2a7e52bc783e.jpg"><img height="700" alt="ss2" src="https://user-images.githubusercontent.com/52147838/167238448-afd9236d-285d-4683-bc02-9d3646f17034.jpg"> 
